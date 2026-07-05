@@ -1,0 +1,37 @@
+# CHECKLIST DOCUMENTAL
+
+## 1. Documentos identificados
+- Nenhum documento essencial identificado com seguranca.
+
+## 2. Documentos pendentes ou que exigem conferencia
+- Proposta comercial: documento nao identificado ou pendente de conferencia.
+- Carta ou contrato de exclusividade: documento nao identificado ou pendente de conferencia.
+- Comprovacao de representacao legal: documento nao identificado ou pendente de conferencia.
+- Comprovacao de consagracao artistica: documento nao identificado ou pendente de conferencia.
+- CNPJ: documento nao identificado ou pendente de conferencia.
+- QSA: documento nao identificado ou pendente de conferencia.
+- Contrato social ou documento equivalente: documento nao identificado ou pendente de conferencia.
+- Documento do representante legal: documento nao identificado ou pendente de conferencia.
+- Certidao Federal: documento nao identificado ou pendente de conferencia.
+- Certidao Estadual: documento nao identificado ou pendente de conferencia.
+- Certidao Municipal: documento nao identificado ou pendente de conferencia.
+- FGTS: documento nao identificado ou pendente de conferencia.
+- CNDT: documento nao identificado ou pendente de conferencia.
+- Justificativa de preco: documento nao identificado ou pendente de conferencia.
+- Disponibilidade orcamentaria: documento nao identificado ou pendente de conferencia.
+- Designacao de gestor: documento nao identificado ou pendente de conferencia.
+- Designacao de fiscal: documento nao identificado ou pendente de conferencia.
+- DFD: documento nao identificado ou pendente de conferencia.
+- ETP: documento nao identificado ou pendente de conferencia.
+- TR: documento nao identificado ou pendente de conferencia.
+
+## 3. Pontos de atencao
+- Conferir se a proposta comercial corresponde exatamente ao objeto pretendido.
+- Conferir validade e conteudo da exclusividade, quando aplicavel.
+- Conferir CNPJ, QSA, contrato social e poderes de representacao.
+- Conferir certidoes atualizadas.
+- Conferir justificativa de preco e compatibilidade com contratações similares.
+- Confirmar disponibilidade orcamentaria, gestor e fiscal.
+
+## 4. Conclusao preliminar
+Este checklist possui carater auxiliar e nao substitui a analise do servidor responsavel, da Procuradoria, do Controle Interno ou da autoridade competente.

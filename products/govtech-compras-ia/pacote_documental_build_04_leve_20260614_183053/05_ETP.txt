@@ -1,0 +1,45 @@
+# ESTUDO TECNICO PRELIMINAR — ETP
+
+## 1. Identificacao da Demanda
+Objeto: Informacao pendente de complementacao pelo setor requisitante. / Contratacao artistica
+Evento: Informacao pendente de complementacao pelo setor requisitante.
+Data e local: 18/07/2026 — Informacao pendente de complementacao pelo setor requisitante.
+
+## 2. Descricao da Necessidade
+Informacao pendente de complementacao pelo setor requisitante.
+
+## 3. Requisitos da Contratacao
+- Disponibilidade da atracao para a data indicada.
+- Proposta comercial compativel com o objeto.
+- Comprovacao de representacao/exclusividade, quando aplicavel.
+- Comprovacao de consagracao artistica.
+- Regularidade fiscal, trabalhista e juridica.
+- Justificativa de preco.
+- Disponibilidade orcamentaria.
+
+## 4. Levantamento de Solucoes Possiveis
+- Contratacao direta de atracao artistica especifica, se comprovados os requisitos legais.
+- Procedimento competitivo para servicos comuns correlatos, quando aplicavel.
+- Nao contratacao, com risco de prejuizo a programacao publica.
+
+## 5. Justificativa da Solucao Escolhida
+A solucao indicada mostra-se preliminarmente adequada para atendimento da finalidade cultural/turistica/institucional do evento, desde que comprovados os requisitos legais e documentais aplicaveis ao caso concreto.
+
+## 6. Estimativa de Quantidades
+Por se tratar de apresentacao artistica, a estimativa corresponde a 01 apresentacao, salvo complementacao pelo setor requisitante.
+
+## 7. Estimativa de Valor e Justificativa de Preco
+Valor estimado: Informacao pendente de complementacao pelo setor requisitante.
+A razoabilidade do preco devera ser demonstrada mediante documentacao propria e conferida pelo setor competente.
+
+## 8. Riscos
+- Ausencia ou insuficiencia de exclusividade.
+- Ausencia de comprovacao de consagracao artistica.
+- Valor sem justificativa formal.
+- Ausencia de disponibilidade orcamentaria.
+- Certidoes ausentes ou vencidas.
+
+## 9. Viabilidade Preliminar
+Diante das informacoes disponiveis, a contratacao mostra-se tecnicamente viavel em carater preliminar, desde que sejam comprovados os requisitos legais, juntados os documentos pendentes, demonstrada a compatibilidade do preco, confirmada a disponibilidade orcamentaria e realizada a analise pelos setores competentes.
+
+Observacao final: Este ETP possui carater auxiliar e nao substitui analise da Procuradoria, Controle Interno, setor orcamentario ou autoridade competente.

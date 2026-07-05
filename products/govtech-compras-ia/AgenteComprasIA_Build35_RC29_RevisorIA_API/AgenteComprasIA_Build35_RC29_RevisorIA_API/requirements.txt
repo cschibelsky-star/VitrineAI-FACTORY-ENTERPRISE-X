@@ -1,0 +1,9 @@
+streamlit
+python-docx
+python-dotenv
+openai
+pypdf
+
+docx2pdf
+
+pywin32

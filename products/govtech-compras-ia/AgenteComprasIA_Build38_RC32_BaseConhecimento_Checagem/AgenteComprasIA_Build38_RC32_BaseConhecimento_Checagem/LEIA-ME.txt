@@ -1,0 +1,346 @@
+AGENTE COMPRAS IA — BUILD 1.0 RC15 CONFERÊNCIA DE DOCUMENTOS EXTERNOS
+
+Correção principal:
+O módulo de conferência documental foi corrigido para NÃO usar documentos gerados pelo próprio sistema como prova documental externa.
+
+Problema corrigido:
+Arquivos como 02_DFD.docx, 03_ETP.docx, 04_TR.docx, 05_Designacao_Agente_ETP.docx, 06_Designacao_Agente_TR.docx, 07_Designacao_Gestor_Fiscal.docx, 08_Disponibilidade_Orcamentaria.docx e 09_Certificacao_TR_Padronizado.docx não podem ser usados para comprovar:
+- exclusividade;
+- consagração;
+- justificativa de preço;
+- designação de agente;
+- gestor/fiscal;
+- regularidade jurídica/fiscal;
+- proposta comercial;
+- certidões.
+
+Regra nova:
+1. Documentos gerados pelo sistema são identificados como "peças internas geradas".
+2. Documentos externos são analisados separadamente.
+3. A completude externa passa a considerar apenas documentos realmente enviados pelo fornecedor/processo.
+4. Se o usuário reenviar o ZIP do processo gerado pelo próprio sistema, ele não será contado como documentação externa válida.
+5. A interface agora mostra aviso quando arquivos internos forem ignorados na conferência externa.
+
+Mantidas as melhorias anteriores:
+- Processo completo DOCX + PDF.
+- Modelos oficiais.
+- Formatação corrigida.
+- Assinaturas dinâmicas.
+- Extração da Requisição.
+- Dotação e pagamento.
+
+
+BUILD 1.0 RC16 — Rodapé pelo modelo mais atual
+
+Correção aplicada:
+- Rodapé do TR corrigido para usar metadados do modelo oficial atual.
+- Removida paginação estática herdada do modelo, como "Página 11 | 11".
+- Inserida paginação dinâmica PAGE | NUMPAGES.
+- Rodapé atual do TR:
+  Termo de Referência – Serviços sem dedicação exclusiva de mão de obra
+  Atualização: AGO/25
+- Rodapés do DFD e ETP também passam pelo mesmo controle.
+
+
+BUILD 1.0 RC17 — Agente da Requisição + Gestor/Fiscal padrão + Rodapé atual
+
+Correções aplicadas:
+- O termo de designação de agente público para elaborar ETP usa o emissor/agente da Requisição ao Compras.
+- O termo de designação de agente público para elaborar TR usa o emissor/agente da Requisição ao Compras.
+- Gestor de Contrato fixado conforme definição do projeto:
+  Nome: Carla Andressa Dourado
+  Cargo: Diretora de Divisão
+  Competências: Vasto conhecimento sobre as rotinas dos eventos da Secretaria Municipal de Cultura
+- Fiscal do Contrato fixado conforme definição do projeto:
+  Nome: Talita Cristiane Carvalho
+  Cargo: Diretora de Área
+  Competências: Vasto conhecimento sobre as rotinas dos eventos da Secretaria Municipal de Cultura
+- Rodapé do TR controlado pelo modelo atual:
+  Termo de Referência – Serviços sem dedicação exclusiva de mão de obra
+  Atualização: AGO/25
+- Paginação dinâmica PAGE | NUMPAGES no rodapé.
+
+
+BUILD 1.0 RC18 — Agente da Requisição com matrícula e cargo
+
+Correções aplicadas:
+- Quando o emissor/agente da Requisição for Cristian Marcelo Schibelsky, o sistema preenche:
+  Nome: Cristian Marcelo Schibelsky
+  Matrícula: 22019
+  Cargo: Diretor de Sub Divisão
+- Corrigida sobra textual do modelo-base, removendo "Matioli" quando o nome é substituído por Cristian Marcelo Schibelsky.
+- Aplicado aos termos de designação de agente para ETP e TR.
+- Mantidas as regras anteriores de gestor/fiscal padrão e rodapé do modelo atual.
+
+BUILD 1.0 RC18 — Correção de agente da Requisição
+
+Correção aplicada:
+- Nome do agente: Cristian Marcelo Schibelsky.
+- Matrícula do agente: 22019.
+- Cargo do agente: Diretor de Sub Divisão.
+- Corrigida sobra do modelo-base que gerava 'Cristian Marcelo Schibelsky Matioli'.
+- Corrigido cargo antigo 'Auxiliar Administrativo' nos termos de designação de ETP e TR.
+
+
+BUILD 1.0 RC19 — Conversão PDF no Windows
+
+Correção aplicada:
+- O sistema procura LibreOffice também em Program Files, não apenas no PATH.
+- O sistema tenta Microsoft Word/docx2pdf quando disponível.
+- Se não houver conversor local, o processo ainda sai em DOCX e o ZIP inclui:
+  CONVERTER_PARA_PDF.bat
+  AVISO_GERACAO_PDF.txt
+- Após instalar LibreOffice, basta executar CONVERTER_PARA_PDF.bat dentro da pasta do processo para gerar os PDFs.
+
+
+BUILD 1.0 RC20 — Inexigibilidade artística e composição de preço
+
+Correções aplicadas:
+- Contratação artística continua classificada como Inexigibilidade, art. 74, II.
+- Justificativa de Preço não exige arquivo isolado quando o processo segue o mesmo padrão da Cassiane.
+- Para contratação artística, a justificativa pode ser composta por Requisição ao Compras + proposta atual + notas fiscais/contratações similares.
+- Designações de ETP/TR e gestor/fiscal saem como peças geradas pelo sistema, não como pendência externa.
+- Secretaria extraída não usa mais a linha orçamentária "Unidade", evitando erros como "s Tributárias".
+- Para processos da Cultura/Turismo, o padrão seguro é Secretaria Municipal de Cultura e Turismo.
+
+
+BUILD 1.0 RC21 — Validador final ajustado
+
+Correção aplicada:
+- O aviso de modo minuta não aponta mais Gestor e Fiscal como pendentes, pois estes campos são padronizados no projeto.
+- Número do DFD não é mais tratado como pendência crítica, pois pode ser atribuído posteriormente na tramitação.
+- Campos que realmente mantêm o processo como minuta:
+  Número do processo, Data do evento, Local do evento, Dotação/Fonte.
+- Matrícula do agente só gera alerta quando há agente identificado e a matrícula não foi preenchida.
+
+
+BUILD 1.0 RC22 — Revisão gramatical refinada do artista
+
+Correções aplicadas:
+- Motor passou a revisar concordância de gênero do artista antes de salvar DFD, ETP e TR.
+- Corrigido erro: "cantora Thiago Brado" -> "cantor Thiago Brado".
+- Corrigido: "da cantora Thiago Brado" -> "do cantor Thiago Brado".
+- Corrigido: "apresentação ao vivo da cantora Thiago Brado" -> "apresentação ao vivo do cantor Thiago Brado".
+- Aplicado também nas tabelas do TR.
+- Mantidas as regras de inexigibilidade artística, justificativa de preço por composição documental, gestor/fiscal padrão, matrícula/cargo do agente e PDF por conversor local.
+
+
+BUILD 1.0 RC23 — PDF consistente
+
+Correção aplicada:
+- Os botões individuais Gerar DFD, Gerar ETP, Gerar TR e demais peças agora tentam gerar PDF também.
+- O botão Gerar Processo Completo continua sendo o fluxo principal para DOCX + PDF em lote.
+- Se o computador não tiver LibreOffice ou Microsoft Word/docx2pdf, o DOCX é gerado normalmente e o sistema informa que o PDF depende de conversor local.
+- A regra gramatical da RC22 foi mantida: "cantora Thiago Brado" passa para "cantor Thiago Brado".
+
+
+BUILD 1.0 RC24 — Conversão PDF reforçada com Microsoft Word
+
+Correção aplicada:
+- Conversão PDF reforçada para computadores com Microsoft Word instalado.
+- Ordem de conversão:
+  1) LibreOffice;
+  2) docx2pdf / Microsoft Word;
+  3) Microsoft Word direto via automação COM (win32com/pywin32).
+- O arquivo ABRIR_AGENTE_COMPRAS.bat agora instala também pywin32.
+- O arquivo CONVERTER_PARA_PDF.bat agora tenta primeiro Microsoft Word via PowerShell e depois LibreOffice.
+- Mantém todas as correções anteriores: revisão gramatical, inexigibilidade artística, justificativa de preço por composição, rodapé atual e gestor/fiscal padrão.
+
+
+BUILD 1.0 RC25 — Pasta do processo com nome da compra
+
+Correção aplicada:
+- Ao gerar Processo Completo, a pasta agora recebe o nome da compra/contratação.
+- Exemplo:
+  Processo_0001_Cassiane_Completo
+  Processo_0001_Cassiane_Completo.zip
+- Para contratação artística, a prioridade é usar o nome do artista extraído/preenchido.
+- Quando não houver artista identificado, o sistema usa um nome seguro a partir do objeto.
+- Mantidas as correções anteriores de PDF, Word, gramática, inexigibilidade, gestor/fiscal e rodapé.
+
+
+BUILD 1.0 RC26 — Revisão geral de datas e inconsistências
+
+Correções aplicadas:
+- Removido uso fixo de datas antigas como "15 de Maio de 2026" e "31/12/2026" nos documentos gerados.
+- Data dos documentos passa a usar a data de emissão da Requisição ao Compras quando localizada.
+- Se a data de emissão não for localizada, usa a data atual do computador em formato por extenso.
+- Data do evento passa a ser extraída quando houver rótulo no documento ou padrão em proposta/nome de arquivo, como 26-07-26.
+- Data pretendida de conclusão passa a usar a data do evento quando localizada; se não houver, fica a definir.
+- Designações de ETP e TR também passam pela revisão gramatical, evitando "cantora Thiago Brado".
+- Revisão geral confirmou correção dos seguintes pontos em teste:
+  * sem "15 de Maio de 2026" indevido;
+  * sem "31/12/2026" indevido;
+  * sem "cantora Thiago Brado";
+  * sem "Matioli";
+  * sem "Auxiliar Administrativo";
+  * sem secretaria quebrada como "s Tributárias".
+
+
+BUILD 1.0 RC27 — Revisão estrutural do texto
+
+Correções aplicadas:
+- Bloqueada a frase incorreta: "do(a) artista artista indicada".
+- Fallback correto quando o artista ainda não for identificado:
+  "do(a) artista indicado(a)".
+- Corrigida concordância feminina:
+  "do cantora Sarah Farias" -> "da cantora Sarah Farias".
+- Adicionado reconhecimento de Sarah Farias / Sara Farias como artista feminina.
+- Revisor estrutural aplicado também a DFD, ETP, TR e peças de designação.
+- Testes internos realizados com:
+  1) processo sem artista identificado;
+  2) Sarah Farias;
+  3) Thiago Brado.
+- Auditoria textual sem ocorrências de:
+  artista artista indicada;
+  do cantora;
+  cantora Thiago Brado;
+  Matioli;
+  Auxiliar Administrativo;
+  s Tributárias.
+
+
+BUILD 1.0 RC28 — Base de Conhecimento Homologada
+
+Implementação:
+- Criado módulo de Base de Conhecimento Homologada.
+- O sistema NÃO aprende automaticamente com qualquer processo gerado.
+- Após revisar um processo, o usuário pode clicar em:
+  "Adicionar último processo à Base Homologada".
+- O caso homologado é salvo em:
+  base_conhecimento/homologada/casos_homologados.jsonl
+  base_conhecimento/homologada/documentos/
+- Em novos processos, o sistema busca casos semelhantes e informa quando há referência homologada compatível.
+- A referência homologada é usada como apoio técnico controlado, sem copiar automaticamente dados variáveis como valor, data, artista, processo ou dotação.
+- O módulo evita repetição de erros porque somente processos aprovados manualmente entram na base.
+
+Regra de segurança:
+- Não homologar processo antes de revisão humana.
+- Processos com erro de texto, data, valor, artista, gestor/fiscal, dotação ou PDF não devem ser adicionados à Base Homologada.
+
+
+BUILD 1.0 RC29 — Revisor IA via API
+
+Implementação:
+- Criado módulo Revisor IA via API compatível com endpoint Chat Completions.
+- Novo botão:
+  Revisar e Melhorar último processo com IA.
+- O fluxo gera:
+  REVISAO_IA/Relatorio_Revisao_IA.docx
+  REVISAO_IA/02_DFD_Revisado_IA.docx
+  REVISAO_IA/03_ETP_Revisado_IA.docx
+  REVISAO_IA/04_TR_Revisado_IA.docx
+  REVISAO_IA/manifesto_revisao_ia.json
+- A IA revisa, aponta, sugere e gera versões aprimoradas para revisão humana.
+- A IA não homologa automaticamente.
+- Novo botão:
+  Homologar versão revisada pela IA.
+- A homologação só ocorre após ação manual do usuário.
+- A pasta homologada inclui também a subpasta REVISAO_IA, quando existir.
+- Inclusa opção de mascarar CPF/CNPJ/RG antes do envio para API.
+- A API Key é informada na tela e não é gravada pelo sistema.
+
+Atenção:
+- As versões revisadas pela IA são documentos de apoio para revisão pessoal.
+- Antes de uso oficial, revise dados variáveis, formatação, valor, datas, dotação, artista, fundamento e assinaturas.
+
+
+BUILD 1.0 RC30 — Adesão à Ata de Registro de Preços
+
+Implementação:
+- Novo tipo de contratação no upload/conferência:
+  Adesão à Ata de Registro de Preços.
+- Novo checklist documental específico para abertura de processo administrativo de adesão à Ata.
+- Checklist dividido tecnicamente em:
+  1. Documentos da Secretaria Demandante;
+  2. Documentos da Ata;
+  3. Anuências;
+  4. Regularidade da Empresa;
+  5. Tramitação Interna.
+- A conferência documental agora reconhece:
+  CI/Memorando;
+  Justificativa da contratação e da adesão;
+  ETP, se aplicável;
+  Termo de Referência;
+  Pesquisa de preços/vantajosidade;
+  Dotação/reserva orçamentária;
+  Edital da licitação de origem;
+  Ata de Registro de Preços;
+  Publicação da Ata e homologação;
+  TR original da licitação;
+  Proposta vencedora;
+  Ofício ao órgão gerenciador;
+  Resposta favorável do órgão gerenciador;
+  Ofício à empresa detentora;
+  Aceite formal da empresa;
+  CNPJ;
+  Certidões Federal, Estadual e Municipal;
+  FGTS;
+  CNDT;
+  CEIS/CNEP/TCU;
+  Parecer técnico;
+  Parecer jurídico;
+  Autorização da autoridade competente;
+  Empenho;
+  Contrato ou instrumento equivalente;
+  Publicação do extrato.
+- A Base Homologada também passou a identificar casos do tipo adesao_ata_registro_precos.
+- O Revisor IA via API foi ajustado para revisar também processos de adesão à Ata.
+- Refinado o reconhecimento de termos para reduzir falso positivo em TR, Edital e Justificativa.
+
+
+BUILD 1.0 RC31 — Checklist AGU SET/2024 para Adesão à Ata
+
+Implementação:
+- Incorporado ao projeto o modelo enviado:
+  modelo_lista_verificacao_adesao_ata_AGU_SET_2024.docx
+- O modelo fica arquivado em:
+  modelos/adesao_ata/
+- O Processo Completo de Adesão à Ata agora gera também:
+  10_Lista_Verificacao_Adesao_Ata_AGU.docx
+- Criado botão específico:
+  Gerar Checklist AGU Ata
+- A Lista de Verificação gerada contém os 19 aspectos gerais do modelo AGU/CNMLC para adesão à ata de registro de preços, Lei nº 14.133/2021, atualização SET/2024.
+- A conferência documental da trilha de Adesão à Ata foi atualizada para reconhecer os itens oficiais:
+  abertura do processo;
+  forma eletrônica ou justificativa;
+  DFD;
+  PCA;
+  compatibilidade orçamentária;
+  ETP;
+  justificativa da vantagem;
+  compatibilidade de valores com mercado;
+  aceite do fornecedor;
+  aceitação do órgão gerenciador;
+  órgão federal;
+  limite de 50%;
+  prazo de 90 dias;
+  instrumento contratual/empenho/autorização;
+  validade da ata;
+  SICAF/CEIS/CNJ/TCU;
+  CADIN;
+  sustentabilidade.
+- Foram mantidos os complementos municipais/operacionais: edital de origem, ata, publicação, TR original, proposta vencedora, parecer jurídico, autorização, extrato etc.
+
+
+BUILD 1.0 RC32 — Checagem com Base de Conhecimento
+
+Implementação:
+- Criado módulo agentes/base_conhecimento.py.
+- A conferência agora também localiza referências internas em:
+  base_conhecimento/
+  modelos/adesao_ata/
+  modelos_prefeitura/
+- A tela passa a exibir "Referências encontradas na Base de Conhecimento" quando houver material relacionado ao processo.
+- O Revisor IA via API agora recebe um bloco de contexto da Base de Conhecimento Local.
+- Para processos de Adesão à Ata, o revisor considera também o modelo AGU/CNMLC SET/2024 incorporado ao projeto.
+- A busca local considera modelos, checklist AGU, modelos municipais e casos homologados previamente.
+- A Base Homologada continua controlada manualmente: o sistema não homologa nem aprende sozinho.
+- A API recebe apenas o contexto selecionado da base; CPF/CNPJ/RG continuam mascaráveis conforme opção da tela.
+
+Validação:
+- Compilação Python concluída sem erros.
+- Busca local encontrou o modelo:
+  modelos/adesao_ata/modelo_lista_verificacao_adesao_ata_AGU_SET_2024.docx
+- Prompt do Revisor IA confirmado com bloco:
+  CONTEXTO DA BASE DE CONHECIMENTO LOCAL

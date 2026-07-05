@@ -1,0 +1,1 @@
+Base institucional externa. Esta build não embute todos os arquivos para evitar pacote pesado. O motor usa os documentos enviados no upload do processo.
