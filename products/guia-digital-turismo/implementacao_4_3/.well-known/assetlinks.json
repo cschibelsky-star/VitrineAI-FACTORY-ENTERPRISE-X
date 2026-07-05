@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "br.com.vitrineiapro.visitesumare",
+      "sha256_cert_fingerprints": [
+        "E5:40:EE:63:3D:7B:6E:67:DE:16:76:02:93:96:C2:6A:A8:D8:2E:51:4D:97:5D:E4:77:E6:09:67:AC:9C:86:9F"
+      ]
+    }
+  }
+]

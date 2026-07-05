@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "titulo": "1 Dia em Sumaré",
+    "descricao": "Roteiro leve para conhecer natureza urbana, memória local e gastronomia de apoio.",
+    "icone": "☀️",
+    "itens": [
+      "Bosque do Jardim Dall’Orto",
+      "Praça das Bandeiras",
+      "Pró-Memória",
+      "Gastronomia Local"
+    ]
+  },
+  {
+    "id": 2,
+    "titulo": "Natureza e Lazer",
+    "descricao": "Experiências ao ar livre para famílias, escolas, visitantes e moradores.",
+    "icone": "🌳",
+    "itens": [
+      "CEAV",
+      "Horto Florestal",
+      "Represa Marcelo Pedroni",
+      "Orquidário Municipal"
+    ]
+  },
+  {
+    "id": 3,
+    "titulo": "Cultura e História",
+    "descricao": "Percurso para valorizar memória, fé, patrimônio e referências históricas do município.",
+    "icone": "🏛️",
+    "itens": [
+      "Associação Pró-Memória",
+      "Igreja Matriz de Sant’Ana",
+      "Centro Histórico de Nova Veneza",
+      "Capela Bom Jesus"
+    ]
+  },
+  {
+    "id": 4,
+    "titulo": "Eventos e Gastronomia",
+    "descricao": "Sugestão para integrar agenda cultural, roteiro gastronômico e comércio local.",
+    "icone": "📅",
+    "itens": [
+      "Festa da Mandioca",
+      "Roteiro Gastronômico Local",
+      "Guia Comercial",
+      "Shopping ParkCity Sumaré"
+    ]
+  }
+]

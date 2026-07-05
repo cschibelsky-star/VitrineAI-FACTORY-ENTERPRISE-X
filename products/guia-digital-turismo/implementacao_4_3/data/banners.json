@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "titulo": "Descubra Sumaré",
+    "subtitulo": "Turismo, cultura, eventos e experiências em um só lugar.",
+    "imagem": "assets/img/hero-sumare.svg",
+    "botao": "Explorar agora",
+    "link": "atrativos.php"
+  }
+]

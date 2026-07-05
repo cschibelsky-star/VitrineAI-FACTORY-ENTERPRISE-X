@@ -1,0 +1,2 @@
+# DUPLICIDADES — Guia Digital Turismo
+

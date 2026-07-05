@@ -1,0 +1,68 @@
+{
+  "name": "Visite Sumaré - Guia Digital da Cidade",
+  "short_name": "Visite Sumaré",
+  "id": "./app.php",
+  "description": "Guia digital de Sumaré com turismo, cultura, eventos, gastronomia, hospedagem e comércio local.",
+  "start_url": "app.php",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F3F7F4",
+  "theme_color": "#0F6B3A",
+  "lang": "pt-BR",
+  "categories": [
+    "travel",
+    "lifestyle",
+    "navigation"
+  ],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Atrativos",
+      "short_name": "Atrativos",
+      "url": "atrativos.php",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Eventos",
+      "short_name": "Eventos",
+      "url": "eventos.php",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mapa",
+      "short_name": "Mapa",
+      "url": "mapa.php",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "version": "4.2.0"
+}

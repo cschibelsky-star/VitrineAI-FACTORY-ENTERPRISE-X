@@ -1,0 +1,19 @@
+{
+  "appName": "Sumaré Turismo",
+  "shortName": "Sumaré Turismo",
+  "packageName": "br.com.vitrineiapro.visitesumare",
+  "host": "demo.vitrineiapro.com.br",
+  "startUrl": "https://demo.vitrineiapro.com.br/index.php",
+  "manifestUrl": "https://demo.vitrineiapro.com.br/manifest.json",
+  "themeColor": "#0F6B3A",
+  "backgroundColor": "#F3F7F4",
+  "orientation": "portrait",
+  "display": "standalone",
+  "versionName": "1.0.0-teste",
+  "versionCode": 1,
+  "keystore": "android-twa/keystore/visite-sumare-twa-teste.keystore",
+  "keyAlias": "visitesumare",
+  "testKeystorePassword": "VisiteSumare2026",
+  "sha256": "E5:40:EE:63:3D:7B:6E:67:DE:16:76:02:93:96:C2:6A:A8:D8:2E:51:4D:97:5D:E4:77:E6:09:67:AC:9C:86:9F",
+  "assetLinksPath": "/.well-known/assetlinks.json"
+}

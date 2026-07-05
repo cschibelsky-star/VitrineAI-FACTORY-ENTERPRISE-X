@@ -1,0 +1,47 @@
+[
+  {
+    "id": "emp_001",
+    "nome": "Hotel Fildi",
+    "categoria": "Hospedagem",
+    "descricao": "Hospedagem a validar para o guia comercial do aplicativo.",
+    "endereco": "",
+    "telefone": "",
+    "whatsapp": "",
+    "site": "",
+    "instagram": "",
+    "maps_query": "Hotel Fildi Sumaré SP",
+    "imagem_capa": "/images/empresas/hotel-fildi/capa.jpg",
+    "status": "em_revisao",
+    "ativo": true
+  },
+  {
+    "id": "emp_002",
+    "nome": "Hotel Marcan",
+    "categoria": "Hospedagem",
+    "descricao": "Hospedagem a validar para o guia comercial do aplicativo.",
+    "endereco": "",
+    "telefone": "",
+    "whatsapp": "",
+    "site": "",
+    "instagram": "",
+    "maps_query": "Hotel Marcan Sumaré SP",
+    "imagem_capa": "/images/empresas/hotel-marcan/capa.jpg",
+    "status": "em_revisao",
+    "ativo": true
+  },
+  {
+    "id": "emp_003",
+    "nome": "Hotel Jaguary",
+    "categoria": "Hospedagem",
+    "descricao": "Hospedagem a validar para o guia comercial do aplicativo.",
+    "endereco": "",
+    "telefone": "",
+    "whatsapp": "",
+    "site": "",
+    "instagram": "",
+    "maps_query": "Hotel Jaguary Sumaré SP",
+    "imagem_capa": "/images/empresas/hotel-jaguary/capa.jpg",
+    "status": "em_revisao",
+    "ativo": true
+  }
+]

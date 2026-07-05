@@ -1,0 +1,50 @@
+[
+  {
+    "id": "evt_001",
+    "nome": "Festa da Mandioca",
+    "categoria": "Evento Tradicional",
+    "descricao": "Evento tradicional a ser cadastrado com data, local, programação e imagens oficiais.",
+    "data_inicio": "",
+    "data_fim": "",
+    "local": "Sumaré - SP",
+    "imagem_capa": "/images/eventos/festa-da-mandioca/capa.jpg",
+    "status": "em_revisao",
+    "ativo": true
+  },
+  {
+    "id": "evt_002",
+    "nome": "Festa de Sant'Ana",
+    "categoria": "Evento Religioso/Cultural",
+    "descricao": "Evento religioso e cultural associado à padroeira e à Igreja Matriz de Sant'Ana.",
+    "data_inicio": "",
+    "data_fim": "",
+    "local": "Igreja Matriz de Sant'Ana / Centro",
+    "imagem_capa": "/images/eventos/festa-santana/capa.jpg",
+    "status": "em_revisao",
+    "ativo": true
+  },
+  {
+    "id": "evt_003",
+    "nome": "Feira de Artesanato",
+    "categoria": "Feira/Artesanato",
+    "descricao": "Feira com artesanato local, economia criativa e produtos regionais.",
+    "data_inicio": "",
+    "data_fim": "",
+    "local": "Sumaré - SP",
+    "imagem_capa": "/images/eventos/feira-artesanato/capa.jpg",
+    "status": "em_revisao",
+    "ativo": true
+  },
+  {
+    "id": "evt_004",
+    "nome": "Circuito Cultural Municipal",
+    "categoria": "Cultura",
+    "descricao": "Agenda municipal de apresentações, oficinas, shows e atividades culturais.",
+    "data_inicio": "",
+    "data_fim": "",
+    "local": "Diversos locais",
+    "imagem_capa": "/images/eventos/circuito-cultural/capa.jpg",
+    "status": "em_revisao",
+    "ativo": true
+  }
+]

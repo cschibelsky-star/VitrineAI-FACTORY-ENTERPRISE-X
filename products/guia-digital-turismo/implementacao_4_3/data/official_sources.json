@@ -1,0 +1,18 @@
+{
+  "agenda": {
+    "principal": "https://cultura.sumare.sp.gov.br/",
+    "agenda": "https://cultura.sumare.sp.gov.br/agenda",
+    "descricao": "Portal oficial da Secretaria de Cultura e Turismo de Sumaré para agenda cultural, notícias, editais e solicitações."
+  },
+  "turismo": {
+    "principal": "https://turismo.sumare.sp.gov.br/",
+    "descricao": "Portal oficial de turismo de Sumaré para atrativos culturais, históricos, naturais, COMTUR e documentos turísticos."
+  },
+  "politica_de_uso": [
+    "Usar apenas informações publicadas em fonte oficial ou validadas pela Secretaria.",
+    "Registrar URL da fonte em todos os registros importados.",
+    "Validar formalmente a autorização das imagens antes da publicação definitiva como app oficial.",
+    "Não importar automaticamente contatos de terceiros sem autorização específica.",
+    "Revisar manualmente datas, horários e locais antes de publicar."
+  ]
+}

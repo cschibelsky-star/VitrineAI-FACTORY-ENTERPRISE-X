@@ -1,0 +1,31 @@
+CONHEÇA SUMARÉ — BETA 1.2 RC — PRONTO PARA HOSTGATOR
+
+OBJETIVO
+Publicar a demonstração em demo.vitrineaipro.com.br/conheca-sumare para iniciar captação de empresas e validação de mercado.
+
+COMO SUBIR NO HOSTGATOR / CPANEL
+1. Entre no Gerenciador de Arquivos do cPanel.
+2. Abra a pasta do subdomínio demo.vitrineaipro.com.br.
+3. Crie a pasta: conheca-sumare
+4. Envie todos os arquivos que estão dentro da pasta /conheca-sumare deste pacote para dentro da pasta do servidor.
+5. Acesse: https://demo.vitrineaipro.com.br/conheca-sumare
+
+PÁGINAS PRINCIPAIS
+- index.php: Landing Page comercial
+- app.php: Aplicativo/PWA
+- cadastro-empresa.php: Cadastro gratuito de empresas
+- guia-comercial.php: Guia comercial
+- admin/login.php: Painel administrativo
+
+ACESSO ADMINISTRATIVO
+Usuário: admin
+Senha: ConhecaSumare2026!
+
+IMPORTANTE
+- A interface pública não exibe telefone, WhatsApp ou e-mail de empresas no plano gratuito.
+- Os dados de contato enviados no cadastro ficam apenas no painel administrativo.
+- A URL oficial de marca é: vitrineaipro.com.br
+- Não usar QR Codes ou contatos gerados por IA.
+
+STATUS
+Versão pronta para publicação, teste, captação inicial e auditoria de produção.
