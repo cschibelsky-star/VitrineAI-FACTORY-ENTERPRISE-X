@@ -1,0 +1,31 @@
+[
+  {
+    "id": "cristian_editor",
+    "name": "Cristian Schibelsky",
+    "role": "Editor Responsável",
+    "categories": ["Editorial", "Cidade", "Política", "Destaques", "Boletim Regional"],
+    "heygen_avatar_id": "fb1c964d8284436caab1b63796e7b644",
+    "heygen_voice_id": "21a8abfef8b145da96c701bb4a75670c",
+    "active": true
+  },
+  {
+    "id": "negocios_empregos",
+    "name": "TV Sumaré Negócios",
+    "role": "Empregos e Negócios",
+    "categories": ["Empregos", "Economia", "Negócios", "Empresas", "Investimentos", "Indústria", "Comércio"],
+    "heygen_avatar_id": "",
+    "heygen_voice_id": "",
+    "active": false,
+    "note": "Avatar visual ainda será criado/treinado na HeyGen. Enquanto vazio, o sistema usa o apresentador principal."
+  },
+  {
+    "id": "servicos_publicos",
+    "name": "TV Sumaré Serviços",
+    "role": "Serviços Públicos",
+    "categories": ["Saúde", "Educação", "Obras", "Mobilidade", "Defesa Civil", "Serviços"],
+    "heygen_avatar_id": "",
+    "heygen_voice_id": "",
+    "active": false,
+    "note": "Avatar visual ainda será criado/treinado na HeyGen. Enquanto vazio, o sistema usa o apresentador principal."
+  }
+]

@@ -1,0 +1,49 @@
+[
+    {
+        "id": "vid_20260613183600_97e01",
+        "title": "Arraiá do Espaço Melhor Idade reúne participantes em manhã de integração e celebração",
+        "category": "Cidade",
+        "city": "Nova Odessa",
+        "description": "Boa noite. A TV Sumaré acompanha os principais fatos de Sumaré e da região. Em Nova Odessa, o Espaço Melhor Idade celebrou as tradições juninas com um animado arraiá. O evento, promovido pelo Fundo Social, reuniu os part",
+        "url": "https://resource2.heygen.ai/aws_pacific/avatar_tmp/744eec90cadf47528e57b4f9d189a9db/v8c0a568d252f4ebe8f02bc4ba19dd610/caption_927053eac12d473b97ac9561a946a6d8.mp4",
+        "thumb": "https://files2.heygen.ai/aws_pacific/avatar_tmp/744eec90cadf47528e57b4f9d189a9db/v8c0a568d252f4ebe8f02bc4ba19dd610/927053eac12d473b97ac9561a946a6d8.jpeg?Expires=1781990860&Signature=FlGz254NHOqznr6Yowm5b4t9kL0Ft~tgeSJCftyuLC9M5jfIKd5RE6p~FoqH4ZH00taWrgkxNdi8ePBUZMj0Mk1js6HGp09JQcovNrbt17C06GDEvku3j96QUp8hzMg6O4tkqeQJLNnpd08cQG8EphbUTvxKiqx6iRJsivt72HbpJ2Z9Y0IgarZA9n2rN3yCRFpS~f4E7q5oxVfL5P2SAtjOxShE9DiAcxgnrFr-nVqSeTzz800P8dkZGbCbvDBYREJCX0HROI0oaX211mmkbIcmZzlzUTWds1Ch8wgbwg7QqF7zzI1RiIkF9AQcuiE0zUuPM2lmnhbqoAOppzA7yA__&Key-Pair-Id=K38HBHX5LX3X2H",
+        "status": "active",
+        "featured": 1,
+        "ia_job_id": "vjob_20260613181616_de1c67",
+        "created_at": "2026-06-13T18:36:00-03:00"
+    },
+    {
+        "id": "vid_20260613182819_cd5ac",
+        "title": "Feirão do Emprego em Sumaré oferece 2 mil vagas de trabalho; veja como se candidatar",
+        "category": "Empregos",
+        "city": "Sumaré",
+        "description": "Boa noite. O boletim de Empregos e Negócios da TV Sumaré começa com uma oportunidade para quem busca trabalho na região. A cidade de Sumaré está com um grande feirão de empregos. São duas mil vagas disponíveis. As oportu",
+        "url": "https://resource2.heygen.ai/aws_pacific/avatar_tmp/744eec90cadf47528e57b4f9d189a9db/v2f2013e3033e41ee9ca7bd8aa6c3d4ae/caption_72a5e81e9fa640ceb254dcd09ef09970.mp4",
+        "thumb": "https://files2.heygen.ai/aws_pacific/avatar_tmp/744eec90cadf47528e57b4f9d189a9db/v2f2013e3033e41ee9ca7bd8aa6c3d4ae/72a5e81e9fa640ceb254dcd09ef09970.jpeg?Expires=1781990889&Signature=nLT7Vt~lP5Bl4oNJav72zhcNUfQZxs1XNfGaNaLA9yAVr6CItZkEt1zJteccqG6ZX2q-H37zAWwo-k-CYoV65tnD4Mjgse9vrZ2wydhRq~Lc0HnPs5EdlxHNG6RRySAXEE8LqkUhb2PqoAZhiPly82BRfrUeHuJ9iL0TioNhv-SPi580QHTD9~pcGu7O13xRz9excMc4UyY8UMQ2xHK1-2fabm4WV0mFak7H6~daLgSuPYQmLESanjdLDAJkXRDaZDrp1Eju8B50fPxxyCjuZFPDRs-Z9OCyWfHKm1Xc2OVhEuqNAyus8gvMhuF1xSvQvdZ5c7KC98DQsn3rFaKfiw__&Key-Pair-Id=K38HBHX5LX3X2H",
+        "status": "active",
+        "featured": 1,
+        "ia_job_id": "vjob_20260613181616_81b030",
+        "created_at": "2026-06-13T18:28:19-03:00"
+    },
+    {
+        "title": "Boletim TV Sumaré",
+        "category": "Programa",
+        "description": "Resumo em vídeo das principais notícias da região.",
+        "url": "videos.php",
+        "thumb": "assets/logo-tv-sumare.jpeg"
+    },
+    {
+        "title": "Entrevistas Especiais",
+        "category": "Entrevista",
+        "description": "Conversas com lideranças, comerciantes e personagens da região.",
+        "url": "videos.php",
+        "thumb": "assets/logo-tv-sumare.jpeg"
+    },
+    {
+        "title": "Giro da Região",
+        "category": "Reportagem",
+        "description": "Vídeos curtos com os destaques de Sumaré e cidades vizinhas.",
+        "url": "videos.php",
+        "thumb": "assets/logo-tv-sumare.jpeg"
+    }
+]

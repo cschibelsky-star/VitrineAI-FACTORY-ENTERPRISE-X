@@ -1,0 +1,24 @@
+[
+    {
+        "type": "oficial",
+        "city": "Sumaré",
+        "name": "Prefeitura de Sumaré",
+        "url": "https://sumare.sp.gov.br/",
+        "rss": ""
+    },
+    {
+        "type": "regional",
+        "city": "Região",
+        "name": "G1 Campinas e Região",
+        "url": "https://g1.globo.com/sp/campinas-regiao/",
+        "rss": "https://g1.globo.com/rss/g1/sp/campinas-regiao/"
+    },
+    {
+        "type": "Prefeitura",
+        "city": "Sumaré e região",
+        "name": "Prefeitura",
+        "url": "https://www.sumare.sp.gov.br/",
+        "rss": "",
+        "active": true
+    }
+]

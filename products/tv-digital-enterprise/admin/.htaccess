@@ -1,0 +1,12 @@
+Options -Indexes
+DirectoryIndex login.php index.php
+<FilesMatch "\.(php)$">
+    Require all granted
+</FilesMatch>
+<IfModule mod_authz_core.c>
+    Require all granted
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+</IfModule>

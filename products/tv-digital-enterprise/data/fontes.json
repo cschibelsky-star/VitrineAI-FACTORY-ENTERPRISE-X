@@ -1,0 +1,170 @@
+[
+  {
+    "type": "Prefeitura",
+    "city": "Sumaré",
+    "name": "Prefeitura de Sumaré",
+    "url": "https://sumare.sp.gov.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Prefeitura",
+    "city": "Hortolândia",
+    "name": "Prefeitura de Hortolândia",
+    "url": "https://www.hortolandia.sp.gov.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Prefeitura",
+    "city": "Paulínia",
+    "name": "Prefeitura de Paulínia",
+    "url": "https://www.paulinia.sp.gov.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Prefeitura",
+    "city": "Nova Odessa",
+    "name": "Prefeitura de Nova Odessa",
+    "url": "https://www.novaodessa.sp.gov.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Prefeitura",
+    "city": "Americana",
+    "name": "Prefeitura de Americana",
+    "url": "https://www.americana.sp.gov.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Prefeitura",
+    "city": "Campinas",
+    "name": "Prefeitura de Campinas",
+    "url": "https://campinas.sp.gov.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Governo Estadual",
+    "city": "São Paulo",
+    "name": "Agência SP",
+    "url": "https://www.agenciasp.sp.gov.br/",
+    "rss": "https://www.agenciasp.sp.gov.br/feed/",
+    "active": true
+  },
+  {
+    "type": "Defesa Civil",
+    "city": "São Paulo",
+    "name": "Defesa Civil SP",
+    "url": "https://www.defesacivil.sp.gov.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Agência",
+    "city": "Brasil",
+    "name": "Agência Brasil",
+    "url": "https://agenciabrasil.ebc.com.br/",
+    "rss": "https://agenciabrasil.ebc.com.br/rss.xml",
+    "active": true
+  },
+  {
+    "type": "Portal Regional",
+    "city": "Sumaré",
+    "name": "Portal de Sumaré",
+    "url": "https://portaldesumare.com.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Google Notícias",
+    "city": "Região",
+    "name": "Google Notícias Regional",
+    "url": "https://news.google.com/rss/search?q=Sumar%C3%A9%20OR%20Hortol%C3%A2ndia%20OR%20Paul%C3%ADnia%20OR%20%22Nova%20Odessa%22%20OR%20Americana%20OR%20Campinas&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "rss": "https://news.google.com/rss/search?q=Sumar%C3%A9%20OR%20Hortol%C3%A2ndia%20OR%20Paul%C3%ADnia%20OR%20%22Nova%20Odessa%22%20OR%20Americana%20OR%20Campinas&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "active": true
+  },
+  {
+    "type": "Agência",
+    "city": "Brasil",
+    "name": "Agência Brasil — Últimas Notícias",
+    "url": "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml",
+    "rss": "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml",
+    "active": true
+  },
+  {
+    "type": "Google Notícias",
+    "city": "Sumaré",
+    "name": "Google News Sumaré",
+    "url": "https://news.google.com/rss/search?q=Sumar%C3%A9%20not%C3%ADcias%20OR%20Sumar%C3%A9%20vagas%20OR%20Sumar%C3%A9%20Prefeitura&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "rss": "https://news.google.com/rss/search?q=Sumar%C3%A9%20not%C3%ADcias%20OR%20Sumar%C3%A9%20vagas%20OR%20Sumar%C3%A9%20Prefeitura&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "active": true
+  },
+  {
+    "type": "Google Notícias",
+    "city": "Paulínia",
+    "name": "Google News Paulínia",
+    "url": "https://news.google.com/rss/search?q=Paul%C3%ADnia%20not%C3%ADcias%20OR%20Paul%C3%ADnia%20vagas%20OR%20Paul%C3%ADnia%20Prefeitura%20OR%20Replan&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "rss": "https://news.google.com/rss/search?q=Paul%C3%ADnia%20not%C3%ADcias%20OR%20Paul%C3%ADnia%20vagas%20OR%20Paul%C3%ADnia%20Prefeitura%20OR%20Replan&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "active": true
+  },
+  {
+    "type": "Google Notícias",
+    "city": "Hortolândia",
+    "name": "Google News Hortolândia",
+    "url": "https://news.google.com/rss/search?q=Hortol%C3%A2ndia%20not%C3%ADcias%20OR%20Hortol%C3%A2ndia%20vagas%20OR%20Hortol%C3%A2ndia%20Prefeitura&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "rss": "https://news.google.com/rss/search?q=Hortol%C3%A2ndia%20not%C3%ADcias%20OR%20Hortol%C3%A2ndia%20vagas%20OR%20Hortol%C3%A2ndia%20Prefeitura&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "active": true
+  },
+  {
+    "type": "Google Notícias",
+    "city": "Nova Odessa",
+    "name": "Google News Nova Odessa",
+    "url": "https://news.google.com/rss/search?q=%22Nova%20Odessa%22%20not%C3%ADcias%20OR%20%22Nova%20Odessa%22%20vagas%20OR%20%22Nova%20Odessa%22%20Prefeitura&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "rss": "https://news.google.com/rss/search?q=%22Nova%20Odessa%22%20not%C3%ADcias%20OR%20%22Nova%20Odessa%22%20vagas%20OR%20%22Nova%20Odessa%22%20Prefeitura&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "active": true
+  },
+  {
+    "type": "Google Notícias",
+    "city": "Americana",
+    "name": "Google News Americana",
+    "url": "https://news.google.com/rss/search?q=Americana%20SP%20not%C3%ADcias%20OR%20Americana%20vagas%20OR%20Prefeitura%20Americana&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "rss": "https://news.google.com/rss/search?q=Americana%20SP%20not%C3%ADcias%20OR%20Americana%20vagas%20OR%20Prefeitura%20Americana&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "active": true
+  },
+  {
+    "type": "Google Notícias",
+    "city": "Campinas",
+    "name": "Google News Campinas",
+    "url": "https://news.google.com/rss/search?q=Campinas%20not%C3%ADcias%20OR%20Campinas%20vagas%20OR%20Prefeitura%20Campinas&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "rss": "https://news.google.com/rss/search?q=Campinas%20not%C3%ADcias%20OR%20Campinas%20vagas%20OR%20Prefeitura%20Campinas&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "active": true
+  },
+  {
+    "type": "Portal Regional",
+    "city": "Nova Odessa",
+    "name": "Novo Momento — Nova Odessa",
+    "url": "https://novomomento.com.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Portal Regional",
+    "city": "Americana",
+    "name": "Liberal — Americana e Região",
+    "url": "https://liberal.com.br/",
+    "rss": "",
+    "active": true
+  },
+  {
+    "type": "Portal Regional",
+    "city": "Campinas",
+    "name": "Jovem Pan News Campinas",
+    "url": "https://jovempancampinas.com.br/",
+    "rss": "",
+    "active": true
+  }
+]

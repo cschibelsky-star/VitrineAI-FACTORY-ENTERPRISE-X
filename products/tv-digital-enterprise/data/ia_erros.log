@@ -1,0 +1,167 @@
+[2026-06-13T17:32:31-03:00] Reporter sem JSON válido: {"title": "Hortolândia: Prefeitura divulga vagas de emprego e reforça ações para geração de oportunidades", "subtitle": "Cargos variados, incluindo opções para Pessoas com Deficiência (PcDs), estão disponíveis; município teve saldo de 481 vagas em abril.", "summary": "A Prefeitura de Hortolândia anuncia novas vagas de emprego em diversas áreas, com oportunidades para pessoas com e sem deficiência. O município registrou um saldo positivo de 481
+[2026-06-13T17:32:41-03:00] Reporter descartou pauta: O material coletado apresenta uma série de fatos isolados e pontuais, muitos com datas no passado (10/06, 12/06, 30/05) ou com datas futuras que parecem ser erros de digitação (2026 para Campanha do Agasalho e Hortolendo), sem aprofundamento ou contexto suficiente para a produção de UMA REPORTAGEM ORIGINAL, completa e publicável. Não há um fato principal coeso que permita desenvolver um lead e um corpo de texto jornalístico profissional, conforme o padrão exigido. As informações são fragmentadas e carecem de detalhes essenciais (o que é 'O Poço', qual 'Projeto' será apresentado, qual o nome do 'evento' de 5ª edição, etc.) para serem transformadas em uma notícia de relevância regional sem a necessidade de invenção de dados.
+[2026-06-13T17:35:09-03:00] Reporter sem JSON válido: {
+"title": "Nova Odessa intensifica Operação Estiagem e registra mais de 10 ocorrências de queimadas",
+"subtitle": "Defesa Civil atua no combate a incêndios e leva campanha de conscientização a escolas e bairros para proteger a população e o meio ambiente.",
+"summary": "A Defesa Civil de Nova Odessa intensificou a Operação Estiagem em junho, combatendo focos de incêndio e registrando mais de 10 ocorrências. A ação inclui conscientização em escolas e bairros.",
+"body": "A Defesa Civil de Nova Odessa intensificou em junho a Operação Estiagem, iniciada em maio, com o objetivo de combater focos de incêndio e reduzir os riscos de queimadas no município. Até o momento, mais
+[2026-06-13T17:35:23-03:00] Reporter sem JSON válido: {"title": "Fundo Social de Nova Odessa Promove Arraiá do Espaço Melhor Idade", "subtitle": "Evento reuniu participantes em manhã de integração, dança e concurso Rei e Rainha Caipira, valorizando a convivência social.", "summary": "O Fundo Social de Solidariedade de Nova Odessa realizou o tradicional Arraiá do Espaço Melhor Idade, com quadrilha, concurso Rei e Rainha Caipira e a presença de autoridades, promovendo integração e lazer para os idosos.", "body": "O Fundo Social de Solidariedade de Nova Odessa promoveu na última segunda-feira, 9 de junho, o tradicional Arraiá do Espaço Melhor Idade, reunindo participantes em uma manhã de celebração, integração e valorização da convivência social. O evento contou com a clássica quadrilha, atividades juninas e um animado concurso de Rei e Rainha Caipira.\n\nA programação, realizada no próprio Espaço Melhor Idade, foi marcada por decoração temática e momentos de lazer e descontração para os frequentadores. A iniciativa teve como objetivo fortalecer os laços sociais e proporcionar uma melhor qualidade de vida para a pessoa idosa no município.\n\nAutoridades municipais prestigiaram a festa, incluindo o prefe
+[2026-06-13T17:50:36-03:00] HTTP Gemini 429 no modelo gemini-2.5-flash: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 24.100728524s.",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.Help",
+        "links": [
+          {
+            "description": "Learn more about Gemini API quotas",
+            "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
+          }
+        ]
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+        "violations": [
+          {
+            "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+            "quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+            "quotaDimensions": {
+              "location": "global",
+              "model": "gemini-2.5-flash"
+            },
+            "quo
+[2026-06-13T18:13:09-03:00] HTTP Gemini 429 no modelo gemini-2.5-flash: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 50.336936956s.",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.Help",
+        "links": [
+          {
+            "description": "Learn more about Gemini API quotas",
+            "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
+          }
+        ]
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+        "violations": [
+          {
+            "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+            "quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+            "quotaDimensions": {
+              "location": "global",
+              "model": "gemini-2.5-flash"
+            },
+            "quo
+[2026-06-13T18:13:27-03:00] Reporter sem JSON válido: {"title": "Arraiá do Espaço Melhor Idade em Nova Odessa Celebra Integração e Tradições Juninas", "subtitle": "Evento promovido pelo Fundo Social reuniu participantes em manhã de festa com quadrilha, concurso de Rei e Rainha Caipira, e a presença de autoridades municipais.", "summary": "O Fundo Social de Solidariedade de Nova Odessa realizou o tradicional Arraiá do Espaço Melhor Idade, promovendo uma manhã de alegria, integração e valorização da convivência social para os participantes.", "body": "O Fundo Social de Solidariedade de Nova Odessa promoveu nesta segunda-feira, 9 de junho, o tradicional Arraiá do Espaço Melhor Idade. O evento reuniu participantes em uma manhã de celebração, integração e valorização da convivência social, com atividades típicas das festas juninas.\n\nA programação contou com a clássica quadrilha, decoração temática e momentos de lazer e descontração para os frequentadores do espaço. Um dos pontos altos foi o concurso Rei e Rainha Caipira, que elegeu Maria Stela Costa Silva e Roberto Perdigão como vencedores. Ivete Rocha Campos e Neusa Rodrigues Nunes foram as princesas, enquanto Adão Moreira Nunes e Airton Caçarola f
+[2026-06-13T18:15:27-03:00] Reporter descartou pauta: sem fato jornalístico suficiente
+[2026-06-13T18:15:34-03:00] HTTP Gemini 429 no modelo gemini-2.5-flash: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 25.532617627s.",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.Help",
+        "links": [
+          {
+            "description": "Learn more about Gemini API quotas",
+            "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
+          }
+        ]
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+        "violations": [
+          {
+            "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+            "quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+            "quotaDimensions": {
+              "location": "global",
+              "model": "gemini-2.5-flash"
+            },
+            "quo
+[2026-06-13T18:15:35-03:00] Reporter descartou pauta: sem fato jornalístico suficiente
+[2026-06-13T18:17:09-03:00] HTTP Gemini 429 no modelo gemini-2.5-flash: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 50.383399751s.",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.Help",
+        "links": [
+          {
+            "description": "Learn more about Gemini API quotas",
+            "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
+          }
+        ]
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+        "violations": [
+          {
+            "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+            "quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+            "quotaDimensions": {
+              "location": "global",
+              "model": "gemini-2.5-flash"
+            },
+            "quo
+[2026-06-13T18:17:27-03:00] HTTP Gemini 429 no modelo gemini-2.5-flash: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 33.029577651s.",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.Help",
+        "links": [
+          {
+            "description": "Learn more about Gemini API quotas",
+            "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
+          }
+        ]
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+        "violations": [
+          {
+            "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+            "quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+            "quotaDimensions": {
+              "model": "gemini-2.5-flash",
+              "location": "global"
+            },
+            "quo
+[2026-06-13T18:17:47-03:00] HTTP Gemini 429 no modelo gemini-2.5-flash: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 12.293609994s.",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.Help",
+        "links": [
+          {
+            "description": "Learn more about Gemini API quotas",
+            "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
+          }
+        ]
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+        "violations": [
+          {
+            "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+            "quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+            "quotaDimensions": {
+              "location": "global",
+              "model": "gemini-2.5-flash"
+            },
+            "quo
