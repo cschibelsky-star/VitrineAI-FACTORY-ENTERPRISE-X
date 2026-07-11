@@ -41,10 +41,28 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             'whatsapp' => $whatsapp,
             'email' => $email,
             'consentimento_lgpd' => true,
-            'origem' => 'landing_conheca_sumare'
+            'origem' => 'landing_conheca_sumare',
+            'sync_master_status' => master_leads_configured() ? 'pending' : 'not_configured',
+            'sync_master_attempts' => 0,
+            'sync_master_last_error' => null,
+            'master_lead_id' => null,
+            'synced_at' => null,
         );
 
         if(append_json_record('leads_empresas.json', $lead)){
+            if(master_leads_configured()){
+                $sync = sync_lead_to_master($lead);
+                update_json_record('leads_empresas.json', $lead['id'], [
+                    'sync_master_status' => $sync['success'] ? 'synchronized' : 'failed',
+                    'sync_master_attempts' => 1,
+                    'sync_master_last_error' => $sync['error'] ?? null,
+                    'sync_master_http_status' => $sync['status_code'] ?? 0,
+                    'sync_master_duplicate' => !empty($sync['duplicate']),
+                    'master_lead_id' => $sync['lead_id'] ?? null,
+                    'synced_at' => $sync['success'] ? date(DATE_ATOM) : null,
+                ]);
+            }
+
             $ok = true;
             unset($_SESSION['csrf_token']);
         } else {
