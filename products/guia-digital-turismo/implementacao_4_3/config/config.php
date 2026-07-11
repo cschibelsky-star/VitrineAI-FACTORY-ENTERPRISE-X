@@ -27,9 +27,23 @@ define('ADMIN_USER', $adminUser);
 define('ADMIN_PASS_HASH', $adminPassHash);
 define('ADMIN_CONFIGURED', ADMIN_USER !== '' && ADMIN_PASS_HASH !== '');
 
+$integrationFile = __DIR__ . '/integrations.local.php';
+$integration = file_exists($integrationFile) ? require $integrationFile : [];
+if (!is_array($integration)) {
+    $integration = [];
+}
+
 $masterUrl = getenv('VITRINE_LEADS_URL');
 $masterToken = getenv('VITRINE_LEADS_TOKEN');
 
-define('MASTER_LEADS_API_URL', is_string($masterUrl) ? rtrim($masterUrl, '/') : '');
-define('MASTER_LEADS_TOKEN', is_string($masterToken) ? $masterToken : '');
+$resolvedMasterUrl = is_string($masterUrl) && $masterUrl !== ''
+    ? $masterUrl
+    : (string)($integration['leads_url'] ?? '');
+
+$resolvedMasterToken = is_string($masterToken) && $masterToken !== ''
+    ? $masterToken
+    : (string)($integration['leads_token'] ?? '');
+
+define('MASTER_LEADS_API_URL', rtrim($resolvedMasterUrl, '/'));
+define('MASTER_LEADS_TOKEN', $resolvedMasterToken);
 define('MASTER_LEADS_CONFIGURED', MASTER_LEADS_API_URL !== '' && MASTER_LEADS_TOKEN !== '');
