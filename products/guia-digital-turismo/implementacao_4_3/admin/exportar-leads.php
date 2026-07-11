@@ -12,9 +12,10 @@ $output = fopen('php://output', 'w');
 fwrite($output, "\xEF\xBB\xBF");
 
 $headers = [
-    'ID', 'Data', 'Status', 'Plano', 'Empresa', 'Categoria', 'Cidade', 'Bairro',
+    'ID local', 'Data', 'Status local', 'Plano', 'Empresa', 'Categoria', 'Cidade', 'Bairro',
     'Endereço', 'Descrição', 'Responsável', 'WhatsApp', 'E-mail',
-    'Consentimento LGPD', 'Origem'
+    'Consentimento LGPD', 'Origem', 'Status Master', 'ID Master',
+    'Tentativas de sincronização', 'Último erro', 'Sincronizado em'
 ];
 fputcsv($output, $headers, ';', '"', '\\');
 
@@ -35,6 +36,11 @@ foreach($leads as $lead){
         $lead['email'] ?? '',
         !empty($lead['consentimento_lgpd']) ? 'Sim' : 'Não informado',
         $lead['origem'] ?? 'não informada',
+        $lead['sync_master_status'] ?? 'pendente',
+        $lead['master_lead_id'] ?? '',
+        $lead['sync_master_attempts'] ?? 0,
+        $lead['sync_master_last_error'] ?? '',
+        $lead['synced_at'] ?? '',
     ], ';', '"', '\\');
 }
 
