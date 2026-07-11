@@ -62,7 +62,7 @@ function save_json($file, $data){
     return $written;
 }
 
-function append_json_record($file, $record){
+function mutate_json_records($file, callable $mutator){
     $path = DATA_PATH . $file;
     $handle = fopen($path, 'c+');
     if($handle === false) return false;
@@ -72,10 +72,7 @@ function append_json_record($file, $record){
         if(!flock($handle, LOCK_EX)) return false;
         rewind($handle);
         $contents = stream_get_contents($handle);
-
-        if($contents === false){
-            return false;
-        }
+        if($contents === false) return false;
 
         if(trim($contents) === ''){
             $items = array();
@@ -86,8 +83,10 @@ function append_json_record($file, $record){
             }
         }
 
-        $items[] = $record;
-        $json = encode_json_data($items);
+        $updated = $mutator($items);
+        if(!is_array($updated)) return false;
+
+        $json = encode_json_data($updated);
         if($json === false) return false;
 
         rewind($handle);
@@ -102,6 +101,152 @@ function append_json_record($file, $record){
     }
 
     return $success;
+}
+
+function append_json_record($file, $record){
+    return mutate_json_records($file, function(array $items) use ($record){
+        $items[] = $record;
+        return $items;
+    });
+}
+
+function update_json_record($file, $id, array $changes){
+    $found = false;
+    $saved = mutate_json_records($file, function(array $items) use ($id, $changes, &$found){
+        foreach($items as $index => $item){
+            if((string)($item['id'] ?? '') === (string)$id){
+                $items[$index] = array_merge($item, $changes);
+                $found = true;
+                break;
+            }
+        }
+        return $items;
+    });
+
+    return $saved && $found;
+}
+
+function master_leads_configured(){
+    return defined('MASTER_LEADS_CONFIGURED') && MASTER_LEADS_CONFIGURED;
+}
+
+function lead_master_payload(array $lead){
+    $capturedAt = $lead['created_at'] ?? null;
+    if(!$capturedAt && !empty($lead['data'])){
+        $timestamp = strtotime((string)$lead['data']);
+        $capturedAt = $timestamp ? date(DATE_ATOM, $timestamp) : null;
+    }
+
+    $notes = array_filter([
+        !empty($lead['categoria']) ? 'Categoria: ' . $lead['categoria'] : null,
+        !empty($lead['bairro']) ? 'Bairro: ' . $lead['bairro'] : null,
+        !empty($lead['endereco']) ? 'Endereço informado: ' . $lead['endereco'] : null,
+        !empty($lead['descricao']) ? 'Descrição: ' . $lead['descricao'] : null,
+        'Solicitação de cadastro gratuito no Conheça Sumaré.',
+    ]);
+
+    return [
+        'external_id' => 'conheca_sumare:' . (string)($lead['id'] ?? ''),
+        'empresa' => $lead['nome'] ?? null,
+        'contato' => $lead['responsavel'] ?? '',
+        'telefone' => $lead['whatsapp'] ?? '',
+        'email' => $lead['email'] ?? null,
+        'cidade' => $lead['cidade'] ?? 'Sumaré',
+        'estado' => 'SP',
+        'produto_interesse' => 'Visite Cidade',
+        'plano_sugerido' => 'Beta',
+        'valor_estimado' => 0,
+        'origem_lead' => 'Conheça Sumaré',
+        'pagina_origem' => 'conhecasumare.com.br/cadastro-empresa.php',
+        'campanha' => 'cadastro_gratuito_empresas',
+        'consentimento_lgpd' => !empty($lead['consentimento_lgpd']),
+        'capturado_em' => $capturedAt,
+        'observacoes' => implode("\n", $notes),
+        'metadata' => [
+            'local_id' => $lead['id'] ?? null,
+            'categoria' => $lead['categoria'] ?? null,
+            'bairro' => $lead['bairro'] ?? null,
+            'endereco' => $lead['endereco'] ?? null,
+            'plano_local' => $lead['plano'] ?? null,
+            'origem_local' => $lead['origem'] ?? null,
+        ],
+    ];
+}
+
+function post_master_lead(array $payload){
+    if(!master_leads_configured()){
+        return [
+            'success' => false,
+            'status_code' => 0,
+            'error' => 'Integração com o Master não configurada.',
+        ];
+    }
+
+    $json = encode_json_data($payload);
+    if($json === false){
+        return ['success' => false, 'status_code' => 0, 'error' => 'Falha ao codificar o lead.'];
+    }
+
+    $responseBody = false;
+    $statusCode = 0;
+    $transportError = '';
+
+    if(function_exists('curl_init')){
+        $curl = curl_init(MASTER_LEADS_API_URL);
+        curl_setopt_array($curl, [
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT => 12,
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Vitrine-Lead-Key: ' . MASTER_LEADS_TOKEN,
+            ],
+            CURLOPT_POSTFIELDS => $json,
+        ]);
+        $responseBody = curl_exec($curl);
+        $statusCode = (int)curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
+        $transportError = curl_error($curl);
+        curl_close($curl);
+    } else {
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'timeout' => 12,
+                'ignore_errors' => true,
+                'header' => implode("\r\n", [
+                    'Accept: application/json',
+                    'Content-Type: application/json',
+                    'X-Vitrine-Lead-Key: ' . MASTER_LEADS_TOKEN,
+                ]),
+                'content' => $json,
+            ],
+        ]);
+        $responseBody = @file_get_contents(MASTER_LEADS_API_URL, false, $context);
+        $headers = $http_response_header ?? [];
+        if(isset($headers[0]) && preg_match('/\s(\d{3})\s/', $headers[0], $matches)){
+            $statusCode = (int)$matches[1];
+        }
+        if($responseBody === false){
+            $transportError = 'Falha de transporte HTTP.';
+        }
+    }
+
+    $decoded = is_string($responseBody) ? json_decode($responseBody, true) : null;
+    $success = $statusCode >= 200 && $statusCode < 300 && is_array($decoded) && !empty($decoded['success']);
+
+    return [
+        'success' => $success,
+        'status_code' => $statusCode,
+        'lead_id' => is_array($decoded) ? ($decoded['lead_id'] ?? null) : null,
+        'duplicate' => is_array($decoded) ? !empty($decoded['duplicate']) : false,
+        'error' => $success ? null : ($transportError ?: (is_array($decoded) ? ($decoded['message'] ?? 'Falha na sincronização.') : 'Resposta inválida da API.')),
+    ];
+}
+
+function sync_lead_to_master(array $lead){
+    return post_master_lead(lead_master_payload($lead));
 }
 
 function app_settings(){
