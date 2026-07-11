@@ -26,3 +26,10 @@ $adminPassHash = is_string($envHash) && $envHash !== ''
 define('ADMIN_USER', $adminUser);
 define('ADMIN_PASS_HASH', $adminPassHash);
 define('ADMIN_CONFIGURED', ADMIN_USER !== '' && ADMIN_PASS_HASH !== '');
+
+$masterUrl = getenv('VITRINE_LEADS_URL');
+$masterToken = getenv('VITRINE_LEADS_TOKEN');
+
+define('MASTER_LEADS_API_URL', is_string($masterUrl) ? rtrim($masterUrl, '/') : '');
+define('MASTER_LEADS_TOKEN', is_string($masterToken) ? $masterToken : '');
+define('MASTER_LEADS_CONFIGURED', MASTER_LEADS_API_URL !== '' && MASTER_LEADS_TOKEN !== '');
