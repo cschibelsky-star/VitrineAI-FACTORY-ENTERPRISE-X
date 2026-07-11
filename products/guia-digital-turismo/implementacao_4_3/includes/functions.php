@@ -5,17 +5,92 @@ function h($value){
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
+function ensure_session_started(){
+    if(session_status() !== PHP_SESSION_ACTIVE){
+        session_start();
+    }
+}
+
+function csrf_token(){
+    ensure_session_started();
+    if(empty($_SESSION['csrf_token'])){
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function csrf_is_valid($token){
+    ensure_session_started();
+    return is_string($token)
+        && isset($_SESSION['csrf_token'])
+        && hash_equals($_SESSION['csrf_token'], $token);
+}
+
 function read_json($file){
     $path = DATA_PATH . $file;
     if(!file_exists($path)) return array();
     $json = file_get_contents($path);
+    if($json === false) return array();
     $data = json_decode($json, true);
     return is_array($data) ? $data : array();
 }
 
+function encode_json_data($data){
+    return json_encode(
+        $data,
+        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE
+    );
+}
+
 function save_json($file, $data){
     $path = DATA_PATH . $file;
-    return file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    $json = encode_json_data($data);
+    if($json === false) return false;
+
+    $temp = $path . '.tmp.' . bin2hex(random_bytes(4));
+    $written = file_put_contents($temp, $json, LOCK_EX);
+    if($written === false){
+        @unlink($temp);
+        return false;
+    }
+
+    if(!rename($temp, $path)){
+        @unlink($temp);
+        return false;
+    }
+
+    return $written;
+}
+
+function append_json_record($file, $record){
+    $path = DATA_PATH . $file;
+    $handle = fopen($path, 'c+');
+    if($handle === false) return false;
+
+    $success = false;
+    try {
+        if(!flock($handle, LOCK_EX)) return false;
+        rewind($handle);
+        $contents = stream_get_contents($handle);
+        $items = $contents !== false && trim($contents) !== '' ? json_decode($contents, true) : array();
+        if(!is_array($items)) $items = array();
+        $items[] = $record;
+
+        $json = encode_json_data($items);
+        if($json === false) return false;
+
+        rewind($handle);
+        if(!ftruncate($handle, 0)) return false;
+        $written = fwrite($handle, $json);
+        if($written === false) return false;
+        fflush($handle);
+        $success = true;
+    } finally {
+        flock($handle, LOCK_UN);
+        fclose($handle);
+    }
+
+    return $success;
 }
 
 function app_settings(){
@@ -75,9 +150,8 @@ function maps_link($item){
 function month_br($date){
     if(!$date) return 'definir';
     $ts = strtotime($date);
-    if(!$ts) return 'definir';
+    if(!$ts) return $date;
     $m = array(1=>'jan.',2=>'fev.',3=>'mar.',4=>'abr.',5=>'mai.',6=>'jun.',7=>'jul.',8=>'ago.',9=>'set.',10=>'out.',11=>'nov.',12=>'dez.');
     return $m[(int)date('n',$ts)];
 }
-
 ?>
