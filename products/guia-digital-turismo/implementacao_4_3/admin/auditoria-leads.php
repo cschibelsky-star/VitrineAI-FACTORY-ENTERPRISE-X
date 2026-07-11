@@ -3,7 +3,23 @@ require_once 'auth.php';
 require_once '_layout.php';
 
 $file = DATA_PATH . 'leads_empresas.json';
-$leads = read_json('leads_empresas.json');
+$raw = file_exists($file) ? file_get_contents($file) : false;
+$jsonValido = false;
+$erroJson = '';
+$leads = [];
+
+if($raw === false){
+    $erroJson = 'Arquivo inexistente ou sem permissão de leitura.';
+} else {
+    $decoded = json_decode($raw, true);
+    if(json_last_error() === JSON_ERROR_NONE && is_array($decoded)){
+        $jsonValido = true;
+        $leads = $decoded;
+    } else {
+        $erroJson = json_last_error_msg();
+    }
+}
+
 $ids = [];
 $duplicados = [];
 $invalidos = [];
@@ -35,6 +51,7 @@ admin_header('Auditoria de Leads');
 ?>
 <div class="cards">
   <div class="stat"><strong>Total de registros</strong><h2><?= count($leads) ?></h2></div>
+  <div class="stat"><strong>JSON válido</strong><h2><?= $jsonValido ? 'Sim' : 'Não' ?></h2></div>
   <div class="stat"><strong>Arquivo gravável</strong><h2><?= is_writable($file) ? 'Sim' : 'Não' ?></h2></div>
   <div class="stat"><strong>IDs duplicados</strong><h2><?= count(array_unique($duplicados)) ?></h2></div>
   <div class="stat"><strong>Registros incompletos</strong><h2><?= count($invalidos) ?></h2></div>
@@ -42,14 +59,23 @@ admin_header('Auditoria de Leads');
 
 <div class="top-actions">
   <a class="btn" href="leads.php">Voltar aos leads</a>
-  <a class="btn" href="exportar-leads.php">Exportar CSV</a>
+  <?php if($jsonValido): ?><a class="btn" href="exportar-leads.php">Exportar CSV</a><?php endif; ?>
 </div>
+
+<?php if(!$jsonValido): ?>
+<div class="panel" style="width:100%;max-width:none;border:2px solid #b91c1c">
+  <h2>Falha de integridade detectada</h2>
+  <p>O arquivo não deve ser sobrescrito. Preserve uma cópia e corrija o JSON antes de aceitar novos envios.</p>
+  <p><strong>Detalhe:</strong> <?= h($erroJson) ?></p>
+</div>
+<?php endif; ?>
 
 <div class="panel" style="width:100%;max-width:none">
   <h2>Integridade do armazenamento</h2>
   <table class="admin-table"><tbody>
     <tr><th>Arquivo</th><td>data/leads_empresas.json</td></tr>
     <tr><th>Existe</th><td><?= file_exists($file) ? 'Sim' : 'Não' ?></td></tr>
+    <tr><th>JSON válido</th><td><?= $jsonValido ? 'Sim' : 'Não — ' . h($erroJson) ?></td></tr>
     <tr><th>Leitura permitida</th><td><?= is_readable($file) ? 'Sim' : 'Não' ?></td></tr>
     <tr><th>Gravação permitida</th><td><?= is_writable($file) ? 'Sim' : 'Não' ?></td></tr>
     <tr><th>Tamanho</th><td><?= file_exists($file) ? number_format((int)filesize($file), 0, ',', '.') . ' bytes' : '—' ?></td></tr>
