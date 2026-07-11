@@ -72,10 +72,21 @@ function append_json_record($file, $record){
         if(!flock($handle, LOCK_EX)) return false;
         rewind($handle);
         $contents = stream_get_contents($handle);
-        $items = $contents !== false && trim($contents) !== '' ? json_decode($contents, true) : array();
-        if(!is_array($items)) $items = array();
-        $items[] = $record;
 
+        if($contents === false){
+            return false;
+        }
+
+        if(trim($contents) === ''){
+            $items = array();
+        } else {
+            $items = json_decode($contents, true);
+            if(json_last_error() !== JSON_ERROR_NONE || !is_array($items)){
+                return false;
+            }
+        }
+
+        $items[] = $record;
         $json = encode_json_data($items);
         if($json === false) return false;
 
@@ -150,7 +161,7 @@ function maps_link($item){
 function month_br($date){
     if(!$date) return 'definir';
     $ts = strtotime($date);
-    if(!$ts) return $date;
+    if(!$ts) return 'definir';
     $m = array(1=>'jan.',2=>'fev.',3=>'mar.',4=>'abr.',5=>'mai.',6=>'jun.',7=>'jul.',8=>'ago.',9=>'set.',10=>'out.',11=>'nov.',12=>'dez.');
     return $m[(int)date('n',$ts)];
 }
