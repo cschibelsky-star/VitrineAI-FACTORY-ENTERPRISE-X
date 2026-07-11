@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/functions.php';
+ensure_session_started();
 $ok = false;
 $erro = '';
 
@@ -45,7 +46,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         if(append_json_record('leads_empresas.json', $lead)){
             $ok = true;
-            ensure_session_started();
             unset($_SESSION['csrf_token']);
         } else {
             $erro = 'Não foi possível registrar a solicitação. Tente novamente ou entre em contato com a equipe.';
