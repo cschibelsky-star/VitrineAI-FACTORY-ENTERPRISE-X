@@ -1,5 +1,13 @@
-<?php require 'auth.php'; require '_layout.php'; admin_header('Dashboard'); $a=read_json('attractions.json'); $e=read_json('events.json'); $b=read_json('businesses.json'); ?>
-<div class="cards"><div class="stat"><strong>Atrativos</strong><h2><?= count($a) ?></h2></div><div class="stat"><strong>Eventos</strong><h2><?= count($e) ?></h2></div><div class="stat"><strong>Empresas</strong><h2><?= count($b) ?></h2></div></div>
-<div class="top-actions"><a class="btn" href="atrativos.php?action=new">+ Novo Atrativo</a><a class="btn" href="eventos.php?action=new">+ Novo Evento</a><a class="btn" href="empresas.php?action=new">+ Nova Empresa</a><a class="btn" href="importacao-oficial.php">Importar de fonte oficial</a></div>
+<?php
+require 'auth.php';
+require '_layout.php';
+$a = read_json('attractions.json');
+$e = read_json('events.json');
+$b = read_json('businesses.json');
+$l = read_json('leads_empresas.json');
+admin_header('Dashboard');
+?>
+<div class="cards"><div class="stat"><strong>Atrativos</strong><h2><?= count($a) ?></h2></div><div class="stat"><strong>Eventos</strong><h2><?= count($e) ?></h2></div><div class="stat"><strong>Empresas</strong><h2><?= count($b) ?></h2></div><div class="stat"><strong>Leads recebidos</strong><h2><?= count($l) ?></h2></div></div>
+<div class="top-actions"><a class="btn" href="atrativos.php?action=new">+ Novo Atrativo</a><a class="btn" href="eventos.php?action=new">+ Novo Evento</a><a class="btn" href="empresas.php?action=new">+ Nova Empresa</a><a class="btn" href="leads.php">Ver leads</a><a class="btn" href="auditoria-leads.php">Auditar leads</a><a class="btn" href="importacao-oficial.php">Importar de fonte oficial</a></div>
 <div class="panel" style="width:100%;max-width:none"><h2>Orientação da versão piloto</h2><p>O app está em fase piloto. Use o Banco de Imagens e a Importação Oficial para registrar fontes, links e créditos das fotos usadas na apresentação. Para a versão definitiva, valide formalmente com a Secretaria/Comunicação o uso das imagens dos portais oficiais de Cultura e Turismo.</p></div>
 <?php admin_footer(); ?>
