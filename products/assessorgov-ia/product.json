@@ -1,0 +1,31 @@
+{
+  "$schema": "../product.schema.json",
+  "key": "assessorgov-ia",
+  "name": "AssessorGov IA",
+  "version": "0.1.0",
+  "status": "prototype",
+  "runtime": {
+    "type": "php",
+    "database": "sqlite",
+    "containerized": true
+  },
+  "health": {
+    "path": "/health",
+    "expected_status": 200
+  },
+  "core": {
+    "authentication": "none",
+    "licensing": "core",
+    "commercial_leads": "none"
+  },
+  "dependencies": [
+    "PostgreSQL preparado no Docker Compose, ainda não utilizado pelo código atual",
+    "n8n planejado, ainda não implantado",
+    "Vitrine AI Pro CORE para autenticação e licenciamento futuros"
+  ],
+  "notes": [
+    "O código atual utiliza SQLite apesar de o Compose preparar PostgreSQL.",
+    "A análise por IA é demonstrativa e ainda não usa provedor real.",
+    "O produto não deve ser classificado como produção antes da migração de banco, autenticação e fontes oficiais."
+  ]
+}
