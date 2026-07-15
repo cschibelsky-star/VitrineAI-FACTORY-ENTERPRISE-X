@@ -1,0 +1,54 @@
+services:
+  assessorgov_app:
+    build: .
+    container_name: assessorgov_app
+    env_file: .env
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      APP_URL: ${APP_URL:-https://assessorgovia.com.br}
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_DATABASE: ${DB_DATABASE:-assessorgov}
+      DB_USERNAME: ${DB_USERNAME:-assessorgov}
+      DB_PASSWORD: ${DB_PASSWORD}
+      N8N_WEBHOOK_BASE_URL: ${N8N_WEBHOOK_BASE_URL}
+      N8N_WEBHOOK_TOKEN: ${N8N_WEBHOOK_TOKEN}
+    expose:
+      - "80"
+    volumes:
+      - assessorgov_data:/var/www/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - assessorgov_internal
+      - vitrine_proxy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: assessorgov_postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-assessorgov}
+      POSTGRES_USER: ${DB_USERNAME:-assessorgov}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - assessorgov_postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - assessorgov_internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-assessorgov} -d ${DB_DATABASE:-assessorgov}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  assessorgov_data:
+  assessorgov_postgres:
+
+networks:
+  assessorgov_internal:
+    driver: bridge
+  vitrine_proxy:
+    external: true

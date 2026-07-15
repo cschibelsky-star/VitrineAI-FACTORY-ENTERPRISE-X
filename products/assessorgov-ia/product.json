@@ -1,0 +1,32 @@
+{
+  "$schema": "../product.schema.json",
+  "key": "assessorgov-ia",
+  "name": "AssessorGov IA",
+  "version": "0.1.0",
+  "status": "prototype",
+  "runtime": {
+    "type": "php",
+    "database": "postgresql",
+    "containerized": true
+  },
+  "health": {
+    "path": "/health",
+    "expected_status": 200
+  },
+  "core": {
+    "authentication": "none",
+    "licensing": "core",
+    "commercial_leads": "none"
+  },
+  "dependencies": [
+    "PostgreSQL 16 no ambiente de produção",
+    "n8n planejado, ainda não implantado",
+    "Vitrine AI Pro CORE para autenticação e licenciamento futuros"
+  ],
+  "notes": [
+    "O ambiente de produção usa PostgreSQL quando DB_HOST está configurado.",
+    "SQLite permanece apenas como fallback local de desenvolvimento e contingência.",
+    "A análise por IA é demonstrativa e ainda não usa provedor real.",
+    "O produto não deve ser classificado como produção antes da autenticação central e das fontes oficiais."
+  ]
+}

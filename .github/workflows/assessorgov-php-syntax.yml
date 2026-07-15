@@ -1,0 +1,27 @@
+name: AssessorGov PHP Syntax
+
+on:
+  pull_request:
+    paths:
+      - 'products/assessorgov-ia/**/*.php'
+      - 'products/assessorgov-ia/product.json'
+      - '.github/workflows/assessorgov-php-syntax.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql, pdo_sqlite
+          coverage: none
+      - name: Validate PHP syntax
+        run: find products/assessorgov-ia -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Validate product manifest
+        run: php tools/validate-product-manifests.php
