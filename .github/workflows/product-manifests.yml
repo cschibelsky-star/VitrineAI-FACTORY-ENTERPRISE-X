@@ -1,0 +1,25 @@
+name: Product Manifests
+
+on:
+  pull_request:
+    paths:
+      - 'products/**/product.json'
+      - 'products/product.schema.json'
+      - 'tools/validate-product-manifests.php'
+      - '.github/workflows/product-manifests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - name: Validate product manifests
+        run: php tools/validate-product-manifests.php
