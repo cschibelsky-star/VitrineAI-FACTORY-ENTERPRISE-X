@@ -4,35 +4,77 @@ declare(strict_types=1);
 final class App
 {
     private PDO $db;
+    private string $driver;
 
     public function __construct(string $sqlitePath)
     {
-        if (!is_dir(dirname($sqlitePath))) {
+        $this->db = $this->connect($sqlitePath);
+        $this->driver = (string) $this->db->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $this->migrate();
+    }
+
+    private function connect(string $sqlitePath): PDO
+    {
+        $host = trim((string) getenv('DB_HOST'));
+
+        if ($host !== '') {
+            $port = trim((string) getenv('DB_PORT')) ?: '5432';
+            $database = trim((string) getenv('DB_DATABASE')) ?: 'assessorgov';
+            $username = trim((string) getenv('DB_USERNAME')) ?: 'assessorgov';
+            $password = (string) getenv('DB_PASSWORD');
+            $dsn = sprintf('pgsql:host=%s;port=%s;dbname=%s', $host, $port, $database);
+
+            return new PDO($dsn, $username, $password, [
+                PDO::ATTR_TIMEOUT => 10,
+            ]);
+        }
+
+        if (! is_dir(dirname($sqlitePath))) {
             mkdir(dirname($sqlitePath), 0775, true);
         }
-        $this->db = new PDO('sqlite:' . $sqlitePath);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->migrate();
+
+        return new PDO('sqlite:' . $sqlitePath);
     }
 
     private function migrate(): void
     {
-        $this->db->exec('CREATE TABLE IF NOT EXISTS opportunities (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            agency TEXT NOT NULL,
-            segment TEXT NOT NULL,
-            kind TEXT NOT NULL,
-            location TEXT NOT NULL,
-            deadline TEXT NOT NULL,
-            budget REAL NOT NULL DEFAULT 0,
-            score INTEGER NOT NULL DEFAULT 0,
-            status TEXT NOT NULL,
-            summary TEXT NOT NULL,
-            requirements TEXT NOT NULL,
-            favorite INTEGER NOT NULL DEFAULT 0,
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP
-        )');
+        $createSql = $this->driver === 'pgsql'
+            ? 'CREATE TABLE IF NOT EXISTS opportunities (
+                id BIGSERIAL PRIMARY KEY,
+                title TEXT NOT NULL,
+                agency TEXT NOT NULL,
+                segment TEXT NOT NULL,
+                kind TEXT NOT NULL,
+                location TEXT NOT NULL,
+                deadline DATE NOT NULL,
+                budget NUMERIC(14,2) NOT NULL DEFAULT 0,
+                score INTEGER NOT NULL DEFAULT 0,
+                status TEXT NOT NULL,
+                summary TEXT NOT NULL,
+                requirements TEXT NOT NULL,
+                favorite INTEGER NOT NULL DEFAULT 0,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )'
+            : 'CREATE TABLE IF NOT EXISTS opportunities (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                agency TEXT NOT NULL,
+                segment TEXT NOT NULL,
+                kind TEXT NOT NULL,
+                location TEXT NOT NULL,
+                deadline TEXT NOT NULL,
+                budget REAL NOT NULL DEFAULT 0,
+                score INTEGER NOT NULL DEFAULT 0,
+                status TEXT NOT NULL,
+                summary TEXT NOT NULL,
+                requirements TEXT NOT NULL,
+                favorite INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )';
+
+        $this->db->exec($createSql);
 
         if ((int) $this->db->query('SELECT COUNT(*) FROM opportunities')->fetchColumn() === 0) {
             $rows = [
@@ -56,13 +98,17 @@ final class App
 
         if ($path === '/health') {
             header('Content-Type: application/json');
-            echo json_encode(['status' => 'ok', 'product' => 'AssessorGov IA']);
+            echo json_encode([
+                'status' => 'ok',
+                'product' => 'AssessorGov IA',
+                'database' => $this->driver,
+            ]);
             return;
         }
 
         if ($path === '/api/opportunities') {
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($this->db->query('SELECT * FROM opportunities ORDER BY score DESC')->fetchAll(PDO::FETCH_ASSOC), JSON_UNESCAPED_UNICODE);
+            echo json_encode($this->db->query('SELECT * FROM opportunities ORDER BY score DESC')->fetchAll(), JSON_UNESCAPED_UNICODE);
             return;
         }
 
@@ -77,7 +123,7 @@ final class App
             $id = (int) ($_POST['id'] ?? 0);
             $stmt = $this->db->prepare('SELECT * FROM opportunities WHERE id = ?');
             $stmt->execute([$id]);
-            $op = $stmt->fetch(PDO::FETCH_ASSOC);
+            $op = $stmt->fetch();
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode([
                 'ok' => (bool) $op,
@@ -96,9 +142,9 @@ final class App
         if ($segment) {
             $stmt = $this->db->prepare('SELECT * FROM opportunities WHERE segment = ? ORDER BY score DESC');
             $stmt->execute([$segment]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll();
         }
-        return $this->db->query('SELECT * FROM opportunities ORDER BY score DESC')->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->query('SELECT * FROM opportunities ORDER BY score DESC')->fetchAll();
     }
 
     private function render(string $path): void
