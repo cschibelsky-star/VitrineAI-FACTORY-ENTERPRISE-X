@@ -1,0 +1,29 @@
+{
+  "$schema": "../product.schema.json",
+  "key": "guia-digital-turismo",
+  "name": "Guia Digital da Cidade",
+  "version": "4.3.0",
+  "status": "homologation",
+  "runtime": {
+    "type": "php",
+    "database": "none",
+    "containerized": false
+  },
+  "health": {
+    "path": "/",
+    "expected_status": 200
+  },
+  "core": {
+    "authentication": "local",
+    "licensing": "core",
+    "commercial_leads": "hybrid"
+  },
+  "dependencies": [
+    "Vitrine AI Pro Comercial Master"
+  ],
+  "notes": [
+    "Autenticação administrativa ainda local e deve migrar para o CORE.",
+    "Leads permanecem em contingência local e sincronizam com o Comercial Master.",
+    "Dados locais de produção não devem ser sobrescritos por arquivos vazios do repositório."
+  ]
+}
