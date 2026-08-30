@@ -1,0 +1,30 @@
+{
+  "key": "cadastro",
+  "name": "Gestão de Cadastros e Atendimentos",
+  "version": "1.0.0",
+  "description": "Cadastro de pessoas, empresas, contatos e responsáveis.",
+  "dependencies": {
+    "requires": [],
+    "optional_integrations": []
+  },
+  "permissions": [
+    {"key": "cadastro.view", "name": "Visualizar cadastros"},
+    {"key": "cadastro.create", "name": "Criar cadastros"}
+  ],
+  "routes": {
+    "web": "routes/web.php",
+    "api": "routes/api.php"
+  },
+  "events": {
+    "emits": ["PersonCreated", "PersonUpdated"],
+    "listens": []
+  },
+  "migrations": "database/migrations",
+  "navigation": [
+    {"label": "Cadastros", "route": "cadastro.people.index", "permission": "cadastro.view", "order": 10}
+  ],
+  "configuration": {
+    "schema": "config/cadastro.php"
+  },
+  "service_provider": "Modules\\Cadastro\\Providers\\CadastroServiceProvider"
+}
