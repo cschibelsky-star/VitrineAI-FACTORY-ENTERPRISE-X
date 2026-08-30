@@ -2,31 +2,19 @@
 
 namespace App\Core\Application\Auth;
 
-use App\Core\Domain\Auth\Permission;
 use App\Core\Domain\Tenant\TenantContext;
 use App\Core\Domain\Tenant\TenantUser;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-/**
- * Central authorization service.
- * Checks if the authenticated user holds a given permission within the current tenant.
- * Integrate with Laravel Gate via CoreServiceProvider.
- */
 class PermissionChecker
 {
-    /**
-     * Check whether $user has $permissionSlug in the current tenant.
-     * All checks are scoped to the authenticated tenant_id from TenantContext.
-     */
-    public function check(Authenticatable $user, string $permissionSlug): bool
+    public function check(Authenticatable $user, string $permissionKey): bool
     {
         $tenantId = TenantContext::get();
-
         if ($tenantId === null) {
             return false;
         }
 
-        /** @var TenantUser|null $tenantUser */
         $tenantUser = TenantUser::withoutGlobalScopes()
             ->where('tenant_id', $tenantId)
             ->where('user_id', $user->getAuthIdentifier())
@@ -41,16 +29,12 @@ class PermissionChecker
             ->with('permissions')
             ->get()
             ->flatMap(fn ($role) => $role->permissions)
-            ->contains('slug', $permissionSlug);
+            ->contains('key', $permissionKey);
     }
 
-    /**
-     * Resolve all permission slugs the user holds in the current tenant.
-     */
     public function permissions(Authenticatable $user): array
     {
         $tenantId = TenantContext::get();
-
         if ($tenantId === null) {
             return [];
         }
@@ -69,7 +53,7 @@ class PermissionChecker
             ->with('permissions')
             ->get()
             ->flatMap(fn ($role) => $role->permissions)
-            ->pluck('slug')
+            ->pluck('key')
             ->unique()
             ->values()
             ->all();
