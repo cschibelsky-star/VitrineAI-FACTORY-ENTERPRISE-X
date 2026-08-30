@@ -6,71 +6,60 @@ use App\Core\Domain\Module\TenantModule;
 use App\Core\Domain\Tenant\TenantContext;
 use Illuminate\Support\Facades\Cache;
 
-/**
- * Backend gate for module access.
- * A disabled module must be blocked at the HTTP layer, not only hidden in the UI.
- */
 class ModuleGate
 {
     public function __construct(private readonly ModuleRegistry $registry) {}
 
-    /**
-     * Check whether a module is enabled for the current tenant.
-     * Returns false if there is no active tenant context.
-     */
-    public function isEnabled(string $moduleSlug): bool
+    public function isEnabled(string $moduleKey): bool
     {
         $tenantId = TenantContext::get();
-
-        if ($tenantId === null) {
+        if ($tenantId === null || !$this->registry->has($moduleKey)) {
             return false;
         }
 
-        $cacheKey = "tenant:{$tenantId}:module:{$moduleSlug}:enabled";
+        $cacheKey = "tenant:{$tenantId}:module:{$moduleKey}:enabled";
 
-        return Cache::remember($cacheKey, 60, function () use ($tenantId, $moduleSlug) {
+        return Cache::remember($cacheKey, 60, function () use ($tenantId, $moduleKey) {
             return TenantModule::withoutGlobalScopes()
-                ->whereHas('module', fn ($q) => $q->where('slug', $moduleSlug))
+                ->whereHas('module', fn ($query) => $query->where('key', $moduleKey))
                 ->where('tenant_id', $tenantId)
-                ->where('is_enabled', true)
+                ->where('enabled', true)
+                ->where(function ($query) {
+                    $query->whereNull('expires_at')->orWhere('expires_at', '>', now());
+                })
                 ->exists();
         });
     }
 
-    /**
-     * Flush the cached enabled state for a module/tenant pair.
-     * Call this after enabling/disabling a module.
-     */
-    public function flushCache(string $tenantId, string $moduleSlug): void
+    public function flushCache(string $tenantId, string $moduleKey): void
     {
-        Cache::forget("tenant:{$tenantId}:module:{$moduleSlug}:enabled");
+        Cache::forget("tenant:{$tenantId}:module:{$moduleKey}:enabled");
     }
 
-    /**
-     * Enable a module for the current tenant.
-     */
-    public function enable(string $moduleSlug): void
+    public function enable(string $moduleKey): void
     {
-        $tenantId = TenantContext::require();
-        $this->setEnabled($tenantId, $moduleSlug, true);
+        $this->setEnabled(TenantContext::require(), $moduleKey, true);
     }
 
-    /**
-     * Disable a module for the current tenant.
-     */
-    public function disable(string $moduleSlug): void
+    public function disable(string $moduleKey): void
     {
-        $tenantId = TenantContext::require();
-        $this->setEnabled($tenantId, $moduleSlug, false);
+        $this->setEnabled(TenantContext::require(), $moduleKey, false);
     }
 
-    private function setEnabled(string $tenantId, string $moduleSlug, bool $enabled): void
+    private function setEnabled(string $tenantId, string $moduleKey, bool $enabled): void
     {
+        if (!$this->registry->has($moduleKey)) {
+            throw new \RuntimeException("Module '{$moduleKey}' is not registered.");
+        }
+
         TenantModule::withoutGlobalScopes()
-            ->whereHas('module', fn ($q) => $q->where('slug', $moduleSlug))
+            ->whereHas('module', fn ($query) => $query->where('key', $moduleKey))
             ->where('tenant_id', $tenantId)
-            ->update(['is_enabled' => $enabled]);
+            ->update([
+                'enabled' => $enabled,
+                'activated_at' => $enabled ? now() : null,
+            ]);
 
-        $this->flushCache($tenantId, $moduleSlug);
+        $this->flushCache($tenantId, $moduleKey);
     }
 }
