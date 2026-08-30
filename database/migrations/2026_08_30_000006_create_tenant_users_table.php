@@ -15,6 +15,8 @@ return new class extends Migration
             $table->foreign('tenant_id')->references('ulid')->on('tenants')->cascadeOnDelete();
             $table->foreign('user_id')->references('ulid')->on('users')->cascadeOnDelete();
             $table->string('status', 30)->default('active');
+            $table->timestamp('invited_at')->nullable();
+            $table->timestamp('joined_at')->nullable();
             $table->timestamps();
 
             $table->unique(['tenant_id', 'user_id']);
