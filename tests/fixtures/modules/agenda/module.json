@@ -1,8 +1,30 @@
 {
-    "slug": "agenda",
-    "name": "Módulo Agenda",
-    "version": "1.0.0",
-    "description": "Gestão de agendamentos.",
+  "key": "agenda",
+  "name": "Agenda",
+  "version": "1.0.0",
+  "description": "Gestão de agendamentos.",
+  "dependencies": {
     "requires": ["cadastro"],
-    "optional_integrations": ["crm"]
+    "optional_integrations": ["whatsapp"]
+  },
+  "permissions": [
+    {"key": "agenda.view", "name": "Visualizar agenda"},
+    {"key": "agenda.create", "name": "Criar agendamento"}
+  ],
+  "routes": {
+    "web": "routes/web.php",
+    "api": "routes/api.php"
+  },
+  "events": {
+    "emits": ["AppointmentCreated"],
+    "listens": ["PersonCreated"]
+  },
+  "migrations": "database/migrations",
+  "navigation": [
+    {"label": "Agenda", "route": "agenda.index", "permission": "agenda.view", "order": 20}
+  ],
+  "configuration": {
+    "schema": "config/agenda.php"
+  },
+  "service_provider": "Modules\\Agenda\\Providers\\AgendaServiceProvider"
 }
