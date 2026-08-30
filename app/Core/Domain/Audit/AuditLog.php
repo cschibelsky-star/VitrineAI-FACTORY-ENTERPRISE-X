@@ -13,12 +13,11 @@ class AuditLog extends Model
     protected $primaryKey = 'ulid';
     public $incrementing = false;
     protected $keyType = 'string';
-
     protected $guarded = [];
 
     protected $casts = [
-        'old_values' => 'array',
-        'new_values' => 'array',
+        'before' => 'array',
+        'after' => 'array',
         'created_at' => 'datetime',
     ];
 }
