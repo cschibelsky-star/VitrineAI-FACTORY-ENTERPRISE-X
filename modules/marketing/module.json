@@ -1,0 +1,3 @@
+{
+  "key":"marketing","name":"Marketing","category":"comercial","version":"0.1.0","status":"planned","description":"Planejamento e execucao de campanhas, conteudos, contatos segmentados e acompanhamento de acoes de marketing.","requires":["core-base","cadastro"],"provides":["campanhas","segmentos","conteudos-marketing","acoes-marketing"],"commercial":{"sellable":true,"standalone":false,"audience":["pequenos-negocios","comercio","prestadores-servicos"]},"integration":{"entities":["campaign","audience_segment","marketing_content"],"events":["campaign.created","campaign.started","campaign.completed"]},"notes":["Deve integrar com WhatsApp e CRM quando esses modulos estiverem ativos."]
+}
