@@ -10,11 +10,9 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->ulid('ulid')->primary();
+            $table->string('key', 120)->unique();
             $table->string('name', 120);
-            $table->string('slug', 120)->unique();
-            $table->decimal('price', 10, 2)->default(0);
-            $table->json('features')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->json('included_modules')->nullable();
             $table->timestamps();
         });
     }
