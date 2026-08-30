@@ -14,10 +14,11 @@ return new class extends Migration
             $table->ulid('module_id');
             $table->foreign('tenant_id')->references('ulid')->on('tenants')->cascadeOnDelete();
             $table->foreign('module_id')->references('ulid')->on('modules')->cascadeOnDelete();
-            $table->boolean('is_enabled')->default(false);
-            $table->timestamp('enabled_at')->nullable();
+            $table->boolean('enabled')->default(false);
+            $table->timestamp('activated_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
+            $table->json('configuration')->nullable();
             $table->timestamps();
-
             $table->unique(['tenant_id', 'module_id']);
         });
     }
