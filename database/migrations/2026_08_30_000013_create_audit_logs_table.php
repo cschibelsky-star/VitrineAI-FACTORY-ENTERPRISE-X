@@ -12,13 +12,14 @@ return new class extends Migration
             $table->ulid('ulid')->primary();
             $table->ulid('tenant_id')->nullable()->index();
             $table->ulid('user_id')->nullable()->index();
-            $table->string('module', 120)->nullable();
+            $table->string('module_key', 120)->nullable()->index();
             $table->string('action', 120);
-            $table->string('entity', 200);
-            $table->string('entity_id', 36)->nullable();
-            $table->json('old_values')->nullable();
-            $table->json('new_values')->nullable();
-            $table->ipAddress('ip')->nullable();
+            $table->string('entity_type', 200);
+            $table->string('entity_id', 64)->nullable();
+            $table->json('before')->nullable();
+            $table->json('after')->nullable();
+            $table->ipAddress('ip_address')->nullable();
+            $table->text('user_agent')->nullable();
             $table->timestamp('created_at')->useCurrent()->index();
         });
     }
