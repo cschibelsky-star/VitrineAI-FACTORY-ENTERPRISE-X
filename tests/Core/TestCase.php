@@ -59,14 +59,15 @@ abstract class TestCase extends OrchestraTestCase
 
         Schema::create('tenant_brandings', function (Blueprint $table) {
             $table->string('ulid', 26)->primary();
-            $table->string('tenant_id', 26);
-            $table->string('legal_name')->nullable();
-            $table->string('document')->nullable();
-            $table->string('logo_path')->nullable();
-            $table->string('favicon_path')->nullable();
-            $table->string('primary_color', 7)->nullable();
-            $table->string('secondary_color', 7)->nullable();
-            $table->text('print_footer')->nullable();
+            $table->string('tenant_id', 26)->unique();
+            $table->string('system_name', 200)->nullable();
+            $table->string('logo_path', 500)->nullable();
+            $table->string('favicon_path', 500)->nullable();
+            $table->string('primary_color', 20)->nullable();
+            $table->string('secondary_color', 20)->nullable();
+            $table->string('accent_color', 20)->nullable();
+            $table->text('document_footer')->nullable();
+            $table->json('settings')->nullable();
             $table->timestamps();
         });
 
@@ -160,13 +161,14 @@ abstract class TestCase extends OrchestraTestCase
             $table->string('ulid', 26)->primary();
             $table->string('tenant_id', 26)->nullable();
             $table->string('user_id', 26)->nullable();
-            $table->string('module')->nullable();
-            $table->string('action');
-            $table->string('entity');
-            $table->string('entity_id')->nullable();
-            $table->json('old_values')->nullable();
-            $table->json('new_values')->nullable();
-            $table->string('ip', 45)->nullable();
+            $table->string('module_key', 120)->nullable();
+            $table->string('action', 120);
+            $table->string('entity_type', 200);
+            $table->string('entity_id', 64)->nullable();
+            $table->json('before')->nullable();
+            $table->json('after')->nullable();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
     }
