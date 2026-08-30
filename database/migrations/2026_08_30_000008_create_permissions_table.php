@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->ulid('ulid')->primary();
+            $table->string('key', 200)->unique();
+            $table->string('module_key', 120);
             $table->string('name', 200);
-            $table->string('slug', 200)->unique();
-            $table->string('module', 120)->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });
