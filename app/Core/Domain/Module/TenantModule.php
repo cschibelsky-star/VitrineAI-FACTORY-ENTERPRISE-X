@@ -13,11 +13,13 @@ class TenantModule extends Model
     protected $primaryKey = 'ulid';
     public $incrementing = false;
     protected $keyType = 'string';
-
     protected $guarded = [];
 
     protected $casts = [
-        'is_enabled' => 'boolean',
+        'enabled' => 'boolean',
+        'activated_at' => 'datetime',
+        'expires_at' => 'datetime',
+        'configuration' => 'array',
     ];
 
     public function tenant(): BelongsTo
