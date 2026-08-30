@@ -13,13 +13,11 @@ class Module extends Model
     protected $primaryKey = 'ulid';
     public $incrementing = false;
     protected $keyType = 'string';
-
     protected $guarded = [];
 
     protected $casts = [
         'requires' => 'array',
         'optional_integrations' => 'array',
-        'is_active' => 'boolean',
     ];
 
     public function tenantModules(): HasMany
