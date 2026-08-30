@@ -1,0 +1,3 @@
+{
+  "key":"estoque","name":"Estoque","category":"operacao","version":"0.1.0","status":"planned","description":"Controle de produtos, movimentacoes, saldos, entradas, saidas e estoque minimo.","requires":["core-base"],"provides":["produtos","movimentacoes-estoque","saldos","estoque-minimo"],"commercial":{"sellable":true,"standalone":true,"audience":["pequenos-negocios","comercio","oficinas"]},"integration":{"entities":["product","stock_movement","stock_balance"],"events":["stock.received","stock.issued","stock.minimum_reached"]},"notes":["Pode integrar com Orcamentos, Financeiro e Ordem de Servico."]
+}
