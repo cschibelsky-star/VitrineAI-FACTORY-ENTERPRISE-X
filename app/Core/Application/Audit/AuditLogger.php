@@ -5,31 +5,30 @@ namespace App\Core\Application\Audit;
 use App\Core\Domain\Audit\AuditLog;
 use App\Core\Domain\Tenant\TenantContext;
 
-/**
- * Records audit events for all significant actions in the system.
- */
 class AuditLogger
 {
     public function log(
         string $action,
-        string $entity,
+        string $entityType,
         ?string $entityId = null,
-        array $oldValues = [],
-        array $newValues = [],
-        ?string $module = null,
+        array $before = [],
+        array $after = [],
+        ?string $moduleKey = null,
         ?string $userId = null,
-        ?string $ip = null
+        ?string $ipAddress = null,
+        ?string $userAgent = null
     ): void {
         AuditLog::withoutGlobalScopes()->create([
             'tenant_id' => TenantContext::get(),
             'user_id' => $userId,
-            'module' => $module,
+            'module_key' => $moduleKey,
             'action' => $action,
-            'entity' => $entity,
+            'entity_type' => $entityType,
             'entity_id' => $entityId,
-            'old_values' => $oldValues ?: null,
-            'new_values' => $newValues ?: null,
-            'ip' => $ip,
+            'before' => $before ?: null,
+            'after' => $after ?: null,
+            'ip_address' => $ipAddress,
+            'user_agent' => $userAgent,
             'created_at' => now(),
         ]);
     }
