@@ -16,8 +16,8 @@ class Module extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'requires' => 'array',
-        'optional_integrations' => 'array',
+        'dependencies' => 'array',
+        'is_active' => 'boolean',
     ];
 
     public function tenantModules(): HasMany

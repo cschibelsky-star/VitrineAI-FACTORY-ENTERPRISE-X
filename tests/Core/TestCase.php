@@ -137,10 +137,9 @@ abstract class TestCase extends OrchestraTestCase
             $table->string('ulid', 26)->primary();
             $table->string('key', 120)->unique();
             $table->string('name', 200);
-            $table->string('version', 30);
-            $table->string('status', 30)->default('available');
-            $table->json('requires')->nullable();
-            $table->json('optional_integrations')->nullable();
+            $table->string('version', 30)->default('1.0.0');
+            $table->boolean('is_active')->default(true);
+            $table->json('dependencies')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -246,9 +245,8 @@ abstract class TestCase extends OrchestraTestCase
             'key' => $key,
             'name' => $key,
             'version' => '1.0.0',
-            'status' => 'available',
-            'requires' => [],
-            'optional_integrations' => [],
+            'is_active' => true,
+            'dependencies' => ['requires' => [], 'optional_integrations' => []],
         ], $overrides));
     }
 
