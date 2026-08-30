@@ -1,0 +1,8 @@
+{
+    "slug": "agenda",
+    "name": "Módulo Agenda",
+    "version": "1.0.0",
+    "description": "Gestão de agendamentos.",
+    "requires": ["cadastro"],
+    "optional_integrations": ["crm"]
+}

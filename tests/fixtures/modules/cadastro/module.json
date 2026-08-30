@@ -1,0 +1,8 @@
+{
+    "slug": "cadastro",
+    "name": "Módulo Cadastro",
+    "version": "1.0.0",
+    "description": "Gestão de cadastros de clientes e fornecedores.",
+    "requires": [],
+    "optional_integrations": []
+}
