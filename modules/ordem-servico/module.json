@@ -1,0 +1,3 @@
+{
+  "key":"ordem-servico","name":"Ordens de Servico","category":"operacao","version":"0.1.0","status":"planned","description":"Abertura e acompanhamento de ordens de servico com cliente, itens, etapas, custos e conclusao.","requires":["core-base","cadastro"],"provides":["ordens-servico","etapas-servico","itens-servico","status-servico"],"commercial":{"sellable":true,"standalone":false,"audience":["oficinas","assistencias-tecnicas","prestadores-servicos"]},"integration":{"entities":["service_order","service_order_item","service_order_stage"],"events":["service_order.created","service_order.started","service_order.completed","service_order.cancelled"]},"notes":["Pode consumir produtos do Estoque e gerar cobrancas no Financeiro."]
+}
