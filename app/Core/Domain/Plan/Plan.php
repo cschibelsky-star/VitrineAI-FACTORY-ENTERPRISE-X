@@ -12,12 +12,9 @@ class Plan extends Model
     protected $primaryKey = 'ulid';
     public $incrementing = false;
     protected $keyType = 'string';
-
     protected $guarded = [];
 
     protected $casts = [
-        'features' => 'array',
-        'price' => 'decimal:2',
-        'is_active' => 'boolean',
+        'included_modules' => 'array',
     ];
 }
