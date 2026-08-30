@@ -16,18 +16,20 @@ class AuditLoggerTest extends TestCase
         $logger = app(AuditLogger::class);
         $logger->log(
             action: 'create',
-            entity: 'clientes',
+            entityType: 'clientes',
             entityId: '01234',
-            newValues: ['name' => 'Fulano'],
-            module: 'cadastro',
-            ip: '127.0.0.1'
+            after: ['name' => 'Fulano'],
+            moduleKey: 'cadastro',
+            ipAddress: '127.0.0.1',
+            userAgent: 'phpunit'
         );
 
         $this->assertDatabaseHas('audit_logs', [
             'tenant_id' => $tenant->ulid,
-            'action'    => 'create',
-            'entity'    => 'clientes',
-            'module'    => 'cadastro',
+            'action' => 'create',
+            'entity_type' => 'clientes',
+            'module_key' => 'cadastro',
+            'ip_address' => '127.0.0.1',
         ]);
     }
 }
