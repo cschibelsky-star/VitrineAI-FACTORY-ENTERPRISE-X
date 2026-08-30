@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Cache;
 
 class ModuleGate
 {
-    public function __construct(private readonly ModuleRegistry $registry) {}
-
     public function isEnabled(string $moduleKey): bool
     {
         $tenantId = TenantContext::get();
-        if ($tenantId === null || !$this->registry->has($moduleKey)) {
+        if ($tenantId === null) {
             return false;
         }
 
@@ -48,17 +46,17 @@ class ModuleGate
 
     private function setEnabled(string $tenantId, string $moduleKey, bool $enabled): void
     {
-        if (!$this->registry->has($moduleKey)) {
-            throw new \RuntimeException("Module '{$moduleKey}' is not registered.");
-        }
-
-        TenantModule::withoutGlobalScopes()
+        $affected = TenantModule::withoutGlobalScopes()
             ->whereHas('module', fn ($query) => $query->where('key', $moduleKey))
             ->where('tenant_id', $tenantId)
             ->update([
                 'enabled' => $enabled,
                 'activated_at' => $enabled ? now() : null,
             ]);
+
+        if ($affected === 0) {
+            throw new \RuntimeException("Module '{$moduleKey}' is not available for tenant '{$tenantId}'.");
+        }
 
         $this->flushCache($tenantId, $moduleKey);
     }
