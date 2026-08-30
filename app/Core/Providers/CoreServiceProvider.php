@@ -7,6 +7,8 @@ use App\Core\Application\Audit\AuditLogger;
 use App\Core\Application\Module\ModuleGate;
 use App\Core\Application\Module\ModuleRegistry;
 use App\Core\Application\Navigation\NavigationBuilder;
+use App\Core\Application\Tenant\TenantBrandingService;
+use App\Core\Application\Tenant\TenantSettingService;
 use App\Core\Domain\Tenant\TenantContext;
 use App\Core\Http\Middleware\EnsureModuleEnabled;
 use App\Core\Http\Middleware\EnsurePermission;
@@ -18,11 +20,15 @@ class CoreServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../../../config/core.php', 'core');
+
         $this->app->singleton(ModuleRegistry::class);
         $this->app->singleton(ModuleGate::class);
         $this->app->singleton(PermissionChecker::class);
         $this->app->singleton(AuditLogger::class);
         $this->app->singleton(NavigationBuilder::class);
+        $this->app->singleton(TenantBrandingService::class);
+        $this->app->singleton(TenantSettingService::class);
     }
 
     public function boot(): void

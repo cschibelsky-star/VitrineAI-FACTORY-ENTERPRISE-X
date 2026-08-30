@@ -4,7 +4,6 @@ namespace App\Core\Application\Audit;
 
 use App\Core\Domain\Audit\AuditLog;
 use App\Core\Domain\Tenant\TenantContext;
-use Illuminate\Support\Str;
 
 /**
  * Records audit events for all significant actions in the system.
@@ -22,7 +21,6 @@ class AuditLogger
         ?string $ip = null
     ): void {
         AuditLog::withoutGlobalScopes()->create([
-            'ulid' => (string) Str::ulid(),
             'tenant_id' => TenantContext::get(),
             'user_id' => $userId,
             'module' => $module,

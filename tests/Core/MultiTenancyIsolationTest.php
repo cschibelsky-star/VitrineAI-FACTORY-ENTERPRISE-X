@@ -4,7 +4,6 @@ namespace Tests\Core;
 
 use App\Core\Domain\Tenant\TenantContext;
 use App\Core\Domain\Tenant\User;
-use Illuminate\Support\Str;
 
 /**
  * Tests 1, 2, 3: Multi-tenant data isolation
@@ -67,35 +66,30 @@ class MultiTenancyIsolationTest extends TestCase
     /** @test */
     public function tenant_id_from_request_payload_is_ignored(): void
     {
-        [$tenantA] = $this->createTwoTenants();
+        [$tenantA, $tenantB] = $this->createTwoTenants();
         $user = $this->createUser();
         $this->attachUserToTenant($user, $tenantA);
 
+        // Active context is tenantA.
         TenantContext::set($tenantA->ulid);
 
-        // Simulate a malicious payload with a different tenant_id — BelongsToTenant
-        // always uses TenantContext::require() so the payload tenant_id is ignored.
-        // We test this by observing that a new TenantUser is created with tenantA's id
-        // even if we pass tenantB's id in the attributes.
-        [$tenantA2, $tenantB] = $this->createTwoTenants();
-        TenantContext::set($tenantA->ulid);
-
-        // Attempt to create a record with a different tenant_id in the fill.
-        $tu = new \App\Core\Domain\Tenant\TenantUser();
-        $tu->forceFill([
-            'ulid'      => (string) Str::ulid(),
+        // Simulate attacker injecting tenantB's id via mass-assignment / forceFill.
+        // BelongsToTenant must override it unconditionally with the context value.
+        $tu = \App\Core\Domain\Tenant\TenantUser::create([
+            'ulid'      => (string) \Illuminate\Support\Str::ulid(),
             'user_id'   => $this->createUser()->ulid,
+            'tenant_id' => $tenantB->ulid, // ← attacker-supplied, must be ignored
             'status'    => 'active',
-            // Attacker tries to set tenantB's id:
         ]);
-        // tenant_id is intentionally NOT set; the trait sets it from context.
-        $tu->save();
 
         $this->assertEquals(
             $tenantA->ulid,
             $tu->fresh()->tenant_id,
-            'tenant_id must come from TenantContext, not from payload.'
+            'tenant_id must always be set from TenantContext, ignoring any payload value.'
         );
+
+        // Also verify the injected tenantB value was not persisted.
+        $this->assertNotEquals($tenantB->ulid, $tu->fresh()->tenant_id);
     }
 
     // ----- Helpers -----

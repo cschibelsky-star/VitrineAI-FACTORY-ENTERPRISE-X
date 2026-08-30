@@ -6,7 +6,7 @@ use App\Core\Infrastructure\Database\TenantScope;
 
 /**
  * Adds multi-tenancy scoping to any Eloquent model.
- * The tenant_id is always filled from TenantContext — never from user payload.
+ * The tenant_id is ALWAYS set from TenantContext — never from user payload or mass-assignment.
  */
 trait BelongsToTenant
 {
@@ -14,16 +14,18 @@ trait BelongsToTenant
     {
         static::addGlobalScope(new TenantScope());
 
+        // Unconditionally overwrite tenant_id on every create to prevent
+        // injection via mass-assignment or forceFill.
         static::creating(function ($model) {
-            if (empty($model->tenant_id)) {
-                $model->tenant_id = TenantContext::require();
-            }
+            $model->tenant_id = TenantContext::require();
         });
     }
 
     public function initializeBelongsToTenant(): void
     {
-        $this->fillable[] = 'tenant_id';
+        // Ensure tenant_id is never accessible via mass-assignment.
+        // It is set exclusively in the creating hook above.
+        $this->guarded = array_unique(array_merge($this->guarded ?? [], ['tenant_id']));
     }
 
     public function tenant()

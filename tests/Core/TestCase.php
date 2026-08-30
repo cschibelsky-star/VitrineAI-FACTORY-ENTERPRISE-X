@@ -68,6 +68,26 @@ abstract class TestCase extends OrchestraTestCase
             $table->softDeletes();
         });
 
+        Schema::create('tenant_brandings', function (Blueprint $table) {
+            $table->string('ulid', 26)->primary();
+            $table->string('tenant_id', 26);
+            $table->string('logo_url', 500)->nullable();
+            $table->string('favicon_url', 500)->nullable();
+            $table->string('primary_color', 20)->nullable();
+            $table->string('secondary_color', 20)->nullable();
+            $table->text('print_footer')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('tenant_settings', function (Blueprint $table) {
+            $table->string('ulid', 26)->primary();
+            $table->string('tenant_id', 26);
+            $table->string('key', 120);
+            $table->json('value')->nullable();
+            $table->timestamps();
+            $table->unique(['tenant_id', 'key']);
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->string('ulid', 26)->primary();
             $table->string('name', 200);
