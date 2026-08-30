@@ -1,0 +1,25 @@
+{
+  "name": "Projeto Modulos - Pequenos Negocios",
+  "version": "0.1.0",
+  "strategy": "Cliente contrata somente os modulos que precisa; a mesma matriz e reutilizada pela Factory em produtos e verticais.",
+  "core": [
+    "core-base"
+  ],
+  "modules": [
+    "cadastro",
+    "agenda",
+    "atendimento",
+    "crm",
+    "orcamentos",
+    "financeiro",
+    "estoque",
+    "ordem-servico",
+    "documentos",
+    "whatsapp",
+    "marketing"
+  ],
+  "families": {
+    "gestao-negocio": ["cadastro", "agenda", "atendimento", "crm", "orcamentos", "financeiro", "estoque", "ordem-servico", "documentos", "whatsapp", "marketing"],
+    "presenca-digital-conteudo": ["noticias", "videos", "guia-comercial", "classificados", "empregos", "eventos", "galeria", "artigos", "pwa", "push", "newsletter", "flipbook", "streaming", "podcasts"]
+  }
+}
