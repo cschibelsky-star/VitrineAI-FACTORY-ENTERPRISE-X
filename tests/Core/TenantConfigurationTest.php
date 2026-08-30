@@ -6,31 +6,27 @@ use App\Core\Application\Tenant\TenantBrandingService;
 use App\Core\Application\Tenant\TenantSettingService;
 use App\Core\Domain\Tenant\TenantContext;
 
-/**
- * Tests for branding and key/value settings services (issue §7).
- */
 class TenantConfigurationTest extends TestCase
 {
-    // ----- Branding -----
-
     /** @test */
     public function branding_can_be_created_for_tenant(): void
     {
         $tenant = $this->createTenant('Brand Tenant');
         TenantContext::set($tenant->ulid);
 
-        /** @var TenantBrandingService $svc */
         $svc = app(TenantBrandingService::class);
         $svc->upsert([
-            'primary_color'   => '#FF5733',
+            'system_name' => 'Gestao de Cadastros e Atendimentos',
+            'primary_color' => '#FF5733',
             'secondary_color' => '#333333',
-            'print_footer'    => 'Acme Corp — CNPJ 00.000.000/0001-00',
+            'accent_color' => '#0055FF',
+            'document_footer' => 'Acme Corp — CNPJ 00.000.000/0001-00',
         ]);
 
         $branding = $svc->current();
         $this->assertNotNull($branding);
         $this->assertEquals('#FF5733', $branding->primary_color);
-        $this->assertEquals('Acme Corp — CNPJ 00.000.000/0001-00', $branding->print_footer);
+        $this->assertEquals('Acme Corp — CNPJ 00.000.000/0001-00', $branding->document_footer);
     }
 
     /** @test */
@@ -39,7 +35,6 @@ class TenantConfigurationTest extends TestCase
         $tenant = $this->createTenant('Brand Tenant 2');
         TenantContext::set($tenant->ulid);
 
-        /** @var TenantBrandingService $svc */
         $svc = app(TenantBrandingService::class);
         $svc->upsert(['primary_color' => '#000000']);
         $svc->upsert(['primary_color' => '#FFFFFF']);
@@ -62,15 +57,12 @@ class TenantConfigurationTest extends TestCase
         $this->assertNull($svc->current(), 'Tenant B must not see Tenant A branding.');
     }
 
-    // ----- Settings -----
-
     /** @test */
     public function settings_can_be_stored_and_retrieved(): void
     {
         $tenant = $this->createTenant('Settings Tenant');
         TenantContext::set($tenant->ulid);
 
-        /** @var TenantSettingService $svc */
         $svc = app(TenantSettingService::class);
         $svc->set('timezone', 'America/Sao_Paulo');
         $svc->set('locale', 'pt_BR');
