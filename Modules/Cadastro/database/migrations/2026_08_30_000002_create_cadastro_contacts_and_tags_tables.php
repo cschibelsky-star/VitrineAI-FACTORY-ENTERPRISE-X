@@ -17,6 +17,8 @@ return new class extends Migration
             $table->boolean('is_primary')->default(false);
             $table->json('metadata')->nullable();
             $table->timestamps();
+            $table->foreign('tenant_id')->references('ulid')->on('tenants')->cascadeOnDelete();
+            $table->foreign('person_id')->references('ulid')->on('cadastro_people')->cascadeOnDelete();
             $table->unique(['tenant_id', 'person_id', 'type', 'value'], 'cadastro_contacts_unique');
         });
 
@@ -26,6 +28,7 @@ return new class extends Migration
             $table->string('name', 120);
             $table->string('slug', 120);
             $table->timestamps();
+            $table->foreign('tenant_id')->references('ulid')->on('tenants')->cascadeOnDelete();
             $table->unique(['tenant_id', 'slug']);
         });
 
@@ -35,6 +38,9 @@ return new class extends Migration
             $table->ulid('tag_id');
             $table->timestamps();
             $table->primary(['tenant_id', 'person_id', 'tag_id']);
+            $table->foreign('tenant_id')->references('ulid')->on('tenants')->cascadeOnDelete();
+            $table->foreign('person_id')->references('ulid')->on('cadastro_people')->cascadeOnDelete();
+            $table->foreign('tag_id')->references('ulid')->on('cadastro_tags')->cascadeOnDelete();
         });
     }
 
