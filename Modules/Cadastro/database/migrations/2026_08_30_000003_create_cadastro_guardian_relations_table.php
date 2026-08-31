@@ -18,6 +18,9 @@ return new class extends Migration
             $table->boolean('can_authorize')->default(true);
             $table->text('notes')->nullable();
             $table->timestamps();
+            $table->foreign('tenant_id')->references('ulid')->on('tenants')->cascadeOnDelete();
+            $table->foreign('person_id')->references('ulid')->on('cadastro_people')->cascadeOnDelete();
+            $table->foreign('guardian_person_id')->references('ulid')->on('cadastro_people')->cascadeOnDelete();
             $table->unique(['tenant_id', 'person_id', 'guardian_person_id'], 'cadastro_guardian_unique');
         });
     }
