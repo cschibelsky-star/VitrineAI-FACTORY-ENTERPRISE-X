@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['api', 'module:cadastro'])
+Route::middleware(['api', 'auth', 'tenant', 'module:cadastro'])
     ->prefix('api/cadastro')
     ->name('api.cadastro.')
     ->group(function (): void {
