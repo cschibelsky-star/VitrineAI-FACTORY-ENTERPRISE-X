@@ -35,7 +35,7 @@
 
     <h2>Dados do cadastro</h2>
     <dl>
-        <dt>Nome</dt><dd>{{ $person->name }}</dd>
+        <dt>Nome</dt><dd>{{ $person->full_name }}</dd>
         <dt>Nome preferido</dt><dd>{{ $person->preferred_name ?: '—' }}</dd>
         <dt>Documento</dt><dd>{{ $person->document ?: '—' }}</dd>
         <dt>Data de nascimento</dt><dd>{{ $person->birth_date?->format('d/m/Y') ?: '—' }}</dd>
@@ -60,7 +60,7 @@
         <tbody>
         @forelse ($person->guardians as $guardian)
             <tr>
-                <td>{{ $guardian->name }}</td>
+                <td>{{ $guardian->full_name }}</td>
                 <td>{{ $guardian->pivot->relationship ?? 'Responsável' }}</td>
                 <td>{{ optional($guardian->contacts->firstWhere('is_primary', true))->value ?? optional($guardian->contacts->first())->value ?? '—' }}</td>
             </tr>
