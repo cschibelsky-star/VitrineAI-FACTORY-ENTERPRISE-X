@@ -5,7 +5,7 @@ use Modules\Cadastro\Http\Controllers\PersonController;
 use Modules\Cadastro\Http\Controllers\PersonPrintController;
 use Modules\Cadastro\Http\Controllers\PublicRegistrationController;
 
-Route::middleware(['web', 'module:cadastro'])
+Route::middleware(['web', 'auth', 'tenant', 'module:cadastro'])
     ->prefix('cadastro')
     ->name('cadastro.')
     ->group(function (): void {
@@ -28,9 +28,12 @@ Route::middleware(['web', 'module:cadastro'])
         Route::get('/pessoas/{person}/imprimir', PersonPrintController::class)
             ->middleware('permission:cadastro.print')
             ->name('people.print');
+    });
 
-        Route::get('/publico', [PublicRegistrationController::class, 'create'])
-            ->name('public.create');
-        Route::post('/publico', [PublicRegistrationController::class, 'store'])
-            ->name('public.store');
+Route::middleware(['web'])
+    ->prefix('cadastro-publico/{tenant:slug}')
+    ->name('cadastro.public.')
+    ->group(function (): void {
+        Route::get('/', [PublicRegistrationController::class, 'create'])->name('create');
+        Route::post('/', [PublicRegistrationController::class, 'store'])->name('store');
     });
