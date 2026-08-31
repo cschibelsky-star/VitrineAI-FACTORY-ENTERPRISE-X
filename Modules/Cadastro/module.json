@@ -1,0 +1,45 @@
+{
+  "key": "cadastro",
+  "name": "Gestão de Cadastros e Atendimentos",
+  "version": "1.0.0",
+  "description": "Módulo multiempresa para gestão de pessoas, responsáveis, contatos, etiquetas, cursos, turmas, inscrições, fila de espera, cadastro público e ficha impressa.",
+  "dependencies": {
+    "requires": [],
+    "optional_integrations": ["whatsapp"]
+  },
+  "permissions": [
+    {"key": "cadastro.view", "name": "Visualizar cadastros"},
+    {"key": "cadastro.create", "name": "Criar cadastros"},
+    {"key": "cadastro.update", "name": "Editar cadastros"},
+    {"key": "cadastro.delete", "name": "Excluir cadastros"},
+    {"key": "cadastro.print", "name": "Imprimir fichas"},
+    {"key": "cadastro.public_registration.manage", "name": "Gerenciar cadastro público"},
+    {"key": "cadastro.courses.manage", "name": "Gerenciar cursos, turmas e inscrições"}
+  ],
+  "routes": {
+    "web": "routes/web.php",
+    "api": "routes/api.php"
+  },
+  "events": {
+    "emits": [
+      "cadastro.person.created",
+      "cadastro.person.updated",
+      "cadastro.enrollment.created",
+      "cadastro.waiting_list.joined"
+    ],
+    "listens": []
+  },
+  "migrations": "database/migrations",
+  "navigation": [
+    {
+      "key": "cadastro",
+      "label": "Cadastros",
+      "route": "cadastro.index",
+      "permission": "cadastro.view"
+    }
+  ],
+  "configuration": {
+    "schema": "config/cadastro.php"
+  },
+  "service_provider": "Modules\\Cadastro\\Providers\\CadastroServiceProvider"
+}
