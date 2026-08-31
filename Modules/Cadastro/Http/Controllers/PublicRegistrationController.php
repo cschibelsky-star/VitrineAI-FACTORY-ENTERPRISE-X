@@ -20,18 +20,20 @@ class PublicRegistrationController
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:200'],
             'preferred_name' => ['nullable', 'string', 'max:120'],
-            'document' => ['nullable', 'string', 'max:30'],
+            'document' => ['nullable', 'string', 'max:40'],
             'birth_date' => ['nullable', 'date'],
             'email' => ['nullable', 'email', 'max:200'],
             'phone' => ['nullable', 'string', 'max:40'],
         ]);
 
         $person = Person::create([
-            'name' => $validated['name'],
+            'full_name' => $validated['name'],
             'preferred_name' => $validated['preferred_name'] ?? null,
             'document' => $validated['document'] ?? null,
             'birth_date' => $validated['birth_date'] ?? null,
-            'source' => 'public_registration',
+            'email' => $validated['email'] ?? null,
+            'phone' => $validated['phone'] ?? null,
+            'metadata' => ['source' => 'public_registration'],
             'is_active' => true,
         ]);
 
