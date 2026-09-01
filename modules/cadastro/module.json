@@ -1,0 +1,16 @@
+{
+  "key": "cadastro",
+  "name": "Gestao de Cadastros e Atendimentos",
+  "category": "gestao",
+  "version": "0.1.0",
+  "status": "development",
+  "description": "Modulo reutilizavel para pessoas, responsaveis, contatos, etiquetas, cursos, turmas, filas, ficha impressa e cadastro publico.",
+  "requires": ["core-base"],
+  "provides": ["pessoas", "responsaveis", "contatos", "etiquetas", "cursos", "turmas", "inscricoes", "fila-espera", "ficha-impressa", "cadastro-publico"],
+  "commercial": {"sellable": true, "standalone": true, "audience": ["pequenos-negocios", "associacoes", "cursos", "projetos-sociais", "clinicas", "escolas"]},
+  "integration": {
+    "entities": ["person", "guardian", "contact", "tag", "course", "class", "enrollment", "waiting_list_entry"],
+    "events": ["person.created", "person.updated", "enrollment.created", "waiting_list.joined"]
+  },
+  "notes": ["Nome interno: Modulo Cadastro.", "Nome comercial padrao: Gestao de Cadastros e Atendimentos.", "Deve suportar branding por tenant e impressao com assinatura."]
+}

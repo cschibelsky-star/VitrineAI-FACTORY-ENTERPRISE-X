@@ -1,0 +1,3 @@
+{
+  "key":"crm","name":"CRM e Relacionamento","category":"comercial","version":"0.1.0","status":"planned","description":"Gestao de relacionamento, funil, oportunidades, atividades comerciais e historico do cliente.","requires":["core-base","cadastro"],"provides":["leads","oportunidades","pipeline","atividades-comerciais"],"commercial":{"sellable":true,"standalone":false,"audience":["pequenos-negocios","prestadores-servicos","comercio"]},"integration":{"entities":["lead","opportunity","pipeline_stage","commercial_activity"],"events":["lead.created","opportunity.created","opportunity.stage_changed","opportunity.closed"]},"notes":["Pessoa e empresa devem ser referenciadas a partir do cadastro compartilhado."]
+}
