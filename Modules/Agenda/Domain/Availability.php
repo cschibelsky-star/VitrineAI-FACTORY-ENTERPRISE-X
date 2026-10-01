@@ -11,5 +11,8 @@ class Availability extends Model
     use HasUlids, BelongsToTenant;
 
     protected $table = 'agenda_availabilities';
+    protected $primaryKey = 'ulid';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $guarded = ['tenant_id'];
 }

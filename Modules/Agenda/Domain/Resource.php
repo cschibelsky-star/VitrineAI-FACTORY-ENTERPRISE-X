@@ -11,6 +11,9 @@ class Resource extends Model
     use HasUlids, BelongsToTenant;
 
     protected $table = 'agenda_resources';
+    protected $primaryKey = 'ulid';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $guarded = ['tenant_id'];
     protected $casts = ['is_active' => 'boolean', 'metadata' => 'array'];
 }

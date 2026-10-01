@@ -11,6 +11,9 @@ class Appointment extends Model
     use HasUlids, BelongsToTenant;
 
     protected $table = 'agenda_appointments';
+    protected $primaryKey = 'ulid';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $guarded = ['tenant_id'];
     protected $casts = ['starts_at' => 'datetime', 'ends_at' => 'datetime', 'cancelled_at' => 'datetime', 'metadata' => 'array'];
 }

@@ -11,6 +11,9 @@ class ServiceCase extends Model
     use HasUlids, BelongsToTenant;
 
     protected $table = 'atendimento_cases';
+    protected $primaryKey = 'ulid';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $guarded = ['tenant_id'];
     protected $casts = ['opened_at' => 'datetime', 'closed_at' => 'datetime', 'metadata' => 'array'];
 }

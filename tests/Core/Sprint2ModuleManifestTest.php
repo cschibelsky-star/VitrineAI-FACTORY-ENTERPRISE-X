@@ -11,7 +11,7 @@ class Sprint2ModuleManifestTest extends TestCase
     {
         $registry = app(ModuleRegistry::class);
 
-        foreach (['Agenda', 'Atendimento'] as $module) {
+        foreach (['Cadastro', 'Agenda', 'Atendimento'] as $module) {
             $registry->register(dirname(__DIR__, 2) . "/Modules/{$module}/module.json");
         }
 
