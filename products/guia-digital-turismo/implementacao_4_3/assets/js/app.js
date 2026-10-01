@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded',()=>{
+  // Blindagem visual: imagem ausente nunca pode quebrar o card nem expor o texto alternativo.
+  document.querySelectorAll('img').forEach(img=>{
+    const applyFallback=()=>{
+      if(img.dataset.imageFallback==='1') return;
+      img.dataset.imageFallback='1';
+      img.removeAttribute('srcset');
+      img.removeAttribute('sizes');
+      img.src='assets/img/hero-sumare.svg';
+    };
+    img.addEventListener('error',applyFallback,{once:true});
+    if(!img.getAttribute('src')) applyFallback();
+  });
   // Busca local instantânea
   document.querySelectorAll('[data-search]').forEach(input=>{
     input.addEventListener('input',()=>{
