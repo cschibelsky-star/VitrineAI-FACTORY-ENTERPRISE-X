@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://vitrineaipro.com.br/schemas/product.schema.json",
+  "$id": "https://vitrineiapro.com.br/schemas/product.schema.json",
   "title": "Vitrine AI Product Manifest",
   "type": "object",
   "required": ["key", "name", "version", "status", "runtime", "health", "core"],
