@@ -1,6 +1,6 @@
-const APP_VERSION = '4.2.0';
-const STATIC_CACHE = 'visite-sumare-static-v4-2';
-const PAGE_CACHE = 'visite-sumare-pages-v4-2';
+const APP_VERSION = '4.3.1';
+const STATIC_CACHE = 'visite-sumare-static-v4-3-1';
+const PAGE_CACHE = 'visite-sumare-pages-v4-3-1';
 const STATIC_ASSETS = [
   './',
   'app.php',
@@ -10,8 +10,8 @@ const STATIC_ASSETS = [
   'mapa.php',
   'favoritos.php',
   'perfil.php',
-  'assets/css/style.css?v=4.2.0',
-  'assets/js/app.js?v=4.2.0',
+  'assets/css/style.css?v=4.3.1',
+  'assets/js/app.js?v=4.3.1',
   'assets/img/hero-real.jpg',
   'assets/icons/icon-192.png',
   'assets/icons/icon-512.png',
