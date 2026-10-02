@@ -1,0 +1,3 @@
+{
+  "key":"financeiro","name":"Financeiro Basico","category":"financeiro","version":"0.1.0","status":"planned","description":"Controle financeiro essencial para contas a pagar, receber, fluxo de caixa e cobrancas.","requires":["core-base","cadastro"],"provides":["contas-pagar","contas-receber","fluxo-caixa","cobrancas"],"commercial":{"sellable":true,"standalone":false,"audience":["pequenos-negocios","prestadores-servicos","comercio"]},"integration":{"entities":["receivable","payable","cash_entry","charge"],"events":["receivable.created","receivable.paid","payable.created","payable.paid"]},"notes":["Escopo inicial e financeiro operacional, nao contabilidade fiscal completa."]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "Projeto Modulos - Pequenos Negocios",
+  "version": "0.2.0",
+  "scope": "small-business-commercial-matrix",
+  "strategy": "Cliente contrata somente os modulos que precisa. Esta matriz comercial e independente dos projetos existentes, que permanecem fora deste catalogo e podem ser reutilizados separadamente pela Factory.",
+  "core": [
+    "core-base"
+  ],
+  "modules": [
+    "cadastro",
+    "agenda",
+    "atendimento",
+    "crm",
+    "orcamentos",
+    "financeiro",
+    "estoque",
+    "ordem-servico",
+    "documentos",
+    "whatsapp",
+    "marketing"
+  ],
+  "families": {
+    "gestao-negocio": [
+      "cadastro",
+      "agenda",
+      "atendimento",
+      "crm",
+      "orcamentos",
+      "financeiro",
+      "estoque",
+      "ordem-servico",
+      "documentos",
+      "whatsapp",
+      "marketing"
+    ]
+  },
+  "external_factory_assets": {
+    "catalog_status": "off",
+    "rule": "Projetos existentes nao pertencem ao catalogo comercial de pequenos negocios. A Factory pode reutiliza-los separadamente quando uma solucao exigir.",
+    "examples": [
+      "tv-digital-enterprise",
+      "guia-digital",
+      "assessor-gov",
+      "compras-ia",
+      "cursos-ia",
+      "via"
+    ]
+  }
+}

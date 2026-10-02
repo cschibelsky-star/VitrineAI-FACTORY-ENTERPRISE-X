@@ -1,0 +1,16 @@
+{
+  "key": "core-base",
+  "name": "Nucleo Base",
+  "category": "core",
+  "version": "0.1.0",
+  "status": "development",
+  "description": "Base multiempresa compartilhada por todos os modulos comerciais e produtos derivados.",
+  "requires": [],
+  "provides": ["tenant", "usuarios", "permissoes", "branding", "configuracoes", "dashboard", "licenciamento-modular"],
+  "commercial": {"sellable": false, "standalone": false, "audience": ["todos-os-clientes"]},
+  "integration": {
+    "entities": ["tenant", "user", "role", "permission", "brand", "subscription", "module_activation"],
+    "events": ["tenant.created", "module.activated", "module.deactivated", "branding.updated"]
+  },
+  "notes": ["Todo modulo comercial depende deste nucleo.", "Dados devem permanecer isolados por tenant."]
+}
