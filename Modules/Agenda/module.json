@@ -1,0 +1,20 @@
+{
+  "key": "agenda",
+  "name": "Agenda e Agendamentos",
+  "version": "1.0.0",
+  "description": "Agenda multiempresa para compromissos, disponibilidade e recursos.",
+  "dependencies": {"requires": ["cadastro"], "optional_integrations": ["whatsapp"]},
+  "permissions": [
+    {"key":"agenda.view","name":"Visualizar agenda"},
+    {"key":"agenda.create","name":"Criar agendamentos"},
+    {"key":"agenda.update","name":"Editar agendamentos"},
+    {"key":"agenda.delete","name":"Cancelar/excluir agendamentos"},
+    {"key":"agenda.resources.manage","name":"Gerenciar recursos da agenda"}
+  ],
+  "routes": {"web":"routes/web.php","api":"routes/api.php"},
+  "events": {"emits":["agenda.appointment.created","agenda.appointment.updated","agenda.appointment.cancelled"],"listens":[]},
+  "migrations":"database/migrations",
+  "navigation":[{"key":"agenda","label":"Agenda","route":"agenda.index","permission":"agenda.view"}],
+  "configuration":{"schema":"config/agenda.php"},
+  "service_provider":"Modules\\Agenda\\Providers\\AgendaServiceProvider"
+}
