@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded',()=>{
   // Blindagem visual: imagem ausente nunca pode quebrar o card nem expor o texto alternativo.
   document.querySelectorAll('img').forEach(img=>{
+    // Elementos com fallback próprio (ex.: logo) mantêm sua política específica.
+    if(img.hasAttribute('onerror')) return;
     const applyFallback=()=>{
       if(img.dataset.imageFallback==='1') return;
       img.dataset.imageFallback='1';
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       img.src='assets/img/hero-sumare.svg';
     };
     img.addEventListener('error',applyFallback,{once:true});
-    if(!img.getAttribute('src')) applyFallback();
+    if(!img.getAttribute('src') || (img.complete && img.naturalWidth===0)) applyFallback();
   });
   // Busca local instantânea
   document.querySelectorAll('[data-search]').forEach(input=>{
