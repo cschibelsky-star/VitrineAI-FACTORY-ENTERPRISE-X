@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "policy": "guardian-authorized-professional-access",
+  "default_effect": "deny",
+  "real_child_data_gate": {
+    "enabled": true,
+    "requirements": [
+      "google_identity_verified",
+      "guardian_authorization_active",
+      "professional_scope_granted",
+      "authorization_not_expired",
+      "authorization_not_revoked",
+      "audit_logging_available"
+    ]
+  },
+  "qr_invitation": {
+    "contains_personal_data": false,
+    "contains_health_data": false,
+    "token_type": "opaque_one_time",
+    "requires_google_login": true,
+    "requires_guardian_approval": true,
+    "expires": true
+  },
+  "professional_credential": {
+    "fields": [
+      "profession",
+      "council",
+      "registration_number",
+      "council_state",
+      "verification_status"
+    ],
+    "verification_statuses": [
+      "declared",
+      "pending_verification",
+      "verified",
+      "rejected"
+    ]
+  },
+  "authorization": {
+    "multiple_professionals": true,
+    "scopes": [
+      "identity_basic",
+      "aac_communication",
+      "routine",
+      "sensory_context",
+      "longitudinal_history",
+      "health_observations",
+      "medication_context",
+      "location_context",
+      "professional_reports"
+    ],
+    "expiry_required": true,
+    "revocable_immediately": true,
+    "scope_change_requires_new_authorization": true,
+    "read_only_default": true
+  },
+  "audit": {
+    "required": true,
+    "events": [
+      "invitation_created",
+      "access_requested",
+      "access_approved",
+      "access_denied",
+      "data_accessed",
+      "scope_changed",
+      "access_revoked",
+      "access_expired"
+    ],
+    "visible_to_guardian": true
+  },
+  "privacy": {
+    "data_minimization": true,
+    "purpose_limitation": true,
+    "qr_must_not_embed_child_data": true,
+    "hml_real_data_allowed_only_after_gate": true
+  }
+}
