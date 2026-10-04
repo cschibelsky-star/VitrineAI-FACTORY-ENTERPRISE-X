@@ -158,3 +158,19 @@ img{content-visibility:auto}
 .mock-map-label strong{display:block;color:var(--text);font-size:16px}.mock-map-label small{display:block;color:var(--muted);margin-top:4px}
 .map-list-row{justify-content:space-between;border-bottom:1px solid #eef2ef;padding:12px 0}.map-list-row small{color:var(--muted)}
 .app-floating-cta{display:none!important}
+
+
+/* Build 4.3.1 - hardening mobile após migração */
+.content{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+.place-card img,.mini-card img,.commercial-card img,.featured-card img,.event-feature-card img,.featured-event-home img,.detail-hero>img,.hero>img{display:block;object-fit:cover;object-position:center;background:#eaf3ee;color:transparent;font-size:0;overflow:hidden}
+.place-card img,.mini-card img,.commercial-card img{aspect-ratio:16/9;height:auto;min-height:132px}
+.bottom-nav{min-height:calc(76px + env(safe-area-inset-bottom));height:auto;padding-bottom:calc(7px + env(safe-area-inset-bottom))}
+@media(max-width:430px){
+  .app-shell{min-height:100dvh}
+  .content{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+  .card-grid{grid-template-columns:1fr;gap:16px}
+  .place-card{border-radius:24px}
+  .place-card img{width:100%;aspect-ratio:16/9;height:auto;min-height:0}
+  .place-card .body{padding:16px}
+  .place-card h3{min-height:0;font-size:20px;line-height:1.15}
+}

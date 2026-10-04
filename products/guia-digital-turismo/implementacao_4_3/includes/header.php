@@ -8,9 +8,9 @@
   <meta name="description" content="<?= h($settings['subtitulo'] ?? 'Guia turístico digital de Sumaré') ?>">
   <meta name="theme-color" content="<?= h($settings['cor_primaria'] ?? '#0F6B3A') ?>">
   <link rel="manifest" href="manifest.json">
-  <link rel="preload" href="assets/css/style.css?v=4.2.0" as="style">
+  <link rel="preload" href="assets/css/style.css?v=4.3.1" as="style">
   <link rel="preload" href="assets/img/hero-real.jpg" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.2.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.3.1">
   <style>:root{--primary:<?= h($settings['cor_primaria'] ?? '#0F6B3A') ?>;--secondary:<?= h($settings['cor_secundaria'] ?? '#F5C000') ?>;--accent:<?= h($settings['cor_destaque'] ?? '#FF7A1A') ?>;}</style>
 </head>
 <body>
