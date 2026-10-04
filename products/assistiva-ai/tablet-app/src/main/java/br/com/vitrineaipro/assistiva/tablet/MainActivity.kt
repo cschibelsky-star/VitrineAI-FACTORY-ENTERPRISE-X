@@ -29,7 +29,8 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 val ttsState = remember { mutableStateOf<TextToSpeech?>(null) }
                 DisposableEffect(Unit) {
-                    val tts = TextToSpeech(this@MainActivity) { status ->
+                    lateinit var tts: TextToSpeech
+                    tts = TextToSpeech(this@MainActivity) { status ->
                         if (status == TextToSpeech.SUCCESS) {
                             tts.language = Locale("pt", "BR")
                             ttsState.value = tts
