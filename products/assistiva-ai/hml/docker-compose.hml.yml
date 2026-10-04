@@ -1,0 +1,15 @@
+services:
+  web:
+    image: nginx:stable-alpine
+    container_name: projeto_lucas_hml_web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:18897:80"
+    volumes:
+      - ./public:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/health | grep -q ok"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
