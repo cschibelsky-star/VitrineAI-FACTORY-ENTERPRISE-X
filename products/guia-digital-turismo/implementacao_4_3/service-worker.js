@@ -13,6 +13,7 @@ const STATIC_ASSETS = [
   'assets/css/style.css?v=4.3.1',
   'assets/js/app.js?v=4.3.1',
   'assets/img/hero-real.jpg',
+  'assets/img/hero-sumare.svg',
   'assets/icons/icon-192.png',
   'assets/icons/icon-512.png',
   'manifest.json'
