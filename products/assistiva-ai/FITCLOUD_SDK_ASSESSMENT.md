@@ -45,3 +45,20 @@ Nenhum APK produzido ou compilado nesta avaliação.
 Nenhuma conexão física ou leitura de sensores realizada.
 A compatibilidade de um relógio específico permanece não comprovada.
 Nenhum pareamento, deploy, migration, merge ou DNS alterado.
+
+## Verificação adicional: conta por e-mail
+O exemplo público AuthManagerImpl não autentica na nuvem do FitCloudPro.
+signIn e signUp são explicitamente mock: consultam/criam usuários no banco local do exemplo.
+A identidade passada ao relógio é user.id.toString(), não o nome de login.
+Isso não prova como o aplicativo comercial representa sua conta; não assumir que e-mail equivale a userId.
+Não solicitar senha nem reutilizar o mock como autenticação de produção.
+
+Fonte:
+https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/sample/app/src/main/java/com/topstep/fitcloud/sample2/data/auth/AuthManager.kt
+
+FcAuthMode é um alias de AuthMode. AUTO é descrito apenas como gerenciamento automático do estado do usuário.
+A documentação consultada não garante preservação de histórico quando AUTO é usado com identidade diferente.
+Portanto AUTO não deve ser usado como fallback de LOGIN nem para contornar autenticação.
+A investigação não identificou uma API pública documentada para converter o login comercial em identidade Bluetooth.
+Próximo requisito: obter documentação do fornecedor sobre interoperabilidade com conta existente ou validar a exportação pelo Saúde Connect.
+Sem isso, a leitura direta preservando o pareamento permanece bloqueada tecnicamente.
