@@ -72,11 +72,7 @@ class MainActivity : ComponentActivity() {
                             OutlinedButton(onClick = { health = true }) { Text("Saúde") }
                         }
                         if (health) {
-                            Text("Saúde e sincronização", style = MaterialTheme.typography.titleLarge)
-                            Text("Integração ainda não implementada", style = MaterialTheme.typography.titleMedium)
-                            Text("Este APK não solicita permissões nem lê dados do Conexão Saúde.")
-                            Text("Última leitura: nenhuma\nEnvio à HML: não configurado")
-                            Text("Os registros vistos no Conexão Saúde ainda não foram importados pelo Projeto Lucas.")
+                            HealthScreen()
                         } else {
                             Text("A criança escolhe. A IA apenas sugere.")
                             Text(voiceStatus, style = MaterialTheme.typography.bodyMedium)
