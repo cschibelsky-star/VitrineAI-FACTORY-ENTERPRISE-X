@@ -27,6 +27,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import org.json.JSONArray
+import org.json.JSONObject
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -42,7 +44,9 @@ private val timeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 private fun date(time: Instant) = timeFormat.format(time.atZone(ZoneId.systemDefault()))
 private fun source(packageName: String) =
     if (packageName == "com.google.android.apps.fitness") "Google Fit" else packageName
-private data class HealthResult(val title: String, val value: String, val detail: String)
+private fun healthRecord(type: String, value: Number, start: Instant, end: Instant, origin: String) =
+    JSONObject().put("type", type).put("value", value).put("start", start.toString()).put("end", end.toString()).put("origin", origin)
+private data class HealthResult(val title: String, val value: String, val detail: String, val record: JSONObject? = null)
 
 @Composable
 fun HealthScreen() {
@@ -109,7 +113,8 @@ fun HealthScreen() {
                         )).records.firstOrNull()
                         output += HealthResult("Passos hoje", total?.toString() ?: "Sem dados",
                             latest?.let { "Último registro: ${date(it.endTime)}\nOrigem: ${source(it.metadata.dataOrigin.packageName)}\nO total usa a agregação do Conexão Saúde." }
-                                ?: "Nenhum registro encontrado nos últimos 7 dias.")
+                                ?: "Nenhum registro encontrado nos últimos 7 dias.",
+                            total?.let { healthRecord("steps", it, today, now, "health_connect.aggregate") })
                     } else output += HealthResult("Passos", "Sem permissão", "Autorize a leitura em Conectar.")
 
                     if (HealthPermission.getReadPermission(HeartRateRecord::class) in granted) {
@@ -137,7 +142,8 @@ fun HealthScreen() {
                         } while (token != null)
                         output += HealthResult("Último batimento", latestBpm?.let { "$it bpm" } ?: "Sem dados",
                             latestTime?.let { "${date(it)}\nOrigem: ${source(latestOrigin.orEmpty())}" }
-                                ?: "Nenhum registro encontrado nos últimos 7 dias.")
+                                ?: "Nenhum registro encontrado nos últimos 7 dias.",
+                            latestTime?.let { healthRecord("heart_rate", latestBpm!!, it, it, latestOrigin.orEmpty()) })
                     } else output += HealthResult("Batimentos", "Sem permissão", "Autorize a leitura em Conectar.")
 
                     if (HealthPermission.getReadPermission(SleepSessionRecord::class) in granted) {
@@ -158,7 +164,8 @@ fun HealthScreen() {
                         output += HealthResult("Última sessão de sono",
                             minutes?.let { "${it / 60}h ${it % 60}min" } ?: "Sem dados",
                             session?.let { "${date(it.startTime)} → ${date(it.endTime)}\nOrigem: ${source(it.metadata.dataOrigin.packageName)}\nDuração da sessão registrada; pode incluir períodos acordado." }
-                                ?: "Nenhum registro encontrado nos últimos 7 dias.")
+                                ?: "Nenhum registro encontrado nos últimos 7 dias.",
+                            session?.let { healthRecord("sleep", Duration.between(it.startTime, it.endTime).toSeconds() / 60.0, it.startTime, it.endTime, it.metadata.dataOrigin.packageName) })
                     } else output += HealthResult("Sono", "Sem permissão", "Autorize a leitura em Conectar.")
                     results = output
                     lastRead = Instant.now()
@@ -248,9 +255,13 @@ fun HealthScreen() {
                 }
             }
         }
+        HmlSyncCard(
+            records = if (lastRead != null) JSONArray().apply { results.mapNotNull { it.record }.forEach { put(it) } } else null,
+            readAt = lastRead?.toString()
+        )
         Text("Privacidade", style = MaterialTheme.typography.titleMedium)
-        Text("Os dados ficam apenas na memória desta tela. Não alteramos nem apagamos o histórico do Conexão Saúde. Você pode revogar as permissões nas configurações do Android.")
-        Text("Envio à HML: não configurado. Nenhum dado de saúde é enviado nesta versão.")
+        Text("A leitura fica na memória. Ao confirmar o envio, um lote criptografado fica neste aparelho até a confirmação da HML ou descarte manual. Não alteramos nem apagamos o histórico do Conexão Saúde. Você pode revogar as permissões nas configurações do Android.")
+        Text("A HML recebe somente após login Google, cadastro, autorização, vínculo e confirmação da titularidade. Revogue novos envios na HML.")
         Text("Esses registros não são monitoramento em tempo real.")
         OutlinedButton(onClick = { context.startActivity(Intent(context, HealthPrivacyActivity::class.java)) }) {
             Text("Como usamos seus dados")
@@ -258,3 +269,4 @@ fun HealthScreen() {
         Spacer(Modifier.height(16.dp))
     }
 }
+

@@ -2,7 +2,7 @@
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Projeto Lucas — Comunicação</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:24px 16px}h1{font-size:28px;margin:12px 0}nav{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}button{font:inherit;cursor:pointer}nav button{padding:12px 16px;border:1px solid #66509a;border-radius:12px;background:white;color:#47316c;min-height:48px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.aac{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:200px;padding:16px;border:3px solid #202020;border-radius:20px;background:#fff;color:#172033;font-size:18px;font-weight:600;line-height:1.35;overflow-wrap:normal;word-break:normal}.illustration{display:block;width:100%;aspect-ratio:1;background-image:url('cards/communication-atlas.png');background-size:300% 400%;background-repeat:no-repeat;background-color:white;border-radius:8px}.aac[aria-pressed=true]{outline:3px solid #66509a;background:#ede7f6}button:focus-visible{outline:3px solid #2879b9;outline-offset:4px}.panel{background:white;padding:24px;border-radius:20px}footer{margin-top:28px;font-size:14px}[hidden]{display:none!important}@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-</style></head><body><main><small>Homologação · v0.3.0</small><h1>Projeto Lucas</h1><nav aria-label="Áreas"><button id="communication-tab" type="button" aria-pressed="true">Comunicação</button><button id="health-tab" type="button" aria-pressed="false">Saúde e sincronização</button></nav>
+.health-card{padding:20px;margin:16px 0;border:1px solid #d9dfea;border-radius:18px;background:#faf9fe}.health-card h3{margin-top:0}#health button{padding:12px 16px;border:1px solid #66509a;border-radius:12px;margin:6px 6px 6px 0;background:#66509a;color:white;min-height:48px}#health button:disabled{opacity:.45;cursor:default}label{display:block;margin:16px 0}input:not([type=checkbox]),select{display:block;width:100%;padding:12px;margin-top:6px;border:1px solid #8993a6;border-radius:10px;font:inherit}.check{display:flex;align-items:flex-start;gap:12px;line-height:1.5}.check input{width:22px;height:22px;flex-shrink:0}#pair-output{font-size:20px;overflow-wrap:anywhere}#history p{overflow-wrap:anywhere}summary{cursor:pointer;font-weight:600}#health-status{border-left:4px solid #66509a;padding:12px;background:#eee9f6}</style></head><body><main><small>Homologação · v0.5.0</small><h1>Projeto Lucas</h1><nav aria-label="Áreas"><button id="communication-tab" type="button" aria-pressed="true">Comunicação</button><button id="health-tab" type="button" aria-pressed="false">Saúde e sincronização</button></nav>
 <section id="communication"><h2>Comunicação</h2><p>A criança escolhe. A IA apenas sugere.</p><p id="voice-status" role="status">Toque em um card para falar.</p><div class="grid">
 <button class="aac" type="button" data-phrase="Quero água" aria-pressed="false"><span class="illustration" aria-hidden="true" style="background-position:0% 0%"></span><span>Quero água</span></button>
 <button class="aac" type="button" data-phrase="Quero comer" aria-pressed="false"><span class="illustration" aria-hidden="true" style="background-position:50% 0%"></span><span>Quero comer</span></button>
@@ -17,7 +17,25 @@
 <button class="aac" type="button" data-phrase="Sim" aria-pressed="false"><span class="illustration" aria-hidden="true" style="background-position:50% 100%"></span><span>Sim</span></button>
 <button class="aac" type="button" data-phrase="Não" aria-pressed="false"><span class="illustration" aria-hidden="true" style="background-position:100% 100%"></span><span>Não</span></button>
 </div></section>
-<section id="health" class="panel" hidden><h2>Saúde e sincronização</h2><p><strong>Leitura no celular disponível no APK 0.4.0.</strong></p><p>Últimos registros recebidos: nenhum.</p><p>Última sincronização: nenhuma.</p><p>No aplicativo Android 0.4.0, abra Saúde, toque em Conectar / permissões e depois em Ler dados agora. A leitura aparece apenas no celular. Esta HML ainda não recebe dados de saúde: autenticação e autorização de responsáveis precisam ser implementadas antes do envio.</p></section>
+<section id="health" class="panel" hidden>
+<h2>Saúde e sincronização</h2><p>Cadastre, autorize e acompanhe os dados com segurança.</p>
+<p id="health-status" role="status" aria-live="polite">Verificando a conexão…</p>
+<div id="signin" class="health-card"><h3>1. Entre com Google</h3><p>O histórico fica disponível apenas para o responsável que fez o cadastro.</p><div id="google-button"></div><p id="google-status"></p></div>
+<div id="guardian-area" hidden><p>Responsável: <strong id="account-name"></strong></p><button id="logout-button" type="button">Sair</button>
+<details class="health-card"><summary>2. Cadastrar criança e responsável</summary><form id="register-form">
+<label>Nome do responsável<input id="guardian-name" required minlength="2" maxlength="100" autocomplete="name"></label>
+<label>Vínculo com a criança<input id="relationship" required minlength="2" maxlength="50" placeholder="Ex.: mãe, pai, tutor legal"></label>
+<label>Nome da criança<input id="child-name" required minlength="2" maxlength="100"></label>
+<label class="check"><input id="legal-guardian" type="checkbox" required> Declaro que sou responsável legal por esta criança.</label><button type="submit">Salvar cadastro</button></form></details>
+<label>Criança selecionada<select id="child-select"></select></label>
+<div id="child-controls" hidden><div class="health-card"><h3>3. Confirme e autorize</h3><p id="consent-state"></p><p>Se os registros forem do responsável ou de outra pessoa, não os associe à criança. Celulares compartilhados podem conter dados de pessoas diferentes.</p>
+<label class="check"><input id="owns-records" type="checkbox"> Conferi o Conexão Saúde e confirmo que os registros a enviar pertencem à criança selecionada.</label>
+<label class="check"><input id="authorize" type="checkbox"> Autorizo o envio manual de passos, batimentos e sessões de sono para esta HML, o armazenamento e a consulta no meu histórico privado. Entendo que posso revogar novos envios.</label>
+<button id="consent-button" type="button">Registrar autorização</button><button id="revoke-button" type="button">Revogar e desvincular aparelhos</button></div>
+<div class="health-card"><h3>4. Vincule o celular</h3><p>No aplicativo, abra Saúde → Vincular à HML. Entre nesta página pelo botão do aplicativo e digite o código abaixo no celular.</p><button id="pair-button" type="button">Gerar código para este celular</button><p id="pair-output" role="status"></p><p>Vínculo válido por 30 dias, somente para esta criança. O envio exige confirmação no aplicativo.</p></div>
+<div class="health-card"><h3>5. Histórico recebido</h3><button id="refresh-history" type="button">Atualizar histórico</button><div id="history"></div></div></div></div>
+<p>Privacidade: dados de saúde e cadastros são armazenados com criptografia no servidor. Somente a conta responsável acessa este histórico. Não há compartilhamento com profissionais nesta versão. A autorização cobre apenas envio manual; não há monitoramento em tempo real. A duração da sessão de sono pode incluir períodos acordado.</p>
+</section>
 <footer>Tecnologia desenvolvida pela Vitrine IA Pro</footer></main>
 <script>
 const status=document.getElementById('voice-status');
@@ -28,5 +46,7 @@ if(!('speechSynthesis' in window)){status.textContent='Voz indisponível neste n
 speechSynthesis.cancel();const speech=new SpeechSynthesisUtterance(card.dataset.phrase);speech.lang='pt-BR';speech.onerror=()=>{status.textContent='Não foi possível falar. Verifique a voz do aparelho.'};speech.onend=()=>{status.textContent='Toque em um card para falar.'};status.textContent=card.dataset.phrase;speechSynthesis.speak(speech);
 }));
 function area(health){document.getElementById('health').hidden=!health;document.getElementById('communication').hidden=health;document.getElementById('health-tab').setAttribute('aria-pressed',String(health));document.getElementById('communication-tab').setAttribute('aria-pressed',String(!health));if('speechSynthesis' in window)speechSynthesis.cancel()}
+if(location.hash==='#saude')area(true);
 document.getElementById('health-tab').onclick=()=>area(true);document.getElementById('communication-tab').onclick=()=>area(false);
-</script></body></html>
+</script><script src="health.js"></script></body></html>
+

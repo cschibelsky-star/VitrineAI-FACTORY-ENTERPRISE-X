@@ -3,7 +3,8 @@
     <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
     <uses-permission android:name="android.permission.health.READ_SLEEP" />
     <queries><package android:name="com.google.android.apps.healthdata" /></queries>
-    <application android:label="Projeto Lucas" android:theme="@style/Theme.AssistivaAI">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application android:allowBackup="false" android:label="Projeto Lucas" android:theme="@style/Theme.AssistivaAI">
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,3 +27,4 @@
         </activity-alias>
     </application>
 </manifest>
+

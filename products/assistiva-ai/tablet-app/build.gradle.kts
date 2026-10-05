@@ -9,8 +9,8 @@ android {
         applicationId = "br.com.vitrineaipro.assistiva"
         minSdk = 30
         targetSdk = 37
-        versionCode = 4
-        versionName = "0.4.0"
+        versionCode = 5
+        versionName = "0.5.0"
     }
     buildFeatures { compose = true }
 }
@@ -25,3 +25,4 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
+
