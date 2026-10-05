@@ -1,24 +1,32 @@
 <!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Projeto Lucas — HML</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Projeto Lucas — Comunicação</title>
 <style>
-body{font-family:system-ui,sans-serif;background:#f5f7fb;color:#172033;margin:0}
-main{max-width:760px;margin:10vh auto;padding:32px}
-.card{background:#fff;border-radius:20px;padding:32px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
-.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef2ff}
-h1{margin:.4rem 0}
-p{line-height:1.6}
-</style>
-</head>
-<body>
-<main><div class="card">
-<span class="badge">Homologação</span>
-<h1>Projeto Lucas</h1>
-<p>Ambiente HML ativo. Nenhum dado clínico real está armazenado nesta etapa.</p>
-<p>Acesso por conta Google e módulos de histórico/IA serão habilitados antes de qualquer uso com dados reais.</p>
-</div></main>
-</body>
-</html>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:24px 16px}h1{font-size:28px;margin:12px 0}nav{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}button{font:inherit;cursor:pointer}nav button{padding:12px 16px;border:1px solid #66509a;border-radius:12px;background:white;color:#47316c;min-height:48px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.aac{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:200px;padding:16px;border:1px solid #d7dae2;border-radius:20px;background:#fff;color:#172033;font-size:18px;font-weight:600;line-height:1.35;overflow-wrap:normal;word-break:normal}.aac img{width:88px;height:88px}.aac[aria-pressed=true]{outline:3px solid #66509a;background:#ede7f6}button:focus-visible{outline:3px solid #2879b9;outline-offset:4px}.panel{background:white;padding:24px;border-radius:20px}footer{margin-top:28px;font-size:14px}[hidden]{display:none!important}@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style></head><body><main><small>Homologação · v0.2.0</small><h1>Projeto Lucas</h1><nav aria-label="Áreas"><button id="communication-tab" type="button" aria-pressed="true">Comunicação</button><button id="health-tab" type="button" aria-pressed="false">Saúde e sincronização</button></nav>
+<section id="communication"><h2>Comunicação</h2><p>A criança escolhe. A IA apenas sugere.</p><p id="voice-status" role="status">Toque em um card para falar.</p><div class="grid">
+<button class="aac" type="button" data-phrase="Quero água" aria-pressed="false"><img src="cards/water.svg" alt="" width="88" height="88"><span>Quero água</span></button>
+<button class="aac" type="button" data-phrase="Quero comer" aria-pressed="false"><img src="cards/food.svg" alt="" width="88" height="88"><span>Quero comer</span></button>
+<button class="aac" type="button" data-phrase="Quero ir ao banheiro" aria-pressed="false"><img src="cards/toilet.svg" alt="" width="88" height="88"><span>Quero ir ao banheiro</span></button>
+<button class="aac" type="button" data-phrase="Quero uma pausa" aria-pressed="false"><img src="cards/pause.svg" alt="" width="88" height="88"><span>Quero uma pausa</span></button>
+<button class="aac" type="button" data-phrase="Está muito barulhento" aria-pressed="false"><img src="cards/noise.svg" alt="" width="88" height="88"><span>Está muito barulhento</span></button>
+<button class="aac" type="button" data-phrase="Quero meu fone" aria-pressed="false"><img src="cards/headphones.svg" alt="" width="88" height="88"><span>Quero meu fone</span></button>
+<button class="aac" type="button" data-phrase="Quero sair" aria-pressed="false"><img src="cards/exit.svg" alt="" width="88" height="88"><span>Quero sair</span></button>
+<button class="aac" type="button" data-phrase="Quero ajuda" aria-pressed="false"><img src="cards/help.svg" alt="" width="88" height="88"><span>Quero ajuda</span></button>
+<button class="aac" type="button" data-phrase="Estou com dor" aria-pressed="false"><img src="cards/pain.svg" alt="" width="88" height="88"><span>Estou com dor</span></button>
+<button class="aac" type="button" data-phrase="Não quero" aria-pressed="false"><img src="cards/refuse.svg" alt="" width="88" height="88"><span>Não quero</span></button>
+<button class="aac" type="button" data-phrase="Sim" aria-pressed="false"><img src="cards/yes.svg" alt="" width="88" height="88"><span>Sim</span></button>
+<button class="aac" type="button" data-phrase="Não" aria-pressed="false"><img src="cards/no.svg" alt="" width="88" height="88"><span>Não</span></button>
+</div></section>
+<section id="health" class="panel" hidden><h2>Saúde e sincronização</h2><p><strong>Integração ainda não implementada.</strong></p><p>Últimos registros recebidos: nenhum.</p><p>Última sincronização: nenhuma.</p><p>O aplicativo Android ainda não lê o Conexão Saúde. Esta HML não possui recebimento de dados, autenticação Google ou autorização de responsáveis implementados. Não insira dados pessoais ou de saúde nesta etapa.</p></section>
+<footer>Tecnologia desenvolvida pela Vitrine IA Pro</footer></main>
+<script>
+const status=document.getElementById('voice-status');
+const cards=[...document.querySelectorAll('.aac')];
+cards.forEach(card=>card.addEventListener('click',()=>{
+cards.forEach(other=>other.setAttribute('aria-pressed',String(other===card)));
+if(!('speechSynthesis' in window)){status.textContent='Voz indisponível neste navegador.';return}
+speechSynthesis.cancel();const speech=new SpeechSynthesisUtterance(card.dataset.phrase);speech.lang='pt-BR';speech.onerror=()=>{status.textContent='Não foi possível falar. Verifique a voz do aparelho.'};speech.onend=()=>{status.textContent='Toque em um card para falar.'};status.textContent=card.dataset.phrase;speechSynthesis.speak(speech);
+}));
+function area(health){document.getElementById('health').hidden=!health;document.getElementById('communication').hidden=health;document.getElementById('health-tab').setAttribute('aria-pressed',String(health));document.getElementById('communication-tab').setAttribute('aria-pressed',String(!health));if('speechSynthesis' in window)speechSynthesis.cancel()}
+document.getElementById('health-tab').onclick=()=>area(true);document.getElementById('communication-tab').onclick=()=>area(false);
+</script></body></html>
