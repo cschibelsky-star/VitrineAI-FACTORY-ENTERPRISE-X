@@ -58,7 +58,7 @@ async def security(request, call_next):
     if int(request.headers.get('content-length', '0')) > 262144: return Response(status_code=413)
     if request.url.path in ('/api/auth/google','/api/device/exchange'):
         # Proxy overwrites X-Real-IP; backend is not exposed on a host port.
-        key = (request.url.path, request.headers.get('x-real-ip', request.client.host))
+        key = (request.url.path, request.headers.get('x-real-ip', request.client.host).split(',')[-1].strip())
         with limit_lock:
             q = limits[key]; t = time.time()
             while q and q[0] < t-600: q.popleft()
