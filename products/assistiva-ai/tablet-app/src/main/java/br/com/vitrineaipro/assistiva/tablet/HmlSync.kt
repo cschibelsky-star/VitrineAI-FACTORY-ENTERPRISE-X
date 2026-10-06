@@ -86,12 +86,15 @@ fun HmlSyncCard(records: JSONArray?, readAt: String?) {
     LaunchedEffect(readAt, link) { confirmed = false }
     Card(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text("Vincular à HML", style = MaterialTheme.typography.titleLarge)
-            Text("Entre com Google na HML, cadastre o responsável e a criança, confirme de quem são os registros e autorize o envio.")
+            Text(if (link == null) "Vincular à HML" else "Aparelho vinculado à HML", style = MaterialTheme.typography.titleLarge)
+            Text(if (link == null)
+                "Para o primeiro vínculo, entre com Google na HML, cadastre o responsável e a criança e autorize o envio."
+            else
+                "O vínculo está salvo neste aparelho. Ler dados não exige novo login Google. Confira os registros e confirme a titularidade para enviar.")
             OutlinedButton(enabled = !busy, onClick = {
                 try { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("$HML/#saude"))) }
                 catch (_: Exception) { status = "Abra $HML no navegador." }
-            }) { Text("Entrar com Google na HML") }
+            }) { Text(if (link == null) "Abrir HML para criar o vínculo" else "Abrir histórico / gerenciar acesso") }
             if (link == null) {
                 OutlinedTextField(value = code, onValueChange = { code = it.uppercase().filter { ch -> ch in "0123456789ABCDEF" }.take(12) },
                     label = { Text("Código de 12 caracteres gerado na HML") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
@@ -101,7 +104,7 @@ fun HmlSyncCard(records: JSONArray?, readAt: String?) {
                         try {
                             val result = hmlRequest("/api/device/exchange", JSONObject().put("code", code))
                             vault.set("link", result.toString()); link = result; code = ""
-                            status = "Aparelho vinculado. Confira a criança antes de enviar."
+                            status = "Vínculo salvo neste aparelho. Você pode ler novos dados sem repetir o login Google."
                         } catch (e: Exception) { status = e.message ?: "Não foi possível vincular. Tente novamente." }
                         finally { busy = false }
                     }
