@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 val ttsState = remember { mutableStateOf<TextToSpeech?>(null) }
                 var selected by remember { mutableStateOf<String?>(null) }
-                var health by remember { mutableStateOf(false) }
+                var section by remember { mutableStateOf("communication") }
                 var voiceStatus by remember { mutableStateOf("Preparando voz…") }
                 DisposableEffect(Unit) {
                     lateinit var tts: TextToSpeech
@@ -67,11 +69,14 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         Text("Projeto Lucas", style = MaterialTheme.typography.headlineSmall)
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            OutlinedButton(onClick = { health = false }) { Text("Comunicação") }
-                            OutlinedButton(onClick = { health = true }) { Text("Saúde") }
+                        Row(modifier = Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedButton(onClick = { section = "communication" }) { Text("Comunicação") }
+                            OutlinedButton(onClick = { section = "health" }) { Text("Saúde") }
+                            OutlinedButton(onClick = { section = "watch" }) { Text("Relógio") }
                         }
-                        if (health) {
+                        if (section == "watch") {
+                            WatchDiagnosticScreen()
+                        } else if (section == "health") {
                             HealthScreen()
                         } else {
                             Text("A criança escolhe. A IA apenas sugere.")

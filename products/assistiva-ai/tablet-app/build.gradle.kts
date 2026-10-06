@@ -9,12 +9,13 @@ android {
         applicationId = "br.com.vitrineaipro.assistiva"
         minSdk = 30
         targetSdk = 37
-        versionCode = 5
-        versionName = "0.5.0"
+        versionCode = 6
+        versionName = "0.6.0-ble-diagnostic"
     }
     buildFeatures { compose = true }
 }
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
     implementation("androidx.health.connect:connect-client:1.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation(project(":shared"))

@@ -62,3 +62,23 @@ Portanto AUTO não deve ser usado como fallback de LOGIN nem para contornar aute
 A investigação não identificou uma API pública documentada para converter o login comercial em identidade Bluetooth.
 Próximo requisito: obter documentação do fornecedor sobre interoperabilidade com conta existente ou validar a exportação pelo Saúde Connect.
 Sem isso, a leitura direta preservando o pareamento permanece bloqueada tecnicamente.
+
+## Implementação de diagnóstico — 06/10/2026
+A aba Relógio usa apenas descoberta BLE do Android, sem inicializar FcSDK.
+Busca limitada a 20 segundos, cancelável, interrompida ao sair da tela ou colocar app em segundo plano.
+Permissões próximas no Android 12+; localização somente no Android 11.
+Mostra nome anunciado, RSSI, identificador parcial e UUIDs anunciados.
+Resultados mantidos somente em memória; não enviados à HML.
+Selecionar um anúncio não autentica, não conecta e não comprova compatibilidade.
+Firmware, capacidades dos sensores e medições continuam pendentes.
+Não há BIND, LOGIN, AUTO, remoção de pareamento, reset ou atualização de firmware.
+O uso de neverForLocation pode filtrar certos anúncios; ausência de resultado não comprova incompatibilidade.
+A autenticação preservando histórico permanece o requisito para integrar a coleta FitCloudPro.
+
+### Validação física necessária
+- Abrir Relógio, autorizar permissões e Buscar relógio com Bluetooth ativo.
+- Android 11: verificar localização ativa.
+- Comparar nome com FitCloudPro; anúncios sem nome também podem aparecer.
+- Testar Cancelar, negar permissão, desligar Bluetooth e sair do app durante busca.
+- Busca vazia: não restaurar nem desvincular C26; ele pode não anunciar enquanto conectado ao FitCloudPro.
+- Não registrar dados como pertencentes ao Lucas antes da confirmação do responsável.
