@@ -135,3 +135,35 @@ Enquanto isso, a rota Health Connect já existente pode consumir os registros qu
 - DeviceManager: https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/sample/app/src/main/java/com/topstep/fitcloud/sample2/data/device/DeviceManager.kt
 - AuthManager: https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/sample/app/src/main/java/com/topstep/fitcloud/sample2/data/auth/AuthManager.kt
 - Versão publicada: https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/README.md
+
+
+## Mudança de escopo autorizada — 07/10/2026
+O responsável confirmou que o histórico atual é somente teste e autorizou nova vinculação, incluindo possível perda desses registros.
+O impedimento de preservar o vínculo comercial permanece para uma futura migração de dados reais, mas não bloqueia este teste isolado autorizado.
+
+### APK 0.9.0: teste pelo SDK
+- Dependências sdk-base e sdk-fitcloud 3.0.2.7 pelo repositório HTTPS do fornecedor.
+- SDK inicializado sob demanda; não conectar nem vincular no início do aplicativo.
+- Identidade aleatória de 24 caracteres guardada localmente antes do primeiro comando.
+- BIND somente após seleção de C26, correspondência do endereço completo, perfil explícito e confirmação no dispositivo.
+- LOGIN somente com endereço cujo BIND foi confirmado como CONNECTED e guardado localmente.
+- Não alternar automaticamente LOGIN para BIND em caso de erro.
+- Timeout de conexão de 60 segundos; sincronização limitada a 90 segundos sem emissão.
+- Sessão encerrada ao sair da tela/app; nenhuma coleta em segundo plano.
+- Sem controles de música/telefonia/idioma nem ajuste automático de hora; o SDK transmite parâmetros de perfil exigidos pela conexão.
+- Receber passos, totais, batimentos históricos/manuais e registros de sono via conversores oficiais.
+- Sono apresentado como segmentos; não inferir duração nem crises.
+- Registros de teste somente em memória, máximo 1.000; tela mostra os 30 mais recentes com timestamp e origem SDK.
+- Sem atribuição ao Lucas, upload HML, reset, unbind, removeBond ou OTA.
+- Não desinstalar após vínculo confirmado sem planejar a perda da identidade local.
+
+### Verificação física após compilação
+1. Instalar e verificar versão 0.9.0 na área de leitura SDK.
+2. Forçar parada do FitCloudPro, manter Bluetooth ligado e aproximar C26.
+3. Informar endereço completo localmente, buscar e selecionar somente C26 correspondente.
+4. Preencher perfil da pessoa que usa relógio e confirmar nova vinculação de teste.
+5. Esperar confirmação C26 autenticado; sincronizar.
+6. Após apagar histórico no BIND, pode haver zero registros. Gerar novos dados no relógio e sincronizar novamente.
+7. Encerrar conexão, reabrir e reconectar pelo LOGIN; verificar que nova vinculação não ocorre.
+8. Sair durante conexão/sync, revogar permissão e desligar Bluetooth: sessão deve terminar e informar falha.
+9. Não declarar coleta validada até receber e comparar dados reais no hardware.

@@ -306,6 +306,7 @@ fun WatchDiagnosticScreen() {
     val context = LocalContext.current
     val owner = LocalLifecycleOwner.current
     val discovery = remember { WatchDiscovery(context.applicationContext) }
+    val session = remember { FitCloudTestSession(context) }
     var selected by remember { mutableStateOf<NearbyWatch?>(null) }
     var target by rememberSaveable { mutableStateOf("0C:CF") }
     discovery.targetAddress = target
@@ -316,6 +317,7 @@ fun WatchDiagnosticScreen() {
     DisposableEffect(owner, discovery) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_STOP) {
+                session.disconnect("Conexão SDK encerrada ao sair do aplicativo.")
                 if (discovery.scanning) discovery.stop("Busca interrompida ao sair do aplicativo.")
                 if (discovery.inspecting) discovery.closeGatt("Inspeção interrompida ao sair do aplicativo.")
             }
@@ -325,18 +327,19 @@ fun WatchDiagnosticScreen() {
             owner.lifecycle.removeObserver(observer)
             discovery.stop()
             discovery.closeGatt()
+            session.disconnect()
         }
     }
     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxSize()) {
         item {
             Text("Diagnóstico do relógio", style = MaterialTheme.typography.titleLarge)
             Text("Aproxime o C26. Procure pelo endereço exibido no FitCloudPro; o nome pode não aparecer no anúncio Bluetooth.")
-            Text("Nenhum comando de bind, reset, escrita, assinatura de notificações ou leitura de saúde é executado.")
+            Text("A busca e a inspeção não alteram o relógio. A vinculação e a leitura SDK são ações separadas no dispositivo selecionado.")
         }
         item {
             OutlinedTextField(
                 value = target, onValueChange = { target = it.take(17); selected = null; discovery.devicesChangedTarget() },
-                enabled = !discovery.scanning && !discovery.inspecting,
+                enabled = !discovery.scanning && !discovery.inspecting && !session.busy && !session.connected && !session.syncing,
                 label = { Text("Endereço do C26 ou final") },
                 supportingText = { Text("Final conhecido: 0C:CF. Use o endereço completo para confirmar a identidade.") },
                 singleLine = true, modifier = Modifier.fillMaxWidth()
@@ -388,7 +391,12 @@ fun WatchDiagnosticScreen() {
                             enabled = !discovery.scanning && !discovery.inspecting,
                             onClick = { discovery.inspectGatt(watch) }
                         ) { Text("Inspecionar serviços GATT") }
-                        Text("Nenhum dado de saúde é atribuído ao Lucas nesta etapa.")
+                        FitCloudTestControls(session, watch.address,
+                            eligible = discovery.allowed() && target.trim().length == 17 &&
+                                watch.address.equals(target.trim(), ignoreCase = true) &&
+                                watch.name.equals("C26", ignoreCase = true) &&
+                                !discovery.scanning && !discovery.inspecting,
+                            beforeConnect = { discovery.stop(); discovery.closeGatt() })
                     }
                 }
             }
@@ -415,6 +423,7 @@ fun WatchDiagnosticScreen() {
         }
         items(discovery.devices, key = { it.address }) { device ->
             OutlinedCard(onClick = {
+                if (session.busy || session.connected || session.syncing) return@OutlinedCard
                 selected = device
                 discovery.stop("Dispositivo selecionado. Você pode executar a inspeção GATT segura.")
             }, modifier = Modifier.fillMaxWidth()) {
