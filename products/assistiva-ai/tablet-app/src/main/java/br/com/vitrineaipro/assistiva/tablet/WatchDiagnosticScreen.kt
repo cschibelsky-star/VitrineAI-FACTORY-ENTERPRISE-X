@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -75,6 +76,12 @@ private fun mapGattServices(services: List<BluetoothGattService>): List<GattServ
     }
 
 private class WatchDiscovery(private val context: Context) {
+    var targetAddress by mutableStateOf("0C:CF")
+    var searchCompleted by mutableStateOf(false)
+        private set
+    fun matches(address: String): Boolean = address.endsWith(targetAddress.trim(), ignoreCase = true)
+    fun validTarget(): Boolean = Regex("(?i)([0-9a-f]{2}:){1,5}[0-9a-f]{2}").matches(targetAddress.trim())
+
     var devices by mutableStateOf<List<NearbyWatch>>(emptyList())
         private set
     var scanning by mutableStateOf(false)
@@ -88,8 +95,18 @@ private class WatchDiscovery(private val context: Context) {
     private var scanner: BluetoothLeScanner? = null
     private var activeCallback: ScanCallback? = null
     private var activeGatt: BluetoothGatt? = null
-    private val timeout = Runnable { stop("Busca concluída. Selecione o relógio pelo nome exibido no FitCloudPro.") }
+    private val timeout = Runnable {
+        searchCompleted = true
+        stop(if (devices.any { matches(it.address) }) "Busca concluída: endereço correspondente encontrado."
+            else "Busca concluída: endereço procurado não encontrado nos anúncios recebidos.")
+    }
     private val gattTimeout = Runnable { closeGatt("A inspeção GATT excedeu 15 segundos. Nenhuma escrita foi realizada.") }
+
+    fun devicesChangedTarget() {
+        devices = emptyList()
+        searchCompleted = false
+        gattServices = emptyList()
+    }
 
     fun permissions(): Array<String> = if (Build.VERSION.SDK_INT >= 31) {
         arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
@@ -102,6 +119,10 @@ private class WatchDiscovery(private val context: Context) {
     @SuppressLint("MissingPermission")
     fun start() {
         if (scanning || inspecting) return
+        if (!validTarget()) {
+            status = "Informe o endereço Bluetooth completo ou o final, como 0C:CF."
+            return
+        }
         if (!allowed()) {
             status = "Permissão necessária. Autorize a busca de dispositivos nas configurações do aplicativo."
             return
@@ -126,6 +147,7 @@ private class WatchDiscovery(private val context: Context) {
                 status = "Bluetooth indisponível. Ative-o e tente novamente."
                 return
             }
+            searchCompleted = false
             devices = emptyList()
             gattServices = emptyList()
             val callback = object : ScanCallback() {
@@ -166,7 +188,7 @@ private class WatchDiscovery(private val context: Context) {
                 result.scanRecord?.serviceUuids?.map { it.toString() } ?: emptyList()
             )
             devices = (devices.filterNot { it.address == address } + device)
-                .sortedByDescending { it.rssi }.take(50)
+                .sortedWith(compareByDescending<NearbyWatch> { matches(it.address) }.thenByDescending { it.rssi }).take(50)
         }
     }
 
@@ -285,6 +307,8 @@ fun WatchDiagnosticScreen() {
     val owner = LocalLifecycleOwner.current
     val discovery = remember { WatchDiscovery(context.applicationContext) }
     var selected by remember { mutableStateOf<NearbyWatch?>(null) }
+    var target by rememberSaveable { mutableStateOf("0C:CF") }
+    discovery.targetAddress = target
     val permissions = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
         if (discovery.allowed()) discovery.start()
         else discovery.status = "Busca não iniciada: permissão recusada. Você pode autorizá-la nas configurações do aplicativo."
@@ -306,8 +330,36 @@ fun WatchDiagnosticScreen() {
     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxSize()) {
         item {
             Text("Diagnóstico do relógio", style = MaterialTheme.typography.titleLarge)
-            Text("Aproxime o C26 e compare o nome com o exibido no FitCloudPro. A busca identifica anúncios Bluetooth; a inspeção GATT apenas enumera serviços e characteristics.")
+            Text("Aproxime o C26. Procure pelo endereço exibido no FitCloudPro; o nome pode não aparecer no anúncio Bluetooth.")
             Text("Nenhum comando de bind, reset, escrita, assinatura de notificações ou leitura de saúde é executado.")
+        }
+        item {
+            OutlinedTextField(
+                value = target, onValueChange = { target = it.take(17); selected = null; discovery.devicesChangedTarget() },
+                enabled = !discovery.scanning && !discovery.inspecting,
+                label = { Text("Endereço do C26 ou final") },
+                supportingText = { Text("Final conhecido: 0C:CF. Use o endereço completo para confirmar a identidade.") },
+                singleLine = true, modifier = Modifier.fillMaxWidth()
+            )
+            val found = discovery.devices.firstOrNull { discovery.matches(it.address) }
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Resultado da busca do C26", style = MaterialTheme.typography.titleMedium)
+                    Text(when {
+                        found != null && target.trim().length == 17 -> "Endereço completo encontrado"
+                        found != null -> "Candidato encontrado pelo final do endereço"
+                        discovery.scanning -> "Procurando o endereço informado…"
+                        discovery.searchCompleted -> "Não encontrado nesta busca"
+                        else -> "Faça uma busca para verificar o C26"
+                    })
+                    if (found != null) {
+                        Text("${found.name} • …${found.address.takeLast(5)} • ${found.rssi} dBm")
+                        Text("Encontrar o anúncio não confirma conexão nem leitura de sensores.")
+                        OutlinedButton(enabled = !discovery.scanning && !discovery.inspecting,
+                            onClick = { selected = found }) { Text("Selecionar resultado") }
+                    }
+                }
+            }
         }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
