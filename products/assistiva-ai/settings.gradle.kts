@@ -8,7 +8,11 @@ dependencyResolutionManagement {
         mavenCentral()
         maven {
             url = uri("https://maven.topstepht.com/repository/maven-public/")
-            content { includeGroup("com.topstep.wearkit") }
+            content {
+                includeGroup("com.topstep.wearkit")
+                includeGroup("com.topstep.opus")
+                includeGroup("com.topstep.tool")
+            }
         }
     }
 }
