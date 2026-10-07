@@ -1,6 +1,6 @@
 # Avaliação do SDK público FitCloudPro para Projeto Lucas
-Data: 2026-10-05
-Estado: avaliação de documentação concluída; implementação e teste físico pendentes.
+Data: 2026-10-07
+Estado: descoberta BLE e enumeração GATT validadas por capturas do teste físico; autenticação SDK e leitura direta de saúde pendentes.
 Este documento contém somente informações públicas do SDK e estado do código do projeto, sem dados pessoais ou identificadores de dispositivos.
 
 ## Fontes
@@ -15,7 +15,7 @@ HEAD e GET do POM sdk-fitcloud 3.0.2.7 no servidor HTTPS responderam HTTP 200.
 https://maven.topstepht.com/repository/maven-public/com/topstep/wearkit/sdk-fitcloud/3.0.2.7/sdk-fitcloud-3.0.2.7.pom
 O POM confirma packaging aar e sdk-base 3.0.2.7.
 Isso não valida resolução completa das dependências ou compilação Android.
-O tablet-app atual usa Compose e TTS; não contém leitura FitCloudPro ou Saúde Connect.
+A avaliação inicial não continha leitura de saúde. O código atual possui leitura Health Connect e diagnóstico BLE/GATT; ainda não possui coleta de saúde direta pelo SDK FitCloudPro.
 Não copiar credenciais nem configuração completa do exemplo de terceiros.
 
 ## Autenticação: impedimento para teste sem perda de histórico
@@ -41,9 +41,8 @@ Metadados de origem, tempo, usuário e dispositivo devem acompanhar registros; n
 5. Somente após leitura comprovada implementar persistência e envio autenticado ao HML com autorização do responsável.
 
 ## Limites
-Nenhum APK produzido ou compilado nesta avaliação.
-Nenhuma conexão física ou leitura de sensores realizada.
-A compatibilidade de um relógio específico permanece não comprovada.
+As versões de diagnóstico foram compiladas pelo CI. Em 07/10, capturas fornecidas pelo responsável mostram descoberta de C26 e mapa GATT.
+Isso comprova descoberta e enumeração estrutural, não autenticação FitCloudPro nem leitura direta de sensores.
 Nenhum pareamento, deploy, migration, merge ou DNS alterado.
 
 ## Verificação adicional: conta por e-mail
@@ -82,3 +81,57 @@ A autenticação preservando histórico permanece o requisito para integrar a co
 - Testar Cancelar, negar permissão, desligar Bluetooth e sair do app durante busca.
 - Busca vazia: não restaurar nem desvincular C26; ele pode não anunciar enquanto conectado ao FitCloudPro.
 - Não registrar dados como pertencentes ao Lucas antes da confirmação do responsável.
+
+
+## Resultado físico e confronto com SDK — 07/10/2026
+
+Evidência: capturas fornecidas pelo responsável, exibindo C26 e mapa GATT.
+Não se armazena aqui endereço Bluetooth, conta ou medidas pessoais.
+A captura do mapa não exibe no mesmo quadro o dispositivo selecionado; a atribuição ao C26 segue a sequência do teste solicitado, sem substituir a necessidade de vincular a próxima saída ao dispositivo inspecionado.
+
+### Mapa observado
+| Serviço (UUID completo) | Características observadas | Interpretação comprovada |
+| --- | --- | --- |
+| 00001801-0000-1000-8000-00805f9b34fb | 2A05, 2B3A | Serviço listado; nenhum valor foi lido |
+| 00001800-0000-1000-8000-00805f9b34fb | 2A00, 2A01, 2A04, 2AA6 | Serviço listado; nenhum valor foi lido |
+| 000001ff-3c17-d293-8e48-14fe2e4da212 | FF02 WRITE; FF03 READ/NOTIFY/WRITE_NO_RESPONSE; FF04 READ/WRITE | Canal proprietário observado; função de saúde não estabelecida |
+| 0000d0ff-3c17-d293-8e48-14fe2e4da212 | FFD1 WRITE_NO_RESPONSE; FFD2/FFD3/FFD4/FFF1/FFE0/FFE1/FFF3/FFF4/FFF5 READ | Campos proprietários; não assumir firmware, bateria ou sensor sem documentação |
+| 00006287-3c17-d293-8e48-14fe2e4da212 | 00006387-3c17-d293-8e48-14fe2e4da212 WRITE_NO_RESPONSE; 00006487-3c17-d293-8e48-14fe2e4da212 NOTIFY/WRITE | Canal proprietário; não enviar comandos experimentais |
+| 0000fee7-0000-1000-8000-00805f9b34fb | FEC9 READ; FEA1 READ/NOTIFY | Serviço anunciado e descoberto; sem prova de transporte FitCloudPro |
+| 00001812-0000-1000-8000-00805f9b34fb | 2A4E, 2A4D (múltiplas), 2A4B, 2A22, 2A32, 2A4A, 2A4C | Serviço listado; READ/NOTIFY/WRITE descrevem permissões, não conteúdo de saúde |
+
+As abreviações de características de 16 bits na tabela usam a base 0000XXXX-0000-1000-8000-00805f9b34fb.
+O serviço de frequência cardíaca 180D não aparece nas capturas recebidas. Isso não comprova ausência do sensor físico nem ausência em uma captura incompleta.
+Não existe nas fontes públicas consultadas um mapeamento comprovado de FF02/FF03 para uma operação específica de batimentos no C26.
+Não atribuir bytes desses campos a bpm, passos, sono ou SpO2 por tentativa.
+
+### O que o SDK confirma
+Releitura em 07/10:
+- FcConnector.connect requer userId para LOGIN ou BIND.
+- BIND limpa dados anteriores do dispositivo, incluindo passos, sono e batimentos.
+- LOGIN compara userId ao usuário anteriormente autenticado.
+- O exemplo DeviceManager usa user.id.toString(); AuthManager é mock de banco local.
+- O exemplo separa HEART_RATE e HEART_RATE_MEASURE e usa conversores distintos.
+- A enumeração GATT nativa não resolve nenhuma dessas condições.
+
+### Decisão de implementação
+Manter o diagnóstico existente, sem adicionar dependência SDK, BIND/AUTO, tentativas de userId, comandos proprietários, notificações ou leituras especulativas.
+A autorização para comunicação preservando vínculo e histórico não equivale a autorização para recriar vínculo.
+A coleta direta continua tecnicamente bloqueada até obter uma identidade de LOGIN compatível por mecanismo documentado e autorizado pelo fornecedor.
+Nenhuma nova versão de APK para coleta deve ser apresentada como funcional enquanto esse requisito não for satisfeito.
+
+### Requisitos objetivos para o fornecedor
+1. Como integrar com o dispositivo já vinculado ao aplicativo comercial sem BIND e sem apagar histórico?
+2. Existe API pública/fluxo de consentimento que obtenha o userId e authCode corretos para essa conta existente?
+3. Quais serviços/versões de protocolo do C26 são suportados pelo sdk-fitcloud 3.0.2.7?
+4. Quais comandos de syncData alteram ou removem registros do relógio, e como preservar o histórico?
+5. Quais tipos (HEART_RATE versus HEART_RATE_MEASURE, passos, sono) são exportados para Health Connect ou Google Fit, e em qual momento?
+
+Não solicitar senha da conta, extrair armazenamento do aplicativo comercial nem enviar dados pessoais ao fornecedor sem autorização.
+Enquanto isso, a rota Health Connect já existente pode consumir os registros que forem efetivamente exportados; ela não oferece medições ao vivo nem garante atualização de todos os tipos.
+
+### Fontes verificadas
+- FcConnector.connect: https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/document/sdk-fitcloud/com.topstep.fitcloud.sdk.v2/-fc-connector/connect.html
+- DeviceManager: https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/sample/app/src/main/java/com/topstep/fitcloud/sample2/data/device/DeviceManager.kt
+- AuthManager: https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/sample/app/src/main/java/com/topstep/fitcloud/sample2/data/auth/AuthManager.kt
+- Versão publicada: https://github.com/htangsmart/FitCloudPro-SDK-Android/blob/master/README.md
