@@ -9,8 +9,8 @@ android {
         applicationId = "br.com.vitrineaipro.assistiva"
         minSdk = 30
         targetSdk = 37
-        versionCode = 6
-        versionName = "0.6.0-ble-diagnostic"
+        versionCode = 7
+        versionName = "0.7.0-gatt-inspector"
     }
     buildFeatures { compose = true }
 }
@@ -26,4 +26,3 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
-
