@@ -14,6 +14,9 @@ final class Scheduling
     public function save(array $data, ?string $id = null): Appointment
     {
         return DB::transaction(function () use ($data, $id) {
+            foreach (['starts_at', 'ends_at'] as $field) {
+                $data[$field] = Carbon::parse($data[$field])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s');
+            }
             // Serialize bookings and availability changes on the same resource.
             $resource = empty($data['resource_id']) ? null : Resource::query()
                 ->where('is_active', true)->lockForUpdate()->findOrFail($data['resource_id']);

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Cadastro\Http\Controllers\PersonController;
-use Modules\Cadastro\Http\Controllers\PersonPrintController;
+use Modules\Cadastro\Http\Controllers\PrintPersonController;
 use Modules\Cadastro\Http\Controllers\PublicRegistrationController;
 
 Route::middleware(['web', 'auth', 'tenant', 'module:cadastro'])
@@ -25,7 +25,7 @@ Route::middleware(['web', 'auth', 'tenant', 'module:cadastro'])
             ->middleware('permission:cadastro.delete')
             ->name('people.destroy');
 
-        Route::get('/pessoas/{person}/imprimir', PersonPrintController::class)
+        Route::get('/pessoas/{person}/imprimir', PrintPersonController::class)
             ->middleware('permission:cadastro.print')
             ->name('people.print');
     });
