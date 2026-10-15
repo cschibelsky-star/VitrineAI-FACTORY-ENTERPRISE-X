@@ -11,7 +11,9 @@
 @can('atendimento.close')<form method="post" action="{{ route('atendimento.cases.close', $case->ulid) }}">@csrf<button>Encerrar atendimento</button></form>@endcan
 @endif</section>
 <section><h2>Notas</h2>@forelse($notes as $note)<article><p>{{ $note->body }}</p><small>{{ $note->created_at->format('d/m/Y H:i') }} · {{ $responsibles->firstWhere('id', $note->author_user_id)['name'] ?? 'Integrante anterior' }}</small></article>@empty<p>Nenhuma nota.</p>@endforelse
-@if($case->status !== 'closed')@can('atendimento.notes.manage')<form method="post" action="{{ route('atendimento.cases.notes.store', $case->ulid) }}">@csrf<label>Nova nota<textarea name="body" required maxlength="5000">{{ old('body') }}</textarea></label><button>Adicionar nota</button></form>@endcan@endif
+@if($case->status !== 'closed')
+@can('atendimento.notes.manage')<form method="post" action="{{ route('atendimento.cases.notes.store', $case->ulid) }}">@csrf<label>Nova nota<textarea name="body" required maxlength="5000">{{ old('body') }}</textarea></label><button>Adicionar nota</button></form>@endcan
+@endif
 </section>
 <section><h2>Histórico</h2><p>Registros preservados de criação, alterações, notas e encerramento.</p><ol>@foreach($history as $entry)<li>{{ $entry->created_at->format('d/m/Y H:i') }} · {{ ['created'=>'Criação','updated'=>'Atualização','note_added'=>'Nota adicionada','closed'=>'Encerramento'][$entry->action] ?? $entry->action }}<pre>{{ json_encode(['antes'=>$entry->before,'depois'=>$entry->after], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) }}</pre></li>@endforeach</ol></section>
 @endsection

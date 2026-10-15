@@ -41,12 +41,14 @@ class ResourceController
             'starts_at' => ['required', 'date_format:H:i'],
             'ends_at' => ['required', 'date_format:H:i', 'after:starts_at'],
         ]);
+        $data['starts_at'] .= ':00';
+        $data['ends_at'] .= ':00';
         return DB::transaction(function () use ($request, $availability, $data) {
             Resource::query()->lockForUpdate()->findOrFail($data['resource_id']);
             $record = $availability ? Availability::query()->findOrFail($availability) : new Availability();
             $overlap = Availability::query()->where('resource_id', $data['resource_id'])
-                ->where('weekday', $data['weekday'])->where('starts_at', '<', $data['ends_at'] . ':00')
-                ->where('ends_at', '>', $data['starts_at'] . ':00');
+                ->where('weekday', $data['weekday'])->where('starts_at', '<', $data['ends_at'])
+                ->where('ends_at', '>', $data['starts_at']);
             if ($availability) {
                 $overlap->where('ulid', '!=', $availability);
             }
