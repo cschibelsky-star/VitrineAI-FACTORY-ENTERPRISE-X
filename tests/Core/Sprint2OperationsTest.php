@@ -25,6 +25,12 @@ class Sprint2OperationsTest extends TestCase
     private $resourceA;
     private $resourceB;
 
+    protected function defineEnvironment($app): void
+    {
+        parent::defineEnvironment($app);
+        $app['config']->set('app.key', str_repeat('t', 32)); // Ephemeral test application only.
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -34,6 +40,7 @@ class Sprint2OperationsTest extends TestCase
             \Modules\Atendimento\Providers\AtendimentoServiceProvider::class] as $provider) {
             $this->app->register($provider);
         }
+        $this->app['router']->getRoutes()->refreshNameLookups();
         foreach (['Cadastro', 'Agenda', 'Atendimento'] as $module) {
             foreach (glob(dirname(__DIR__, 2) . '/Modules/' . $module . '/database/migrations/*.php') as $path) {
                 (require $path)->up();
@@ -153,11 +160,21 @@ class Sprint2OperationsTest extends TestCase
 
     public function test_web_views_render_people_and_case_history_safely(): void
     {
-        $this->get('/agenda')->assertOk()->assertSee('Pessoa A')->assertDontSee('Pessoa B');
-        $this->get('/atendimento')->assertOk()->assertSee('Pessoa A')->assertDontSee('Pessoa B');
+        $this->postJson('/api/agenda/compromissos', $this->booking())->assertCreated();
+        $this->postJson('/api/agenda/disponibilidade', ['resource_id' => $this->resourceA->ulid,
+            'weekday' => 1, 'starts_at' => '08:00', 'ends_at' => '18:00'])->assertCreated();
+        $agenda = $this->get('/agenda')->assertOk()->assertSee('Pessoa A')->assertDontSee('Pessoa B');
+        $cases = $this->get('/atendimento')->assertOk()->assertSee('Pessoa A')->assertDontSee('Pessoa B');
         $id = $this->postJson('/api/atendimento/casos', ['subject' => '<script>alert(1)</script>',
             'person_id' => $this->personA->ulid])->assertCreated()->json('ulid');
-        $this->get('/atendimento/casos/' . $id)->assertOk()->assertSee('&lt;script&gt;', false)->assertDontSee('<script>', false);
+        $this->postJson('/api/atendimento/casos/' . $id . '/notas', ['body' => 'Contato de teste realizado.'])->assertCreated();
+        $detail = $this->get('/atendimento/casos/' . $id)->assertOk()->assertSee('&lt;script&gt;', false)->assertDontSee('<script>', false);
+        if ($directory = getenv('SPRINT2_UI_OUTPUT')) {
+            if (!is_dir($directory)) { mkdir($directory, 0775, true); }
+            foreach (['agenda' => $agenda, 'atendimentos' => $cases, 'atendimento' => $detail] as $name => $response) {
+                file_put_contents($directory . '/' . $name . '.html', $response->getContent());
+            }
+        }
     }
 
     public function test_disabled_module_is_blocked_on_server(): void
