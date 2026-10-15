@@ -9,16 +9,18 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Modules\Atendimento\Domain\ServiceCase;
+use Modules\Cadastro\Domain\Person;
 
 class ServiceCaseController
 {
     public function index(Request $request): View|JsonResponse
     {
         $cases = ServiceCase::query()->orderByDesc('opened_at')->paginate(20);
+        $people = Person::query()->where('is_active', true)->orderBy('name')->limit(200)->get(['ulid', 'name']);
 
         return $request->expectsJson()
             ? response()->json($cases)
-            : view('atendimento::index', ['cases' => $cases]);
+            : view('atendimento::index', ['cases' => $cases, 'people' => $people]);
     }
 
     public function store(Request $request): RedirectResponse|JsonResponse
