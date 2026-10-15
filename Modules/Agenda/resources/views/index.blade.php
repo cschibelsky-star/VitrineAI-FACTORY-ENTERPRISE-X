@@ -7,6 +7,7 @@
 <label>Título<input name="title" required maxlength="180" value="{{ old('title') }}"></label>
 <label>Início<input name="starts_at" type="datetime-local" required value="{{ old('starts_at') }}"></label>
 <label>Fim<input name="ends_at" type="datetime-local" required value="{{ old('ends_at') }}"></label>
+<label>Pessoa (opcional)<select name="person_id"><option value="">Nenhuma</option>@foreach($people as $person)<option value="{{ $person->ulid }}" @selected(old('person_id') === $person->ulid)>{{ $person->name }}</option>@endforeach</select></label>
 <label>Recurso<select name="resource_id"><option value="">Nenhum</option>@foreach($resources as $resource)<option value="{{ $resource->ulid }}">{{ $resource->name }}</option>@endforeach</select></label>
 <label>Descrição<textarea name="description" maxlength="2000">{{ old('description') }}</textarea></label>
 <button type="submit">Criar compromisso</button></form>
