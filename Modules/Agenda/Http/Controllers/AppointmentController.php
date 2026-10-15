@@ -10,10 +10,14 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Modules\Agenda\Domain\Appointment;
 use Modules\Agenda\Domain\Resource;
-use Modules\Cadastro\Domain\Person;
+use Modules\Cadastro\Contracts\PeopleDirectory;
+use Modules\Agenda\Domain\Availability;
+use Modules\Agenda\Application\Scheduling;
 
 class AppointmentController
 {
+    public function __construct(private PeopleDirectory $people, private Scheduling $scheduling) {}
+
     public function index(Request $request): View|JsonResponse
     {
         $appointments = Appointment::query()->orderBy('starts_at')->paginate(20);
@@ -23,14 +27,15 @@ class AppointmentController
 
         return view('agenda::index', [
             'appointments' => $appointments,
-            'resources' => Resource::query()->where('is_active', true)->orderBy('name')->get(),
-            'people' => Person::query()->where('is_active', true)->orderBy('name')->limit(200)->get(['ulid', 'name']),
+            'resources' => Resource::query()->orderBy('name')->get(),
+            'availability' => Availability::query()->orderBy('weekday')->orderBy('starts_at')->get(),
+            'people' => $this->people->options(),
         ]);
     }
 
     public function store(Request $request): RedirectResponse|JsonResponse
     {
-        $appointment = Appointment::create($this->validateInput($request));
+        $appointment = $this->scheduling->save($this->validateInput($request));
 
         return $request->expectsJson()
             ? response()->json(['id' => $appointment->ulid, 'status' => $appointment->status], 201)
@@ -39,9 +44,8 @@ class AppointmentController
 
     public function update(Request $request, string $appointment): RedirectResponse|JsonResponse
     {
-        $record = Appointment::query()->findOrFail($appointment);
-        abort_if($record->status === 'cancelled', 422, 'Agendamento cancelado.');
-        $record->update($this->validateInput($request));
+        Appointment::query()->findOrFail($appointment);
+        $record = $this->scheduling->save($this->validateInput($request), $appointment);
 
         return $request->expectsJson()
             ? response()->json(['id' => $record->ulid, 'status' => $record->status])
@@ -53,6 +57,7 @@ class AppointmentController
         $record = Appointment::query()->findOrFail($appointment);
         if ($record->status !== 'cancelled') {
             $record->update(['status' => 'cancelled', 'cancelled_at' => now()]);
+            event('agenda.appointment.cancelled', [$record->ulid]);
         }
 
         return $request->expectsJson()
@@ -71,7 +76,11 @@ class AppointmentController
             'ends_at' => ['required', 'date', 'after:starts_at'],
             'person_id' => [
                 'nullable', 'ulid',
-                Rule::exists('cadastro_people', 'ulid')->where('tenant_id', $tenantId),
+                function ($attribute, $value, $fail) {
+                    if (!$this->people->contains($value)) {
+                        $fail('Pessoa indisponível neste cadastro.');
+                    }
+                },
             ],
             'resource_id' => [
                 'nullable', 'ulid',

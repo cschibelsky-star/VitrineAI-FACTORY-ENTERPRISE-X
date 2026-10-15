@@ -8,6 +8,7 @@ class CadastroServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(\Modules\Cadastro\Contracts\PeopleDirectory::class, \Modules\Cadastro\Application\PeopleDirectory::class);
         $this->mergeConfigFrom(__DIR__ . '/../config/cadastro.php', 'cadastro');
     }
 
