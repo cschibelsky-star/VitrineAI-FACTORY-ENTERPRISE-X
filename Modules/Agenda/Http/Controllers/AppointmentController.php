@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Modules\Agenda\Domain\Appointment;
 use Modules\Agenda\Domain\Resource;
+use Modules\Cadastro\Domain\Person;
 
 class AppointmentController
 {
@@ -23,6 +24,7 @@ class AppointmentController
         return view('agenda::index', [
             'appointments' => $appointments,
             'resources' => Resource::query()->where('is_active', true)->orderBy('name')->get(),
+            'people' => Person::query()->where('is_active', true)->orderBy('name')->limit(200)->get(['ulid', 'name']),
         ]);
     }
 
