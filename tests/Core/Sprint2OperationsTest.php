@@ -219,4 +219,24 @@ class Sprint2OperationsTest extends TestCase
             }
         }
     }
+
+    public function test_session_mutations_require_csrf_token(): void
+    {
+        // Laravel normally skips CSRF in PHPUnit. Enable its real server check here.
+        $this->app['env'] = 'local';
+        $this->postJson('/api/agenda/compromissos', $this->booking())->assertStatus(419);
+        $this->postJson('/api/atendimento/casos', ['subject' => 'Pedido', 'person_id' => $this->personA->ulid])->assertStatus(419);
+    }
+
+    public function test_inactive_account_and_disabled_cadastro_are_blocked(): void
+    {
+        DB::table('users')->where('ulid', $this->operator->ulid)->update(['is_active' => false]);
+        $this->getJson('/api/agenda')->assertForbidden();
+        DB::table('users')->where('ulid', $this->operator->ulid)->update(['is_active' => true]);
+        TenantContext::set($this->tenantA->ulid);
+        $this->app->make(ModuleGate::class)->disable('cadastro');
+        TenantContext::clear();
+        $this->getJson('/api/agenda')->assertForbidden();
+        $this->getJson('/api/atendimento')->assertForbidden();
+    }
 }

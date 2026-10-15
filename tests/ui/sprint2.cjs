@@ -11,7 +11,8 @@ const assert = require('node:assert/strict');
   try {
     for (const name of ['agenda', 'atendimentos', 'atendimento']) {
       for (const width of [320, 375, 390, 768, 1280]) {
-        const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
+        const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
+        const page = await context.newPage();
         await page.setContent(fs.readFileSync(path.join('build/sprint2-ui', name + '.html'), 'utf8'));
         await page.locator('details').evaluateAll(nodes => nodes.forEach(node => { node.open = true; }));
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${name} overflows at ${width}px`);
@@ -23,7 +24,7 @@ const assert = require('node:assert/strict');
         assert.equal(smallButtons, 0, 'Touch buttons must be at least 44px high');
         await page.screenshot({ path: `build/sprint2-ui/screenshots/${name}-${width}.png`, fullPage: true });
         results.push({ page: name, width, overflow: false, accessibilityViolations: 0, keyboard: 'passed' });
-        await page.close();
+        await context.close();
       }
     }
     fs.writeFileSync('build/sprint2-ui/results.json', JSON.stringify(results, null, 2));

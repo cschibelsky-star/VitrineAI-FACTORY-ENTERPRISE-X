@@ -15,5 +15,9 @@
 @can('atendimento.notes.manage')<form method="post" action="{{ route('atendimento.cases.notes.store', $case->ulid) }}">@csrf<label>Nova nota<textarea name="body" required maxlength="5000">{{ old('body') }}</textarea></label><button>Adicionar nota</button></form>@endcan
 @endif
 </section>
-<section><h2>Histórico</h2><p>Registros preservados de criação, alterações, notas e encerramento.</p><ol>@foreach($history as $entry)<li>{{ $entry->created_at->format('d/m/Y H:i') }} · {{ ['created'=>'Criação','updated'=>'Atualização','note_added'=>'Nota adicionada','closed'=>'Encerramento'][$entry->action] ?? $entry->action }}<pre>{{ json_encode(['antes'=>$entry->before,'depois'=>$entry->after], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) }}</pre></li>@endforeach</ol></section>
+<section><h2>Histórico</h2><p>Registros preservados de criação, alterações, notas e encerramento.</p><ol>@foreach($history as $entry)<li>{{ $entry->created_at->format('d/m/Y H:i') }} · {{ ['created'=>'Criação','updated'=>'Atualização','note_added'=>'Nota adicionada','closed'=>'Encerramento'][$entry->action] ?? $entry->action }}
+@if(isset($entry->after['subject']))<p>Assunto: {{ $entry->before['subject'] ?? '—' }} → {{ $entry->after['subject'] }}</p>@endif
+@if(isset($entry->after['status']))<p>Situação: {{ ['open'=>'Aberto','in_progress'=>'Em atendimento','waiting'=>'Aguardando','closed'=>'Encerrado'][$entry->before['status'] ?? ''] ?? '—' }} → {{ ['open'=>'Aberto','in_progress'=>'Em atendimento','waiting'=>'Aguardando','closed'=>'Encerrado'][$entry->after['status']] ?? $entry->after['status'] }}</p>@endif
+@if(array_key_exists('responsible_user_id', $entry->after ?? []))<p>Responsável: {{ $responsibles->firstWhere('id', $entry->after['responsible_user_id'])['name'] ?? 'Não atribuído ou inativo' }}</p>@endif
+</li>@endforeach</ol></section>
 @endsection
