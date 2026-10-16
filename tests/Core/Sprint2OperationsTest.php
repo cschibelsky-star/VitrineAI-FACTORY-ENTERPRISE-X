@@ -239,4 +239,20 @@ class Sprint2OperationsTest extends TestCase
         $this->getJson('/api/agenda')->assertForbidden();
         $this->getJson('/api/atendimento')->assertForbidden();
     }
+
+    public function test_hml_home_honors_permissions_and_module_activation(): void
+    {
+        $this->app['view']->addNamespace('modulos-hml', dirname(__DIR__, 2) . '/runtime/hml/views');
+        $this->app['router']->middleware('web')->group(dirname(__DIR__, 2) . '/runtime/hml/routes.php');
+        $this->app['router']->getRoutes()->refreshNameLookups();
+        $this->get('/')->assertOk()->assertSee('Seu espaço de trabalho')
+            ->assertSee('Abrir Agenda')->assertSee('Abrir Atendimentos')
+            ->assertDontSee('Abrir Clientes e pessoas');
+        TenantContext::set($this->tenantA->ulid);
+        $this->app->make(ModuleGate::class)->disable('agenda');
+        TenantContext::clear();
+        $this->get('/')->assertOk()->assertDontSee('Abrir Agenda')->assertSee('Abrir Atendimentos');
+        DB::table('tenant_user_roles')->delete();
+        $this->get('/')->assertOk()->assertSee('Nenhum módulo disponível');
+    }
 }
