@@ -1,0 +1,20 @@
+{
+  "key": "atendimento",
+  "name": "Atendimentos",
+  "version": "1.0.0",
+  "description": "Registro multiempresa de atendimentos, histórico, notas, status e responsáveis.",
+  "dependencies": {"requires": ["cadastro"], "optional_integrations": ["whatsapp"]},
+  "permissions": [
+    {"key":"atendimento.view","name":"Visualizar atendimentos"},
+    {"key":"atendimento.create","name":"Criar atendimentos"},
+    {"key":"atendimento.update","name":"Editar atendimentos"},
+    {"key":"atendimento.close","name":"Encerrar atendimentos"},
+    {"key":"atendimento.notes.manage","name":"Gerenciar notas de atendimento"}
+  ],
+  "routes": {"web":"routes/web.php","api":"routes/api.php"},
+  "events": {"emits":["atendimento.case.created","atendimento.case.updated","atendimento.case.closed"],"listens":[]},
+  "migrations":"database/migrations",
+  "navigation":[{"key":"atendimento","label":"Atendimentos","route":"atendimento.index","permission":"atendimento.view"}],
+  "configuration":{"schema":"config/atendimento.php"},
+  "service_provider":"Modules\\Atendimento\\Providers\\AtendimentoServiceProvider"
+}

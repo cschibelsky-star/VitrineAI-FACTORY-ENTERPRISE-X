@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Módulos Pro — Homologação</title><style>body{font:16px system-ui;background:#f6f8fb;color:#16263b;margin:0}main{max-width:420px;margin:5vh auto;padding:24px}label{display:block;margin:18px 0}input,button{font:inherit;box-sizing:border-box;width:100%;padding:12px}button{background:#075f73;color:white;border:0;border-radius:8px;min-height:44px}input:focus-visible,button:focus-visible{outline:3px solid #075f73;outline-offset:3px}</style></head>
+<body><main><h1>Módulos Pro</h1><p>Ambiente de homologação · dados de teste</p>
+@if($errors->any())<p role="alert">{{ $errors->first() }}</p>@endif
+<form method="post" action="/login">@csrf<label>E-mail<input type="email" name="email" required autocomplete="username" value="{{ old('email') }}"></label><label>Senha<input type="password" name="password" required autocomplete="current-password"></label><button>Entrar</button></form></main></body></html>

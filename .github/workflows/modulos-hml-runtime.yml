@@ -1,0 +1,40 @@
+name: Modulos HML Runtime
+on:
+  push:
+    branches: ['feature/sprint-2-agenda-atendimento']
+  pull_request:
+    paths: ['runtime/hml/**', 'app/Integrations/**', 'Modules/**', 'tests/ui/hml-runtime.cjs', '.github/workflows/modulos-hml-runtime.yml']
+jobs:
+  isolated-runtime:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      HML_PROXY_NETWORK: modulos-hml-ci
+      HML_SECURE_COOKIE: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare isolated runtime test
+        run: |
+          docker network create modulos-hml-ci
+          node -e "const p=require('crypto').randomBytes(32).toString('hex'); console.log('::add-mask::'+p); require('fs').appendFileSync(process.env.GITHUB_ENV, 'HML_ADMIN_PASSWORD='+p+'\\n')"
+          printf 'services:\n  web:\n    ports: ["127.0.0.1:18088:8080"]\n' > runtime/hml/compose.ci.yml
+      - name: Build and start isolated runtime
+        run: docker compose -p modulos-hml-ci -f runtime/hml/compose.yml -f runtime/hml/compose.ci.yml up -d --build --wait --wait-timeout 180
+        env:
+          SOURCE_REVISION: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --prefix /tmp/modulos-hml-ci --no-save playwright@1.56.1
+      - run: /tmp/modulos-hml-ci/node_modules/.bin/playwright install --with-deps chromium
+      - name: Validate real login and operations in browser
+        run: node tests/ui/hml-runtime.cjs
+        env:
+          NODE_PATH: /tmp/modulos-hml-ci/node_modules
+      - name: Runtime diagnostics
+        if: failure()
+        run: docker compose -p modulos-hml-ci -f runtime/hml/compose.yml -f runtime/hml/compose.ci.yml logs --tail=80 app web
+      - name: Remove isolated CI containers and test volume
+        if: always()
+        run: docker compose -p modulos-hml-ci -f runtime/hml/compose.yml -f runtime/hml/compose.ci.yml down -v

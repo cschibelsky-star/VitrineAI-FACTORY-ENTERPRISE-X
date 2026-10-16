@@ -1,0 +1,38 @@
+name: Sprint 2 UI
+on:
+  pull_request:
+    paths: ['Modules/**', 'app/Integrations/**', 'tests/**', '.github/workflows/sprint2-ui.yml']
+  push:
+    branches: ['feature/sprint-2-agenda-atendimento']
+jobs:
+  rendered-ui:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - name: Render authenticated views with isolated SQLite fixtures
+        run: vendor/bin/phpunit --filter test_web_views_render_people_and_case_history_safely
+        env:
+          SPRINT2_UI_OUTPUT: build/sprint2-ui
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --prefix /tmp/sprint2-ui --no-save playwright@1.56.1 @axe-core/playwright@4.10.2
+      - run: /tmp/sprint2-ui/node_modules/.bin/playwright install --with-deps chromium
+      - name: Check mobile, web, keyboard and accessibility
+        run: node tests/ui/sprint2.cjs
+        env:
+          NODE_PATH: /tmp/sprint2-ui/node_modules
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sprint2-ui-evidence
+          path: build/sprint2-ui
+          retention-days: 14
