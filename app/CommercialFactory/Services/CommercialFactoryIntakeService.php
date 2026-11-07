@@ -32,7 +32,9 @@ class CommercialFactoryIntakeService
             'plan' => ['key' => $planKey, 'label' => $plan['label'] ?? $planKey, 'price' => $plan['price'] ?? null],
             'project_slug' => $projectSlug,
             'factory_prompt' => $prompt,
-            'dry_run' => $dryRun,
+            'dry_run' => true,
+            'requested_dry_run' => $dryRun,
+            'execution_mode' => 'simulation_only',
             'created_at' => now()->toISOString(),
         ];
 
@@ -46,7 +48,9 @@ class CommercialFactoryIntakeService
         $factory = [
             'command' => 'factory:build-and-install --dry-run',
             'exit_code' => $exitCode,
-            'status' => $exitCode === 0 ? 'passed' : 'failed',
+            'status' => $exitCode === 0 ? 'simulation_passed' : 'simulation_failed',
+            'execution_mode' => 'simulation_only',
+            'real_build_performed' => false,
             'output' => Artisan::output(),
         ];
 
@@ -59,7 +63,7 @@ class CommercialFactoryIntakeService
             'plan' => $planKey,
             'price' => $plan['price'] ?? null,
             'domain' => $data['domain'] ?? null,
-            'status' => $factory['status'] === 'passed' ? 'ready_for_homologation' : 'factory_failed',
+            'status' => $exitCode === 0 ? 'simulation_complete' : 'simulation_failed',
             'workspace' => 'Projetos > ' . $projectSlug,
             'created_at' => now()->toISOString(),
         ];
@@ -67,7 +71,9 @@ class CommercialFactoryIntakeService
         File::put($base . '/license_preview.json', json_encode($license, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
         $report = [
-            'status' => $factory['status'] === 'passed' ? 'finished' : 'failed',
+            'status' => $exitCode === 0 ? 'simulated' : 'simulation_failed',
+            'execution_mode' => 'simulation_only',
+            'real_build_performed' => false,
             'project_slug' => $projectSlug,
             'commercial_status' => $license['status'],
             'path' => $base . '/commercial_factory_report.json',
