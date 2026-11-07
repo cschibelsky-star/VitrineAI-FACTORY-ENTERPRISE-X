@@ -26,12 +26,12 @@ class CommercialFactoryIntakeCommand extends Command
             return self::FAILURE;
         }
 
-        $this->info('Commercial → Factory Pipeline finalizado.');
+        $this->info('Commercial → Factory: simulação concluída (sem build real).');
         $this->line('Status: ' . $report['status']);
         $this->line('Projeto: ' . $report['project_slug']);
         $this->line('Status comercial: ' . $report['commercial_status']);
         $this->line('Relatório: ' . $report['path']);
 
-        return $report['status'] === 'finished' ? self::SUCCESS : self::FAILURE;
+        return $report['status'] === 'simulated' ? self::SUCCESS : self::FAILURE;
     }
 }
