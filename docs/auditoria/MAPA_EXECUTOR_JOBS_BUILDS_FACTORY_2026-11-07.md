@@ -62,3 +62,13 @@ Repositório `cschibelsky-star/vitrine-ai-pro` (código GitHub, não o Enterpris
 - Não foi modificado nenhum container, banco, agente, branch suja, deployment ou secret.
 
 **Conclusão:** antes de adicionar novos motores, priorizar rastreabilidade de missão, isolamento do gerador e prova da fila existente.
+
+## Achados adicionais após inspeção do executor e gerador
+
+- `FactoryEngine::execute(FactoryExecution)` altera estado persistido para `running`, chama `BlueprintExecutor`, e registra `finished` ou `failed`. Isso confirma transições de execução implementadas, mas não demonstra worker ativo.
+- `RealCodeGenerator::generate` usa `File::put` para escrever modelos, resources, policies, migrations e relatório em `storage/app/factory/real-builds/<blueprint>`. **Portanto, dry-run do FinalMaster gera arquivos de verdade no diretório de staging**; não é simulação puramente sem escrita.
+- O gerador escreve sempre no diretório determinado pelo slug do blueprint, sem separação por mission_id. Gera migrations com timestamp corrente. Antes de permitir concorrência, exigir isolamento, controle de conflitos e referência inequívoca de artefato.
+- `RealCodeGenerator::policyCode` atualmente emite policies com retorno `true` para view/create/update/delete/restore/forceDelete. **Risco crítico**: as permissões do código gerado são permissivas. Bloquear homologação de artefatos gerados que não tenham autorização por papel/tenant testada.
+- `FactoryExecution::markAsFinished` registra sucesso da execução do motor, não aprovação independente de QA nem homologação. Manter essas fases distintas.
+
+**Recomendação de segurança P0**: tratar artefato de staging como código não confiável até passar análise de policies, isolamento por tenant, testes e revisão independente. Não alterar o gerador diretamente sem testes de compatibilidade e sem verificar o piloto E2E preservado.
