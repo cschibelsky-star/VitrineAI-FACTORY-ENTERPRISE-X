@@ -37,14 +37,16 @@ class SiteFactoryIntakeController extends Controller
         }
 
         return response()->json([
-            'ok' => $report['status'] === 'finished',
+            'ok' => $report['status'] === 'simulated',
+            'execution_mode' => $report['execution_mode'] ?? 'unknown',
+            'real_build_performed' => $report['real_build_performed'] ?? false,
             'status' => $report['status'],
             'commercial_status' => $report['commercial_status'] ?? null,
             'project_slug' => $report['project_slug'] ?? null,
             'report_path' => $report['path'] ?? null,
-            'message' => $report['status'] === 'finished'
-                ? 'Pedido recebido e enviado para homologação da Factory.'
-                : 'Pedido recebido, mas a Factory retornou falha.',
-        ], $report['status'] === 'finished' ? 201 : 422);
+            'message' => $report['status'] === 'simulated'
+                ? 'Pedido recebido e simulado. Nenhum build real foi executado ou enviado para homologação.'
+                : 'Pedido recebido, mas a simulação da Factory retornou falha.',
+        ], $report['status'] === 'simulated' ? 202 : 422);
     }
 }
