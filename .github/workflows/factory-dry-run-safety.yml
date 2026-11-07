@@ -1,0 +1,26 @@
+name: Factory Dry-run Classification Safety
+on:
+  pull_request:
+    paths:
+      - 'app/CommercialFactory/Services/CommercialFactoryIntakeService.php'
+      - 'app/Http/Controllers/Api/SiteFactoryIntakeController.php'
+      - 'app/Console/Commands/CommercialFactoryIntakeCommand.php'
+      - 'app/Console/Commands/SiteFactoryApiTestCommand.php'
+      - 'tests/safety/dry-run-classification.php'
+      - '.github/workflows/factory-dry-run-safety.yml'
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP files
+        run: |
+          php -l app/CommercialFactory/Services/CommercialFactoryIntakeService.php
+          php -l app/Http/Controllers/Api/SiteFactoryIntakeController.php
+          php -l app/Console/Commands/CommercialFactoryIntakeCommand.php
+          php -l app/Console/Commands/SiteFactoryApiTestCommand.php
+          php -l tests/safety/dry-run-classification.php
+      - name: Guard simulation status
+        run: php tests/safety/dry-run-classification.php

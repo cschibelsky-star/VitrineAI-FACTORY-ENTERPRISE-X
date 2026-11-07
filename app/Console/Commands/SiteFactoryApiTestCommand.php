@@ -33,13 +33,13 @@ class SiteFactoryApiTestCommand extends Command
             return self::FAILURE;
         }
 
-        $this->info('Site → Factory Test finalizado.');
+        $this->info('Site → Factory: teste de simulação concluído (sem build real).');
         $this->line('Status: ' . ($report['status'] ?? '-'));
         $this->line('Projeto: ' . ($report['project_slug'] ?? '-'));
         $this->line('Status comercial: ' . ($report['commercial_status'] ?? '-'));
         $this->line('Relatório: ' . ($report['path'] ?? '-'));
 
-        return ($report['status'] ?? null) === 'finished'
+        return ($report['status'] ?? null) === 'simulated'
             ? self::SUCCESS
             : self::FAILURE;
     }
