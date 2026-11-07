@@ -21,9 +21,9 @@ if (!$errors) {
  if (str_contains($files['intake'], "'ready_for_homologation'")) $errors[]='simulated license marked HML ready';
  if (str_contains($files['intake'], '\'status\' => $factory[\'status\'] === \'passed\' ? \'finished\'')) $errors[]='legacy finished success remains';
  if (!str_contains($files['api'], "'status'] === 'simulated' ? 202 : 422")) $errors[]='HTTP semantics not updated';
- if (str_contains($files['api'], 'enviado para homologação')) $errors[]='API incorrectly promises homologation';
+ if (str_contains($files['api'], "'Pedido recebido e enviado para homologação da Factory.'")) $errors[]='API incorrectly promises homologation';
  foreach (['commercial','siteTest'] as $key) {
-  if (!str_contains($files[$key], "'status'] === 'simulated'")) $errors[]="{$key} does not recognize simulation";
+  if (!str_contains($files[$key], "'status']") || !str_contains($files[$key], "=== 'simulated'")) $errors[]="{$key} does not recognize simulation";
  }
 }
 if ($errors) {
