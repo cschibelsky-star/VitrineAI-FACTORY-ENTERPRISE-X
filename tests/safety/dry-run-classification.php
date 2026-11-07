@@ -17,9 +17,9 @@ if (!$errors) {
  if (!str_contains($files['intake'], "'--dry-run' => true")) $errors[]='build is not forced dry-run';
  if (!str_contains($files['intake'], "'execution_mode' => 'simulation_only'")) $errors[]='missing simulation-only mode';
  if (!str_contains($files['intake'], "'real_build_performed' => false")) $errors[]='missing no-build flag';
- if (!str_contains($files['intake'], "'status' => $exitCode === 0 ? 'simulated' : 'simulation_failed'")) $errors[]='incorrect report statuses';
+ if (!str_contains($files['intake'], '\'status\' => $exitCode === 0 ? \'simulated\' : \'simulation_failed\'')) $errors[]='incorrect report statuses';
  if (str_contains($files['intake'], "'ready_for_homologation'")) $errors[]='simulated license marked HML ready';
- if (str_contains($files['intake'], "'status' => $factory['status'] === 'passed' ? 'finished'")) $errors[]='legacy finished success remains';
+ if (str_contains($files['intake'], '\'status\' => $factory[\'status\'] === \'passed\' ? \'finished\'')) $errors[]='legacy finished success remains';
  if (!str_contains($files['api'], "'status'] === 'simulated' ? 202 : 422")) $errors[]='HTTP semantics not updated';
  if (str_contains($files['api'], 'enviado para homologação')) $errors[]='API incorrectly promises homologation';
  foreach (['commercial','siteTest'] as $key) {
